@@ -36,10 +36,7 @@ if (window.Telegram && window.Telegram.WebApp) {
   --progress-bg: rgba(0, 152, 234, 0.15);
   --input-text: #0f172a; 
   
-  --loader-bg: linear-gradient(135deg, #f4f8fb, #ffffff);
-  --loader-text: #0275cc;
   --loader-circle: rgba(0, 152, 234, 0.3);
-
   --btn-gradient-start: #00a8ff; 
   --btn-gradient-end: #0088cc;   
   --btn-shadow: rgba(0, 152, 234, 0.4); 
@@ -62,9 +59,6 @@ body.dark-theme {
   --progress-bg: rgba(255, 255, 255, 0.1);
   --input-text: #ffffff; 
   --notification-bg: #00a8ff; 
-  
-  --loader-bg: linear-gradient(135deg, #0b1320, #141c2b);
-  --loader-text: #38bdf8;
   --loader-circle: rgba(0, 168, 255, 0.3);
 }
 
@@ -223,16 +217,67 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 .history-status { font-size: 11px; font-weight: 800; padding: 5px 12px; border-radius: 10px; background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2);}
 .history-empty { text-align: center; font-size: 15px; color: var(--text-muted); padding: 20px; font-weight: 700; background: var(--bg-start); border-radius: 16px;}
 
-/* YENİ LOADING EKRANI */
-#loadingScreen{position:fixed;top:0; left:0;width:100%; height:var(--tg-viewport-stable-height, 100vh);background:var(--loader-bg); display:flex;justify-content:center;align-items:center;z-index:99999;transition:opacity .6s ease-out;}
-.loader-box{text-align:center;animation:fadeIn 1s ease;position:relative;}
-.loader-logo-wrap { position: relative; margin-bottom: 40px; }
-.loader-logo-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 24px; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; color: white; box-shadow: 0 15px 35px var(--loader-circle); animation: float 3s ease-in-out infinite;}
-@keyframes float { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
-.loader-title{font-size:42px;font-weight:900;color:var(--text-dark); letter-spacing:1px; margin-bottom: 5px;}
-.loader-subtitle { font-size: 16px; color: var(--accent); font-weight: 800; letter-spacing: 2px; text-transform: uppercase;}
-.loader-bar-wrap { position: relative; width: 260px; height: 6px; background: rgba(0, 152, 234, 0.15); border-radius: 10px; margin: 0 auto; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);}
-.loader-fill{position: absolute; top:0; left:0; height:100%; width:0%; border-radius:10px; background:linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); animation:fillAnim 2.5s cubic-bezier(0.65, 0, 0.35, 1) forwards; box-shadow: 0 0 10px var(--btn-shadow);}
+/* YENİ TAM EKRAN LOADING EKRANI (HƏRƏKƏTLİ, YAZISIZ & TEMAYA UYĞUN) */
+#loadingScreen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: var(--tg-viewport-stable-height, 100vh);
+    background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.6s ease-out;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.loader-logo {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end));
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 15px 35px var(--btn-shadow);
+    margin-bottom: 25px;
+    animation: pulseLogo 2s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.loader-logo svg {
+    width: 50px;
+    height: 50px;
+    color: white;
+}
+
+@keyframes pulseLogo {
+    0% { transform: scale(1) translateY(0); box-shadow: 0 10px 25px var(--btn-shadow); }
+    100% { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 45px var(--btn-shadow); }
+}
+
+.loader-title {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--text-dark);
+    margin-bottom: 40px;
+    letter-spacing: 1.5px;
+}
+
+.loader-bar-wrap { 
+    position: relative; width: 220px; height: 8px; 
+    background: var(--progress-bg); 
+    border-radius: 10px; overflow: hidden; 
+}
+.loader-fill {
+    position: absolute; top:0; left:0; height:100%; width:0%; border-radius:10px; 
+    background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); 
+    animation: fillAnim 2.5s cubic-bezier(0.65, 0, 0.35, 1) forwards; 
+    box-shadow: 0 0 10px var(--btn-shadow);
+}
 @keyframes fillAnim{0%{width:0%;} 70%{width: 80%;} 100%{width:100%;}}
 
 /* YENİLƏNMİŞ BİLDİRİM (Mavi arxa plan, Ağ yazı) */
@@ -257,15 +302,7 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 <body id="body">
 
 <script>
-// --- KOMPÜTER (Masaüstü) BLOKLAYICI ---
-if (window.Telegram && window.Telegram.WebApp) {
-    const platform = window.Telegram.WebApp.platform;
-    if (platform === 'tdesktop' || platform === 'macos' || platform === 'web' || platform === 'weba' || platform === 'unigram') {
-        document.body.innerHTML = '<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; background:#0b1320; color:#ffffff; font-family:sans-serif; text-align:center; padding:20px; box-sizing:border-box;"><div style="font-size:60px; margin-bottom:20px;">📱</div><h2 style="font-size:24px; font-weight:bold; margin-bottom:10px;">Cihaz Dəstəklənmir</h2><p style="font-size:16px; color:#cbd5e1; line-height:1.5;">Bu bot sadəcə mobil telefonlarda işləmək üçün dizayn edilib. Zəhmət olmasa, botu telefonunuzdakı Telegram tətbiqi üzərindən açın.</p></div>';
-        throw new Error("PC/Desktop Access Blocked");
-    }
-}
-// -------------------------------------
+// --- KOMPÜTER BLOKLAYICI TAMAMİLƏ SİLİNDİ (Artıq PC-də də işləyəcək) ---
 
 function safeGet(k,d=0){try{return JSON.parse(localStorage.getItem(k))??d;}catch{return d;}}
 function safeSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
@@ -292,18 +329,13 @@ const savedTheme = safeGet(THEME_KEY, 'light');
 if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-theme');
 </script>
 
-<div id="loadingScreen">
-  <div class="loader-box">
-    <div class="loader-logo-wrap">
-        <div class="loader-logo-icon">
-            <i data-lucide="gem" style="width: 40px; height: 40px; stroke-width: 2.5px;"></i>
-        </div>
-        <div class="loader-title">Ton Play</div>
-        <div class="loader-subtitle">Earn Crypto</div>
-    </div>
-    <div class="loader-bar-wrap">
-      <div class="loader-fill"></div>
-    </div>
+<div id="loadingScreen" oncontextmenu="return false;">
+  <div class="loader-logo">
+      <i data-lucide="gem" style="width: 50px; height: 50px; color: white;"></i>
+  </div>
+  <div class="loader-title">TON PLAY</div>
+  <div class="loader-bar-wrap">
+    <div class="loader-fill"></div>
   </div>
 </div>
 
@@ -744,7 +776,6 @@ function fallbackCopyTextToClipboard(text, t) {
 }
 
 function formatTon(val) {
-    // Balansın 3 rəqəm olması üçün toFixed(3)
     return parseFloat(val).toFixed(3);
 }
 
@@ -819,7 +850,6 @@ function applyTranslationToElement(el, key, lang) {
     if (!t) return;
     
     if (typeof t[key] === 'function') {
-        // Skip function translations here, handle them specifically
     } else if (t[key]) {
          if(el.tagName === 'INPUT') el.placeholder = t[key];
          else el.innerHTML = t[key];
@@ -851,7 +881,7 @@ function setLang(lang) {
     currentLang = lang;
     localStorage.setItem(LANG_KEY, lang);
     applyTranslations(lang);
-    calculateFee(); // Update fee text if input is active
+    calculateFee(); 
 }
 
 const adBtn=document.getElementById('adBtn'), msg=document.getElementById('msg');
@@ -1090,7 +1120,7 @@ update();
 applyTranslations(currentLang); 
 restoreAdBtnState();
 
-// Loading screen
+// YENİ Loading Screen effekti
 setTimeout(()=>{
   const s=document.getElementById("loadingScreen");
   s.style.opacity="0"; setTimeout(()=>s.style.display="none",600);
