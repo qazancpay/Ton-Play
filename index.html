@@ -30,14 +30,14 @@ if (window.Telegram && window.Telegram.WebApp) {
   --card-border: rgba(0, 152, 234, 0.2);
   --text-light: #ffffff;
   --text-dark: #0f172a;
-  --text-muted: #64748b;
-  --accent: #0098ea; 
+  --text-muted: #475569; /* Daha tünd, oxunaqlı */
+  --accent: #0275cc; /* Daha aydın mavi */
   --menu-bg: rgba(255, 255, 255, 0.9);
   --progress-bg: rgba(0, 152, 234, 0.15);
   --input-text: #0f172a; 
   
   --loader-bg: linear-gradient(135deg, #f4f8fb, #ffffff);
-  --loader-text: #0098ea;
+  --loader-text: #0275cc;
   --loader-circle: rgba(0, 152, 234, 0.3);
 
   --btn-gradient-start: #00a8ff; 
@@ -56,15 +56,15 @@ body.dark-theme {
   --card-border: rgba(0, 152, 234, 0.25);
   --text-light: #ffffff;
   --text-dark: #f8fafc;
-  --text-muted: #94a3b8;
-  --accent: #00a8ff; 
+  --text-muted: #cbd5e1; /* Daha açıq, oxunaqlı */
+  --accent: #38bdf8; /* Daha parlaq mavi */
   --menu-bg: rgba(11, 19, 32, 0.95);
   --progress-bg: rgba(255, 255, 255, 0.1);
   --input-text: #ffffff; 
   --notification-bg: #00a8ff; 
   
   --loader-bg: linear-gradient(135deg, #0b1320, #141c2b);
-  --loader-text: #00a8ff;
+  --loader-text: #38bdf8;
   --loader-circle: rgba(0, 168, 255, 0.3);
 }
 
@@ -104,39 +104,35 @@ body{
   backdrop-filter:blur(16px);
   text-align:center;
   border:1px solid var(--card-border);
-  transition: background-color 0.5s, box-shadow 0.5s, transform 0.3s;
+  transition: background-color 0.5s, box-shadow 0.5s;
 }
-.balance-card:hover { transform: translateY(-2px); }
-.balance-card h3{font-size:15px;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px; font-weight: 800;}
+.balance-card h3{font-size:15px;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px; font-weight: 900;}
 .balance-card .amount-wrap { display: flex; align-items: center; justify-content: center; gap: 8px; }
 .balance-card .amount{font-size:42px;font-weight:900;color:var(--text-dark);text-shadow:0 4px 15px rgba(0, 152, 234, 0.15);}
-.balance-card .currency{font-size:24px;font-weight:700;color:var(--accent);}
+.balance-card .currency{font-size:26px;font-weight:900;color:var(--accent); letter-spacing: 1px;}
 
 .method-list{display:flex;justify-content:center;margin:20px 0;}
-.method{width: 100%; max-width: 250px; padding:20px;border-radius:24px;background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end)); color:var(--text-light);text-align:center;font-weight:800;cursor:pointer;transition:0.3s;display:flex;flex-direction: column;align-items: center;justify-content: center;position: relative;overflow: hidden;box-shadow:0 10px 25px var(--btn-shadow); border: 2px solid rgba(255,255,255,0.1);}
-.method:hover{transform:scale(1.05) translateY(-5px);box-shadow:0 15px 35px rgba(0, 152, 234, 0.5);}
+.method{width: 100%; max-width: 250px; padding:20px;border-radius:24px;background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end)); color:var(--text-light);text-align:center;font-weight:800;cursor:pointer;display:flex;flex-direction: column;align-items: center;justify-content: center;position: relative;overflow: hidden;box-shadow:0 10px 25px var(--btn-shadow); border: 2px solid rgba(255,255,255,0.1);}
 .method-logo{width: 65px; height: 65px; margin-bottom: 12px;border-radius: 50%; object-fit: cover; background-color: #fff; border: 3px solid rgba(255,255,255,0.8); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 .method-text { font-size: 18px; letter-spacing: 0.5px;}
-.min-withdraw-label {position: absolute;top: 10px;right: 10px;font-size: 11px;font-weight: 800;color: var(--accent);background: #fff;padding: 4px 10px;border-radius: 12px;box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
+.min-withdraw-label {position: absolute;top: 10px;right: 10px;font-size: 12px;font-weight: 900;color: var(--accent);background: #fff;padding: 4px 10px;border-radius: 12px;box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
 
 .ad-card{margin-bottom:15px; padding: 25px;}
 .ad-card h2{font-size:20px;color:var(--text-dark);margin-bottom:8px; font-weight: 900;}
-.ad-card p{margin:4px 0;color:var(--text-muted);font-size:14px; font-weight: 600;}
+.ad-card p{margin:4px 0;color:var(--text-muted);font-size:15px; font-weight: 700;}
 
 /* GÖREVLƏR */
 .task-list { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
-.task-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 25px 20px; position: relative; overflow: hidden; text-align: left; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 8px 25px rgba(0,0,0,0.04); }
-.task-item:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
+.task-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 25px 20px; position: relative; overflow: hidden; text-align: left; box-shadow: 0 8px 25px rgba(0,0,0,0.04); }
 
 .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .task-title { font-size: 18px; font-weight: 900; display: flex; align-items: center; gap: 10px; color: var(--text-dark); }
 .task-icon { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 12px; color: white; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); box-shadow: 0 4px 12px var(--btn-shadow);}
 .task-reward-badge { background: rgba(0, 152, 234, 0.1); color: var(--accent); padding: 6px 14px; border-radius: 12px; font-weight: 900; font-size: 15px; border: 1px solid rgba(0, 152, 234, 0.2);}
-.task-desc { font-size: 14px; color: var(--text-muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
+.task-desc { font-size: 15px; color: var(--text-muted); font-weight: 700; margin-bottom: 20px; line-height: 1.5; }
 
-.task-btn { width: 100%; padding: 16px; font-size: 16px; font-weight: 800; border: none; border-radius: 16px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;}
+.task-btn { width: 100%; padding: 16px; font-size: 16px; font-weight: 800; border: none; border-radius: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;}
 .task-btn.action { background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); color: white; box-shadow: 0 8px 25px var(--btn-shadow); }
-.task-btn.action:hover { transform: translateY(-2px); box-shadow: 0 12px 30px var(--btn-shadow); }
 .task-btn.completed { background: var(--bg-start); color: var(--accent); cursor: not-allowed; box-shadow: none; border: 2px solid var(--card-border); }
 .task-btn.waiting { background: #e2e8f0 !important; color: #64748b !important; cursor: wait !important; box-shadow: none !important; border: none !important;}
 body.dark-theme .task-btn.waiting { background: #1e293b !important; color: #94a3b8 !important; }
@@ -144,13 +140,11 @@ body.dark-theme .task-btn.waiting { background: #1e293b !important; color: #94a3
 .stats{display:flex;justify-content:space-between;margin-top:20px; gap: 10px;}
 .stat{background:var(--bg-start);border-radius:16px;padding:15px; flex: 1; border: 1px solid var(--card-border);}
 .stat span{display:block;font-size:22px;font-weight:900;color:var(--accent);}
-.stat label{font-size:12px;color:var(--text-muted);margin-top: 4px; font-weight: 700; text-transform: uppercase;}
+.stat label{font-size:13px;color:var(--text-muted);margin-top: 4px; font-weight: 800; text-transform: uppercase;}
 .progress{height:14px;background:var(--bg-start);border-radius:10px;overflow:hidden;margin-top:20px; border: 1px inset rgba(0,0,0,0.05);}
 .progress-fill{height:100%;background:linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end));width:0%;transition:width .8s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 10px; box-shadow: inset 0 0 5px rgba(255,255,255,0.5);} 
 
-.ad-btn{width:100%;margin-top:20px;padding:18px;font-size:16px;font-weight:900;border:none;border-radius:20px;color:var(--text-light);cursor:pointer;transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);background:linear-gradient(90deg,var(--btn-gradient-start),var(--btn-gradient-end));box-shadow:0 10px 30px var(--btn-shadow);position: relative; overflow: hidden; display:flex; align-items:center; justify-content:center;}
-.ad-btn:hover:not(.waiting){transform:translateY(-3px);box-shadow:0 15px 35px var(--btn-shadow);}
-.ad-btn:active:not(.waiting){transform:translateY(1px);box-shadow:0 5px 15px var(--btn-shadow);}
+.ad-btn{width:100%;margin-top:20px;padding:18px;font-size:16px;font-weight:900;border:none;border-radius:20px;color:var(--text-light);cursor:pointer;background:linear-gradient(90deg,var(--btn-gradient-start),var(--btn-gradient-end));box-shadow:0 10px 30px var(--btn-shadow);position: relative; overflow: hidden; display:flex; align-items:center; justify-content:center;}
 .ad-btn.waiting {background: var(--bg-start) !important;color: var(--text-muted) !important;cursor: not-allowed;box-shadow: none !important; border: 2px solid var(--card-border);}
 .ad-btn-content { position: relative; z-index: 2; display: flex; align-items:center; gap: 10px;}
 
@@ -160,12 +154,12 @@ body.dark-theme .task-btn.waiting { background: #1e293b !important; color: #94a3
 .reward-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 .menu{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);width:90%;max-width:420px; display:flex;justify-content:space-between;background:var(--menu-bg);padding:10px; border-radius:30px;box-shadow:0 15px 40px rgba(0,0,0,.08);backdrop-filter:blur(20px);z-index: 999;border: 1px solid var(--card-border);}
-.menu button{flex:1;margin:0 5px; padding: 10px 0;border:none;border-radius:20px;background:transparent;color:var(--text-muted);cursor: pointer;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);display: flex;flex-direction: column;align-items: center;justify-content: center;height: 65px;}
+.menu button{flex:1;margin:0 5px; padding: 10px 0;border:none;border-radius:20px;background:transparent;color:var(--text-muted);cursor: pointer;transition:color 0.4s cubic-bezier(0.4, 0, 0.2, 1);display: flex;flex-direction: column;align-items: center;justify-content: center;height: 65px;}
 .menu button .nav-icon { width: 24px; height: 24px; margin-bottom: 6px; transition: 0.3s; stroke-width: 2px; }
 .menu button .nav-text { font-size: 11px; font-weight: 800; }
 .menu button.active{background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));color: var(--text-light);box-shadow:0 8px 20px var(--btn-shadow);cursor: default; pointer-events: none; transform: translateY(-8px);}
 .menu button.active .nav-icon { stroke-width: 2.5px; } 
-.menu button:not(.active):hover { color: var(--accent); transform: translateY(-2px); }
+.menu button:not(.active):hover { color: var(--accent); }
 
 /* --- PROFIL SƏHİFƏSİ --- */
 .profile-header { display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 30px;}
@@ -195,21 +189,18 @@ body.dark-theme .toggle-thumb i { color: #0f172a; }
 .lang-select { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-dark); font-weight: 800; padding: 8px 12px; border-radius: 12px; outline: none; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
 .lang-select option { background: var(--card-bg); color: var(--text-dark); }
 
-.profile-btn { width: 100%; padding: 18px; margin-bottom: 15px; border-radius: 20px; font-weight: 900; font-size: 16px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; gap: 12px; border: none; }
+.profile-btn { width: 100%; padding: 18px; margin-bottom: 15px; border-radius: 20px; font-weight: 900; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; border: none; }
 .profile-btn i { width: 22px; height: 22px; }
 .btn-share { background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); color: white; box-shadow: 0 10px 25px var(--btn-shadow); }
-.profile-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px var(--btn-shadow); }
-.profile-btn:active { transform: translateY(1px); }
 
 #form{display:none;}
 #form input{width:100%;padding:18px;margin:10px 0;border-radius:18px;border:2px solid var(--card-border);background:var(--bg-start);color:var(--input-text); font-size: 16px;font-weight: 700;outline: none;transition: all 0.3s; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);}
 #form input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(0, 152, 234, 0.1); background: var(--card-bg);}
 #form input::placeholder { color: var(--text-muted); opacity: 0.7; }
-#form button{width:100%;padding:18px;margin-top:15px;border:none;border-radius:18px;background:linear-gradient(90deg,var(--btn-gradient-start),var(--btn-gradient-end));color:var(--text-light);font-weight:900;font-size: 16px;cursor:pointer; transition: all 0.3s;box-shadow: 0 10px 25px var(--btn-shadow); display:flex; align-items:center; justify-content:center; gap:10px;}
+#form button{width:100%;padding:18px;margin-top:15px;border:none;border-radius:18px;background:linear-gradient(90deg,var(--btn-gradient-start),var(--btn-gradient-end));color:var(--text-light);font-weight:900;font-size: 16px;cursor:pointer; box-shadow: 0 10px 25px var(--btn-shadow); display:flex; align-items:center; justify-content:center; gap:10px;}
 #form button i { width: 22px; height: 22px; }
-#form button:hover { transform: translateY(-2px); box-shadow: 0 15px 30px var(--btn-shadow); }
 
-.fee-calc-box { font-size: 13px; font-weight: 700; color: var(--text-muted); margin: 5px 0 15px; text-align: left; padding: 12px 15px; background: var(--bg-start); border-radius: 12px; border: 1px dashed var(--card-border); display: none;}
+.fee-calc-box { font-size: 14px; font-weight: 800; color: var(--text-muted); margin: 5px 0 15px; text-align: left; padding: 12px 15px; background: var(--bg-start); border-radius: 12px; border: 1px dashed var(--card-border); display: none;}
 .fee-calc-box span { color: var(--accent); font-weight: 900; }
 
 .alert{margin-top:15px;padding:15px;border-radius:16px;display:none; font-weight: 800; text-align: center; font-size: 15px; animation: fadeIn 0.3s ease;}
@@ -221,12 +212,11 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 .history-card { background: var(--card-bg); border-radius: 24px; padding: 25px 20px; margin-top: 30px; border: 1px solid var(--card-border); text-align: left; box-shadow: 0 8px 25px rgba(0,0,0,0.04);}
 .history-title { font-size: 18px; font-weight: 900; color: var(--text-dark); margin-bottom: 20px; text-align: center; }
 .history-list { display: flex; flex-direction: column; gap: 12px; }
-.history-item { background: var(--bg-start); padding: 16px; border-radius: 16px; border: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; transition: transform 0.2s;}
-.history-item:hover { transform: scale(1.02); }
+.history-item { background: var(--bg-start); padding: 16px; border-radius: 16px; border: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; }
 .history-info { display: flex; flex-direction: column; gap: 6px; }
 .history-method { font-weight: 900; font-size: 15px; color: var(--text-dark); display: flex; align-items: center; gap: 6px;}
 .history-method img { width: 20px; height: 20px; border-radius: 50%; }
-.history-date { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+.history-date { font-size: 12px; color: var(--text-muted); font-weight: 700; }
 .history-status-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
 .history-amount { font-weight: 900; font-size: 16px; color: var(--accent); }
 .history-status { font-size: 11px; font-weight: 800; padding: 5px 12px; border-radius: 10px; background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2);}
@@ -239,7 +229,7 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 .loader-logo-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 24px; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; color: white; box-shadow: 0 15px 35px var(--loader-circle); animation: float 3s ease-in-out infinite;}
 @keyframes float { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
 .loader-title{font-size:42px;font-weight:900;color:var(--text-dark); letter-spacing:1px; margin-bottom: 5px;}
-.loader-subtitle { font-size: 16px; color: var(--accent); font-weight: 700; letter-spacing: 2px; text-transform: uppercase;}
+.loader-subtitle { font-size: 16px; color: var(--accent); font-weight: 800; letter-spacing: 2px; text-transform: uppercase;}
 .loader-bar-wrap { position: relative; width: 260px; height: 6px; background: rgba(0, 152, 234, 0.15); border-radius: 10px; margin: 0 auto; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);}
 .loader-fill{position: absolute; top:0; left:0; height:100%; width:0%; border-radius:10px; background:linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); animation:fillAnim 2.5s cubic-bezier(0.65, 0, 0.35, 1) forwards; box-shadow: 0 0 10px var(--btn-shadow);}
 @keyframes fillAnim{0%{width:0%;} 70%{width: 80%;} 100%{width:100%;}}
@@ -253,8 +243,7 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 .share-modal { background: var(--card-bg); width: 90%; max-width: 350px; border-radius: 30px; padding: 30px 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); border: 1px solid var(--card-border); transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; }
 .modal-overlay.show .share-modal { transform: scale(1); }
 .share-modal-title { font-size: 20px; font-weight: 900; color: var(--text-dark); margin-bottom: 25px; }
-.share-btn-action { width: 100%; padding: 16px; border-radius: 18px; border: none; font-weight: 800; font-size: 16px; margin-bottom: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; color: #fff; transition: all 0.2s; }
-.share-btn-action:active { transform: scale(0.96); }
+.share-btn-action { width: 100%; padding: 16px; border-radius: 18px; border: none; font-weight: 800; font-size: 16px; margin-bottom: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; color: #fff; }
 .share-btn-action.tg { background: linear-gradient(90deg, #2AABEE, #229ED9); box-shadow: 0 8px 20px rgba(34, 158, 217, 0.3); }
 .share-btn-action.wa { background: linear-gradient(90deg, #25D366, #128C7E); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3); }
 .share-btn-action.copy { background: var(--bg-start); color: var(--text-dark); border: 2px solid var(--card-border); box-shadow: none; }
@@ -266,6 +255,16 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 <body id="body">
 
 <script>
+// --- KOMPÜTER (Masaüstü) BLOKLAYICI ---
+if (window.Telegram && window.Telegram.WebApp) {
+    const platform = window.Telegram.WebApp.platform;
+    if (platform === 'tdesktop' || platform === 'macos' || platform === 'web' || platform === 'weba' || platform === 'unigram') {
+        document.body.innerHTML = '<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; background:#0b1320; color:#ffffff; font-family:sans-serif; text-align:center; padding:20px; box-sizing:border-box;"><div style="font-size:60px; margin-bottom:20px;">📱</div><h2 style="font-size:24px; font-weight:bold; margin-bottom:10px;">Cihaz Dəstəklənmir</h2><p style="font-size:16px; color:#cbd5e1; line-height:1.5;">Bu bot sadəcə mobil telefonlarda işləmək üçün dizayn edilib. Zəhmət olmasa, botu telefonunuzdakı Telegram tətbiqi üzərindən açın.</p></div>';
+        throw new Error("PC/Desktop Access Blocked");
+    }
+}
+// -------------------------------------
+
 function safeGet(k,d=0){try{return JSON.parse(localStorage.getItem(k))??d;}catch{return d;}}
 function safeSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 
@@ -315,7 +314,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
     <div class="balance-card">
       <h3 data-translate-key="yourBalance">Your Balance</h3>
       <div class="amount-wrap">
-          <div class="amount"><span id="balance">0.0000</span></div>
+          <div class="amount"><span id="balance">0.000</span></div>
           <div class="currency">TON</div>
       </div>
     </div>
@@ -347,7 +346,7 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
     <div class="balance-card">
       <h3 data-translate-key="yourBalance">Your Balance</h3>
       <div class="amount-wrap">
-          <div class="amount"><span id="balance3">0.0000</span></div>
+          <div class="amount"><span id="balance3">0.000</span></div>
           <div class="currency">TON</div>
       </div>
     </div>
@@ -374,14 +373,14 @@ if(savedTheme === 'dark') document.getElementById('body').classList.add('dark-th
     <div class="balance-card">
       <h3 data-translate-key="yourBalance">Your Balance</h3>
       <div class="amount-wrap">
-          <div class="amount"><span id="balance2">0.0000</span></div>
+          <div class="amount"><span id="balance2">0.000</span></div>
           <div class="currency">TON</div>
       </div>
     </div>
     
     <div id="methodsContainer">
         <h2 style="text-align:center;margin-bottom:5px;color:var(--text-dark);font-weight:900;" data-translate-key="withdrawTitle">Withdrawal</h2>
-        <p style="text-align:center; color:var(--text-muted); font-size: 14px; font-weight: 600; margin-bottom: 15px;" data-translate-key="selectMethod">Select withdrawal method</p>
+        <p style="text-align:center; color:var(--text-muted); font-size: 15px; font-weight: 700; margin-bottom: 15px;" data-translate-key="selectMethod">Select withdrawal method</p>
         
         <div class="method-list" id="methods">
           <div class="method" data-type="ton">
@@ -741,7 +740,8 @@ function fallbackCopyTextToClipboard(text, t) {
 }
 
 function formatTon(val) {
-    return parseFloat(val).toFixed(4);
+    // Balansın 3 rəqəm olması üçün toFixed(3)
+    return parseFloat(val).toFixed(3);
 }
 
 function update(){
