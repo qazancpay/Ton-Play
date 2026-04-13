@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+<title id="pageTitle">Ton Play</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<script>
+if (window.Telegram && window.Telegram.WebApp) {
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
+    try {
+        if (window.Telegram.WebApp.requestFullscreen) {
+            window.Telegram.WebApp.requestFullscreen();
+        }
+    } catch(e) {}
+}
+</script>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="//libtl.com/sdk.js" data-zone="10871626" data-sdk="show_10871626"></script>
+
+<style>
+/* --- RƏNG DƏYİŞƏNLƏRİ (VARS) - TON PLAY TEMA --- */
+:root {
+  --bg-start: #f4f9ff; 
+  --bg-end: #ffffff;   
+  --card-bg: rgba(255, 255, 255, 0.7); 
+  --card-border: rgba(0, 152, 234, 0.1);
+  --text-light: #ffffff;
+  --text-dark: #0f172a;
+  --text-muted: #64748b;
+  --accent: #0098EA; 
+  --menu-bg: rgba(255, 255, 255, 0.85);
+  --progress-bg: rgba(0, 152, 234, 0.08);
+  --input-bg: rgba(0, 152, 234, 0.03);
+  
+  --loader-bg: #ffffff;
+  --loader-text: #0098EA;
+  --loader-circle: rgba(0, 152, 234, 0.15);
+
+  --btn-gradient-start: #0098EA; 
+  --btn-gradient-end: #007bb5;   
+  --btn-shadow: rgba(0, 152, 234, 0.35); 
+}
+
+/* DARK TEMA (Modern Fintech) */
+body.dark-theme {
+  --bg-start: #060b14; 
+  --bg-end: #0f172a;   
+  --card-bg: rgba(15, 23, 42, 0.6); 
+  --card-border: rgba(56, 189, 248, 0.15);
+  --text-light: #ffffff;
+  --text-dark: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8; 
+  --menu-bg: rgba(15, 23, 42, 0.85);
+  --progress-bg: rgba(56, 189, 248, 0.1);
+  --input-bg: rgba(15, 23, 42, 0.8);
+  
+  --loader-bg: #060b14;
+  --loader-text: #38bdf8;
+  --loader-circle: rgba(56, 189, 248, 0.2);
+  
+  --btn-gradient-start: #0ea5e9; 
+  --btn-gradient-end: #0284c7;   
+  --btn-shadow: rgba(14, 165, 233, 0.3); 
+}
+
+/* --- ÜMUMİ STİLLƏR --- */
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Inter',sans-serif;
+  background:linear-gradient(135deg,var(--bg-start),var(--bg-end));
+  background-size:400% 400%;
+  animation:bgMove 20s ease infinite;
+  color:var(--text-dark);
+  min-height:var(--tg-viewport-stable-height, 100vh);
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  transition: background-color 0.5s, color 0.5s; 
+  padding-bottom: 90px; 
+}
+@keyframes bgMove{ 0%{background-position:0% 50;} 50%{background-position:100% 50;} 100%{background-position:0% 50;} }
+
+.container{max-width:480px;margin:auto;padding:30px 20px 20px;} 
+
+.page{display:none;animation:fadeIn .5s cubic-bezier(0.34, 1.56, 0.64, 1);}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* MODERN KARTLAR - DAHA ŞIK */
+.balance-card, .ad-card, .profile-card, .wallet-card{
+  background:var(--card-bg);
+  border-radius:28px;
+  padding:30px 20px;
+  margin-bottom:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.04);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  text-align:center;
+  border:1px solid var(--card-border);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Premium Bakiye Görünümü */
+.balance-card::before {
+    content: ''; position: absolute; top: -50px; left: -50px; width: 150px; height: 150px; background: radial-gradient(circle, var(--accent) 0%, transparent 70%); opacity: 0.1; border-radius: 50%;
+}
+.balance-card h3{font-size:13px;color:var(--text-muted);margin-bottom:12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;}
+.balance-card .amount{font-size:52px;font-weight:900;margin-top:5px; background: linear-gradient(90deg, var(--accent), var(--btn-gradient-end)); -webkit-background-clip: text; color: transparent; letter-spacing: -2px; display: inline-block; filter: drop-shadow(0 8px 16px rgba(0, 152, 234, 0.2));}
+
+.ad-card{padding: 30px 25px;}
+.ad-card h2{font-size:24px;color:var(--text-dark);margin-bottom:10px; font-weight: 900;}
+.ad-card p{margin:4px 0;color:var(--text-muted);font-size:15px; font-weight: 600;}
+
+/* GÖREVLƏR (Kusursuz Tasarım) */
+.task-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
+.task-item { background: linear-gradient(145deg, var(--card-bg), var(--bg-start)); border: 1px solid var(--card-border); border-radius: 24px; padding: 25px 20px; position: relative; overflow: hidden; text-align: left; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 12px 30px rgba(0,0,0,0.03); backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 15px;}
+.task-item:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,152,234,0.15); border-color: rgba(0, 152, 234, 0.3);}
+.task-item::after { content: ''; position: absolute; right: -20px; top: -20px; width: 100px; height: 100px; background: var(--accent); filter: blur(60px); opacity: 0.1; border-radius: 50%; pointer-events: none;}
+.task-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.task-title-wrap { display: flex; align-items: center; gap: 14px;}
+.task-icon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 16px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); color: white; box-shadow: 0 8px 20px var(--btn-shadow);}
+.task-info { display: flex; flex-direction: column; gap: 4px; }
+.task-title { font-size: 18px; font-weight: 900; color: var(--text-dark); }
+.task-desc { font-size: 13px; color: var(--text-muted); font-weight: 600; line-height: 1.4; }
+.task-reward-badge { background: rgba(0, 152, 234, 0.1); color: var(--accent); padding: 6px 12px; border-radius: 12px; font-weight: 900; font-size: 14px; border: 1px solid rgba(0, 152, 234, 0.2); white-space: nowrap;}
+
+.task-btn { width: 100%; padding: 16px; font-size: 16px; font-weight: 800; border: none; border-radius: 18px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;}
+.task-btn.action { background: rgba(0, 152, 234, 0.1); color: var(--accent); border: 2px solid transparent; }
+.task-btn.action:hover { background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); color: white; box-shadow: 0 10px 25px var(--btn-shadow); transform: scale(1.02); border-color: transparent;}
+.task-btn.completed { background: var(--progress-bg); color: var(--text-muted); cursor: not-allowed; box-shadow: none; font-weight: 800; opacity: 0.7; border: 1px dashed var(--card-border);}
+.task-btn.waiting { background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); color: white; cursor: wait !important; opacity: 0.9;}
+
+/* REKLAM STATİSTİKA VE BUTON */
+.stats{display:flex;justify-content:space-around;margin-top:25px; background: var(--input-bg); padding: 20px 15px; border-radius: 20px; border: 1px solid var(--card-border); box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);}
+.stat{flex: 1; text-align: center; position: relative;}
+.stat:first-child::after { content: ''; position: absolute; right: 0; top: 15%; height: 70%; width: 2px; background: var(--card-border); border-radius: 2px;}
+.stat span{display:block;font-size:26px;font-weight:900;color:var(--text-dark); margin-bottom: 6px; letter-spacing: -0.5px;}
+.stat label{font-size:12px;color:var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;}
+.progress{height:14px;background:var(--progress-bg);border-radius:14px;overflow:hidden;margin-top:25px; position: relative; border: 1px solid var(--card-border);}
+.progress-fill{height:100%;background:linear-gradient(90deg, #00d2ff, var(--accent));width:0%;transition:width 1s cubic-bezier(0.34, 1.56, 0.64, 1); border-radius: 14px; box-shadow: 0 0 15px var(--accent);} 
+
+.ad-btn{width:100%;margin-top:25px;padding:20px;font-size:17px;font-weight:900;border:none;border-radius:20px;color:var(--text-light);cursor:pointer;transition:all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));box-shadow:0 12px 35px var(--btn-shadow);position: relative; overflow: hidden; display:flex; align-items:center; justify-content:center; gap:12px;}
+.ad-btn::before {content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transform: skewX(-20deg); transition: 0.5s;}
+.ad-btn:hover:not(.waiting){transform:translateY(-4px);box-shadow:0 20px 45px var(--btn-shadow);}
+.ad-btn:hover::before {left: 150%;}
+.ad-btn:active:not(.waiting){transform:translateY(0);box-shadow:0 8px 20px var(--btn-shadow);}
+.ad-btn.waiting {background: var(--progress-bg) !important;color: var(--accent) !important;cursor: not-allowed;box-shadow: none !important; border: 2px dashed rgba(0, 152, 234, 0.4);}
+.ad-btn-content { display: flex; align-items:center; gap: 10px;}
+.ad-btn.waiting .ad-btn-content { animation: pulseText 1.5s infinite; }
+@keyframes pulseText { 0%, 100% {opacity: 1;} 50% {opacity: 0.5;} }
+
+#msg {margin-top: 15px; font-size: 14px;font-weight: 800;color: #ef4444; min-height: 20px;}
+
+/* ÇIXARIŞ METODU (CÜZDAN - Yüksek Kalite) */
+.method-list{display:flex;flex-wrap:wrap;gap:15px;margin:20px 0;justify-content:center;}
+.method{width: 100%; padding:22px;border-radius:24px;background:linear-gradient(145deg, var(--card-bg), var(--bg-start)); color:var(--text-dark);text-align:center;cursor:pointer;transition:all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);display:flex;flex-direction: row;align-items: center;justify-content: center; gap: 18px; position: relative;overflow: hidden; border: 2px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.03);}
+.method:hover{transform:translateY(-5px); border-color: var(--accent); box-shadow:0 15px 40px rgba(0,152,234,0.15);}
+.method-logo{width: 56px; height: 56px; border-radius: 50%; object-fit: cover; background-color: #fff; border: 4px solid var(--card-bg); flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.1);}
+.method-text { font-size: 24px; font-weight: 900; letter-spacing: 0.5px;}
+.min-withdraw-label {position: absolute;bottom: 12px;right: 18px;font-size: 12px;font-weight: 800;color: var(--accent);background: rgba(0, 152, 234, 0.1);padding: 6px 12px;border-radius: 10px; border: 1px solid rgba(0,152,234,0.2);}
+
+#form{display:none; animation: fadeIn 0.4s ease;}
+.form-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--card-border);}
+.back-btn { background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-dark); font-weight: 800; font-size: 14px; cursor: pointer; padding: 10px 16px; border-radius: 14px; display: flex; align-items: center; gap: 8px; transition: 0.3s;}
+.back-btn:hover { background: rgba(0, 152, 234, 0.1); color: var(--accent); border-color: rgba(0,152,234,0.3); transform: translateX(-4px);}
+.form-title { font-size: 18px; font-weight: 900; color: var(--text-dark); display: flex; align-items: center; gap: 10px;}
+.form-title img { width: 32px; height: 32px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+.form-group { margin-bottom: 22px; text-align: left;}
+.form-group label { display: block; font-size: 14px; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; padding-left: 4px;}
+#form input{width:100%;padding:20px 18px;border-radius:20px;border:2px solid var(--card-border);background:var(--input-bg);color:var(--text-dark); font-size: 16px;font-weight: 700;outline: none;transition: all 0.3s; box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);}
+#form input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(0, 152, 234, 0.15), inset 0 2px 6px rgba(0,0,0,0); background: var(--bg-start);}
+#form input::placeholder { color: var(--text-muted); opacity: 0.5; font-weight: 600;}
+
+/* FEE HESABLAMA KUTUSU (Premium Fiş Görünümü) */
+.fee-calculation-box { background: var(--bg-start); border: 2px dashed rgba(0, 152, 234, 0.3); border-radius: 20px; padding: 22px; margin-bottom: 25px; font-size: 15px; position: relative;}
+.fee-calculation-box::before, .fee-calculation-box::after { content: ''; position: absolute; top: 50%; width: 16px; height: 16px; background: var(--card-bg); border-radius: 50%; border: 1px solid var(--card-border); transform: translateY(-50%);}
+.fee-calculation-box::before { left: -9px; border-left-color: transparent; border-bottom-color: transparent; transform: translateY(-50%) rotate(45deg); }
+.fee-calculation-box::after { right: -9px; border-right-color: transparent; border-top-color: transparent; transform: translateY(-50%) rotate(45deg); }
+
+.fee-row { display: flex; justify-content: space-between; margin-bottom: 12px; color: var(--text-muted); font-weight: 600;}
+.fee-row.total { border-top: 2px dashed rgba(0, 152, 234, 0.15); padding-top: 15px; margin-bottom: 0; margin-top: 8px; color: var(--text-dark); font-weight: 900; font-size: 17px;}
+.fee-row span.val { color: var(--text-dark); font-weight: 800; font-family: monospace; font-size: 16px;}
+.fee-row.total span.val { color: var(--accent); font-size: 20px;}
+
+#withdrawBtn{width:100%;padding:20px;border:none;border-radius:20px;background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));color:var(--text-light);font-weight:900;font-size: 17px;cursor:pointer; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);box-shadow: 0 12px 35px var(--btn-shadow); display:flex; align-items:center; justify-content:center; gap:10px;}
+#withdrawBtn:hover { transform: translateY(-4px); box-shadow: 0 20px 45px var(--btn-shadow);}
+
+.alert{margin-top:18px;padding:18px;border-radius:18px;display:none; font-weight: 800; text-align: center; font-size: 15px; animation: fadeIn 0.4s;}
+.alert.error{background:rgba(239, 68, 68, 0.08);color:#ef4444; border: 1px solid rgba(239, 68, 68, 0.2);}
+.alert.success{background:rgba(34, 197, 94, 0.08);color:#22c55e; border: 1px solid rgba(34, 197, 94, 0.2);}
+
+/* TARİXÇƏ (History) */
+.history-card { background: var(--card-bg); border-radius: 28px; padding: 30px 20px; margin-top: 25px; border: 1px solid var(--card-border); text-align: left; box-shadow: 0 15px 35px rgba(0,0,0,0.03); backdrop-filter: blur(10px);}
+.history-title { font-size: 20px; font-weight: 900; color: var(--text-dark); margin-bottom: 22px; display: flex; align-items: center; gap: 10px;}
+.history-list { display: flex; flex-direction: column; gap: 14px; }
+.history-item { background: var(--bg-start); padding: 18px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--card-border); transition: 0.3s;}
+.history-item:hover { transform: scale(1.02); border-color: rgba(0,152,234,0.3); box-shadow: 0 8px 20px rgba(0,0,0,0.05);}
+.history-info { display: flex; flex-direction: column; gap: 8px; }
+.history-method { font-weight: 900; font-size: 16px; color: var(--text-dark); display: flex; align-items: center; gap: 10px;}
+.history-method img {width: 26px; height: 26px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
+.history-date { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+.history-status-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.history-amount { font-weight: 900; font-size: 17px; color: var(--text-dark); }
+.history-status { font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 10px; background: rgba(245, 158, 11, 0.1); color: #f59e0b; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(245, 158, 11, 0.2);}
+.history-empty { text-align: center; font-size: 16px; color: var(--text-muted); padding: 35px 20px; font-weight: 800; background: var(--bg-start); border-radius: 20px; border: 2px dashed var(--card-border);}
+
+/* PROFIL SEHIFESI */
+.profile-header { display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 35px; position: relative;}
+.profile-avatar { width: 110px; height: 110px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; margin-bottom: 18px; box-shadow: 0 15px 35px var(--btn-shadow); position: relative; border: 5px solid var(--card-bg);}
+.profile-avatar .default-icon { width: 50px; height: 50px; stroke-width: 2.5px;}
+.profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none; }
+.profile-avatar.has-image img { display: block; }
+.profile-avatar.has-image .default-icon { display: none; }
+.profile-name { font-size: 26px; font-weight: 900; color: var(--text-dark); margin-bottom: 8px; letter-spacing: -0.5px;}
+.profile-id { font-size: 14px; font-weight: 800; color: var(--accent); background: rgba(0, 152, 234, 0.1); padding: 8px 18px; border-radius: 24px; border: 1px solid rgba(0, 152, 234, 0.2);}
+
+.settings-list { text-align: left; background: var(--bg-start); border-radius: 28px; padding: 12px 24px; margin-bottom: 30px; border: 1px solid var(--card-border); box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);}
+.setting-item { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px dashed var(--card-border); }
+.setting-item:last-child { border-bottom: none; }
+.setting-info { display: flex; align-items: center; gap: 16px; font-weight: 800; font-size: 17px; color: var(--text-dark); }
+.setting-icon { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: var(--card-bg); border-radius: 14px; color: var(--accent); box-shadow: 0 6px 15px rgba(0,0,0,0.05); border: 1px solid var(--card-border);}
+
+.toggle-switch { width: 60px; height: 32px; background-color: rgba(0,152,234,0.15); border-radius: 30px; position: relative; cursor: pointer; transition: 0.4s; border: 1px solid rgba(0,152,234,0.2);}
+body.dark-theme .toggle-switch { background-color: var(--accent); }
+.toggle-thumb { width: 26px; height: 26px; background-color: #fff; border-radius: 50%; position: absolute; top: 2px; left: 3px; transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+body.dark-theme .toggle-thumb { transform: translateX(26px); }
+.toggle-thumb i { width: 14px; height: 14px; color: #f59e0b; }
+body.dark-theme .toggle-thumb i { color: #0f172a; }
+
+.lang-select { background: var(--card-bg); border: 2px solid var(--card-border); color: var(--text-dark); font-weight: 800; padding: 10px 16px; border-radius: 14px; outline: none; cursor: pointer; transition: 0.3s; font-size: 15px;}
+.lang-select:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(0,152,234,0.1);}
+
+.profile-btn { width: 100%; padding: 20px; margin-bottom: 15px; border-radius: 20px; font-weight: 900; font-size: 17px; cursor: pointer; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; justify-content: center; gap: 12px; border: none; }
+.btn-share { background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 12px 35px rgba(16, 185, 129, 0.3); }
+.profile-btn:hover { transform: translateY(-4px); box-shadow: 0 20px 45px rgba(16, 185, 129, 0.4); filter: brightness(1.05);}
+
+/* MENU (Floating Glassmorphism) */
+.menu{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);width:90%;max-width:400px; display:flex;justify-content:space-between;background:var(--menu-bg);padding:10px; border-radius:30px;box-shadow:0 25px 50px rgba(0,0,0,.15);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);z-index: 999;border: 1px solid rgba(255,255,255,0.2);}
+body.dark-theme .menu { border: 1px solid rgba(255,255,255,0.05); box-shadow:0 25px 50px rgba(0,0,0,.5); }
+.menu button{flex:1;margin:0 5px; padding: 12px 4px;border:none;border-radius:22px;background:transparent;color:var(--text-muted);cursor: pointer;transition:all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);display: flex;flex-direction: column;align-items: center;justify-content: center; height: 70px; position: relative; overflow: hidden;}
+.menu button .nav-icon { width: 26px; height: 26px; margin-bottom: 6px; transition: 0.4s; stroke-width: 2.5px;}
+.menu button .nav-text { font-size: 12px; font-weight: 800; line-height: 1.2; transition: 0.4s;}
+.menu button.active{background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));color: var(--text-light);box-shadow:0 12px 30px var(--btn-shadow); transform: translateY(-10px);}
+.menu button:not(.active):hover { color: var(--accent); transform: translateY(-3px);}
+
+/* YÜKLƏNİŞ EKRANI */
+#loadingScreen{position:fixed;top:0; left:0;width:100%; height:var(--tg-viewport-stable-height, 100vh);background:var(--loader-bg); display:flex;justify-content:center;align-items:center; flex-direction: column; z-index:99999;transition:opacity .6s ease;}
+.loader-logo-wrap { position: relative; margin-bottom: 40px; }
+.loader-logo { width: 120px; height: 120px; border-radius: 50%; z-index: 2; position: relative; border: 4px solid var(--loader-text); padding: 4px; box-shadow: 0 0 40px var(--loader-circle); animation: float 3s ease-in-out infinite;}
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+.loader-pulse { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; border-radius: 50%; background: var(--loader-circle); z-index: 1; animation: pulseRing 2s cubic-bezier(0.215, 0.610, 0.355, 1) infinite; }
+.loader-pulse:nth-child(2) { animation-delay: 1s; }
+@keyframes pulseRing { 0% { width: 120px; height: 120px; opacity: 1; } 100% { width: 350px; height: 350px; opacity: 0; } }
+.loader-title{font-size:46px;font-weight:900;color:var(--loader-text); letter-spacing:1px; margin-bottom: 15px; text-shadow: 0 8px 20px var(--loader-circle);}
+.loader-subtitle { font-size: 16px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 4px; animation: blink 1.5s infinite;}
+@keyframes blink { 0%, 100% {opacity: 1;} 50% {opacity: 0.5;} }
+
+/* BİLDİRİŞ (Premium Kalite) */
+#taskNotification {
+    position: fixed; top: 30px; left: 50%; transform: translate(-50%, -150px) scale(0.9);
+    background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 2px solid rgba(0, 152, 234, 0.3); border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(0, 152, 234, 0.25);
+    padding: 20px 30px; display: flex; align-items: center; gap: 18px;
+    z-index: 10000; opacity: 0; transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+body.dark-theme #taskNotification { background: rgba(15, 23, 42, 0.9); border-color: rgba(56, 189, 248, 0.3); }
+.notification-show { opacity: 1 !important; transform: translate(-50%, 0) scale(1) !important; }
+.notif-icon-wrap { background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); width: 48px; height: 48px; border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 8px 20px var(--btn-shadow); flex-shrink: 0;}
+.notif-content { display: flex; flex-direction: column; text-align: left; }
+.notif-title { font-size: 14px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;}
+.notif-reward { font-size: 22px; font-weight: 900; color: var(--accent); }
+
+/* MODAL */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 32, 0.8); backdrop-filter: blur(15px); z-index: 9999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.4s ease; }
+.modal-overlay.show { display: flex; opacity: 1; }
+.share-modal { background: var(--card-bg); width: 90%; max-width: 380px; border-radius: 32px; padding: 40px 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.4); border: 1px solid var(--card-border); transform: scale(0.9) translateY(20px); transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); text-align: center; }
+.modal-overlay.show .share-modal { transform: scale(1) translateY(0); }
+.share-modal-title { font-size: 24px; font-weight: 900; color: var(--text-dark); margin-bottom: 35px; }
+.share-btn-action { width: 100%; padding: 20px; border-radius: 20px; border: none; font-weight: 800; font-size: 17px; margin-bottom: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 14px; color: #fff; transition: 0.3s; box-shadow: 0 10px 25px rgba(0,0,0,0.15);}
+.share-btn-action:active { transform: scale(0.96); }
+.share-btn-action.tg { background: linear-gradient(135deg, #2AABEE, #229ED9); }
+.share-btn-action.wa { background: linear-gradient(135deg, #25D366, #128C7E); }
+.share-btn-action.copy { background: var(--input-bg); color: var(--text-dark); border: 2px solid var(--card-border); box-shadow: none;}
+.share-btn-action.copy:hover { border-color: var(--accent); background: rgba(0, 152, 234, 0.08);}
+.share-btn-action.close-modal { background: transparent; color: var(--text-muted); margin-bottom: 0; margin-top: 15px; box-shadow: none;}
+.share-btn-action.close-modal:hover { color: #ef4444; }
+</style>
+</head>
+<body id="body">
+
+<div id="loadingScreen">
+  <div class="loader-logo-wrap">
+      <div class="loader-pulse"></div>
+      <div class="loader-pulse"></div>
+      <img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" class="loader-logo" alt="TON">
+  </div>
+  <div class="loader-title">Ton Play</div>
+  <div class="loader-subtitle">Loading Ecosystem</div>
+</div>
+
+<div id="taskNotification">
+    <div class="notif-icon-wrap"><i data-lucide="gift" style="width: 28px; height: 28px;"></i></div>
+    <div class="notif-content">
+        <span class="notif-title" data-translate-key="rewardEarned">Ödül Kazanıldı</span>
+        <span class="notif-reward" id="taskNotificationText">+0.000 TON</span>
+    </div>
+</div>
+
+<div class="container">
+  <div id="adsPage" class="page active">
+    <div class="balance-card">
+      <h3 data-translate-key="yourBalance">Ton Balance</h3>
+      <div class="amount"><span id="balance">0.000</span></div>
+    </div>
+    
+    <div class="ad-card"> 
+      <h2 data-translate-key="dailyAdsHeader">Daily Ads</h2>
+      <p id="adRewardText" data-translate-key="adReward">Watch & earn 0.002 TON</p>
+      
+      <div class="stats">
+        <div class="stat"><span id="adsCount">0</span><label data-translate-key="watched">Watched</label></div>
+        <div class="stat"><span data-translate-key="maxCount">50</span><label data-translate-key="maximum">Maximum</label></div>
+      </div>
+      <div class="progress"><div class="progress-fill" id="progress"></div></div>
+      
+      <button id="adBtn" class="ad-btn">
+        <span class="ad-btn-content">
+          <i data-lucide="play-circle" style="width: 24px; height: 24px;"></i>
+          <span data-translate-key="watchAd">Watch Ad</span>
+        </span>
+      </button>
+      <div id="msg"></div> 
+    </div>
+  </div>
+  
+  <div id="tasksPage" class="page">
+    <div class="balance-card">
+      <h3 data-translate-key="yourBalance">Ton Balance</h3>
+      <div class="amount"><span id="balance2">0.000</span></div>
+    </div>
+
+    <div class="task-list">
+        <div class="task-item">
+            <div class="task-header">
+                <div class="task-title-wrap">
+                    <div class="task-icon"><i data-lucide="users" style="width:24px;height:24px;"></i></div>
+                    <div class="task-info">
+                        <span class="task-title" data-translate-key="joinCommunity">Join Community</span>
+                        <span class="task-desc" data-translate-key="joinCommunityDesc">Join our official community and earn!</span>
+                    </div>
+                </div>
+                <div class="task-reward-badge">+0.100 TON</div>
+            </div>
+            <button id="joinBtn" class="task-btn action">
+                <i data-lucide="send" style="width:20px;height:20px;"></i>
+                <span data-translate-key="joinCommunity">Join Community</span>
+            </button>
+        </div>
+    </div>
+  </div>
+  
+  <div id="walletPage" class="page">
+    <div class="balance-card">
+      <h3 data-translate-key="yourBalance">Ton Balance</h3>
+      <div class="amount"><span id="balance3">0.000</span></div>
+    </div>
+
+    <h2 style="text-align:center;margin-bottom:20px;color:var(--text-dark);font-weight:900;" data-translate-key="withdrawTitle">Withdraw</h2>
+    
+    <div class="method-list" id="methods">
+      <div class="method" onclick="openWithdrawForm()">
+          <img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" alt="TON Logo" class="method-logo">
+          <span class="method-text">TON Coin</span>
+          <span class="min-withdraw-label" data-translate-key="minAmountLabel">Min 3 TON</span>
+      </div>
+    </div>
+
+    <div class="form wallet-card" id="form">
+      <div class="form-header">
+          <button class="back-btn" onclick="closeWithdrawForm()">
+            <i data-lucide="chevron-left" style="width:20px;height:20px;"></i> <span data-translate-key="back">Back</span>
+          </button>
+          <div class="form-title">
+              TON Coin <img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg">
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label data-translate-key="tonAddress">TON Wallet Address</label>
+          <input id="details" placeholder="UQ...">
+      </div>
+      <div class="form-group">
+          <label data-translate-key="placeholderAmount">Amount (Min 3 TON)</label>
+          <input id="amount" type="number" placeholder="0.000">
+      </div>
+
+      <div class="fee-calculation-box">
+          <div class="fee-row">
+              <span data-translate-key="withdrawAmtText">Withdrawal Amount:</span>
+              <span><span class="val" id="calcAmount">0.000</span> TON</span>
+          </div>
+          <div class="fee-row">
+              <span data-translate-key="feeText">Network Fee (5%):</span>
+              <span><span class="val" id="calcFee">0.000</span> TON</span>
+          </div>
+          <div class="fee-row total">
+              <span data-translate-key="youReceive">You will receive:</span>
+              <span><span class="val" id="calcReceive">0.000</span> TON</span>
+          </div>
+      </div>
+
+      <button id="withdrawBtn">
+        <i data-lucide="arrow-up-right" style="width: 24px; height: 24px;"></i>
+        <span data-translate-key="withdraw">Withdraw</span>
+      </button>
+      <div id="alert" class="alert"></div>
+    </div>
+
+    <div class="history-card" id="historyCard">
+        <div class="history-title"><i data-lucide="history" style="color: var(--accent); width:24px; height:24px;"></i> <span data-translate-key="withdrawHistory">Withdrawal History</span></div>
+        <div class="history-list" id="historyList"></div>
+    </div>
+  </div>
+
+  <div id="profilePage" class="page">
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <i data-lucide="user" class="default-icon"></i>
+                <img id="profileImage" src="" alt="Profile">
+            </div>
+            <div class="profile-name" id="displayUsername" data-translate-key="guestUser">User</div>
+            <div class="profile-id">UID: <span id="displayUserId"></span></div>
+        </div>
+
+        <div class="settings-list">
+            <div class="setting-item">
+                <div class="setting-info">
+                    <span class="setting-icon"><i data-lucide="moon"></i></span>
+                    <span data-translate-key="theme">Theme</span>
+                </div>
+                <div class="toggle-switch" onclick="toggleTheme()">
+                    <div class="toggle-thumb" id="themeThumb"><i data-lucide="sun"></i></div>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <span class="setting-icon"><i data-lucide="globe"></i></span>
+                    <span data-translate-key="language">Language</span>
+                </div>
+                <select class="lang-select" id="langSelect" onchange="setLang(this.value)">
+                    <option value="en">EN</option>
+                    <option value="tr">TR</option>
+                    <option value="ru">RU</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="profile-btn btn-share" onclick="openShareModal()">
+            <i data-lucide="user-plus" style="width: 24px; height: 24px;"></i> <span data-translate-key="shareBtn">Invite Friends</span>
+        </button>
+    </div>
+  </div>
+</div>
+
+<div class="menu">
+  <button onclick="showPage('adsPage',this)" class="active">
+    <i data-lucide="layout-grid" class="nav-icon"></i>
+    <span class="nav-text" data-translate-key="home">Home</span>
+  </button>
+  <button onclick="showPage('tasksPage',this)">
+    <i data-lucide="check-square" class="nav-icon"></i>
+    <span class="nav-text" data-translate-key="tasks">Tasks</span>
+  </button>
+  <button onclick="showPage('walletPage',this)">
+    <i data-lucide="wallet" class="nav-icon"></i>
+    <span class="nav-text" data-translate-key="wallet">Wallet</span>
+  </button>
+  <button onclick="showPage('profilePage',this)">
+    <i data-lucide="user" class="nav-icon"></i>
+    <span class="nav-text" data-translate-key="profile">Profile</span>
+  </button>
+</div>
+
+<div class="modal-overlay" id="shareModalOverlay">
+    <div class="share-modal">
+        <div class="share-modal-title" data-translate-key="shareTitle">Invite Friends</div>
+        
+        <button class="share-btn-action tg" onclick="shareOnTelegramAction()">
+            <i data-lucide="send" style="width: 22px; height: 22px;"></i> <span data-translate-key="shareTelegram">Share on Telegram</span>
+        </button>
+        
+        <button class="share-btn-action wa" onclick="shareOnWhatsappAction()">
+            <i data-lucide="message-circle" style="width: 22px; height: 22px;"></i> <span data-translate-key="shareWhatsapp">Share on WhatsApp</span>
+        </button>
+        
+        <button class="share-btn-action copy" onclick="copyRefLinkAction()">
+            <i data-lucide="copy" style="width: 22px; height: 22px;"></i> <span data-translate-key="copyLink">Copy Link</span>
+        </button>
+        
+        <button class="share-btn-action close-modal" onclick="closeShareModal()">
+            <span data-translate-key="close">Cancel</span>
+        </button>
+    </div>
+</div>
+
+<script>
+lucide.createIcons();
+
+function safeGet(k,d=0){try{return JSON.parse(localStorage.getItem(k))??d;}catch{return d;}}
+function safeSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+let tgUser = null;
+let userRefId = null;
+
+if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+    tgUser = window.Telegram.WebApp.initDataUnsafe.user;
+    userRefId = tgUser.id.toString();
+} else {
+    userRefId = localStorage.getItem('tonplay_guest_ref_id');
+    if (!userRefId) {
+        userRefId = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+        localStorage.setItem('tonplay_guest_ref_id', userRefId);
+    }
+}
+
+const THEME_KEY = 'tonplay_theme_' + userRefId;
+const LANG_KEY = 'tonplay_lang_' + userRefId;
+
+const body = document.getElementById('body');
+const themeThumb = document.getElementById('themeThumb');
+
+function applyTheme(isDark) {
+    if (isDark) {
+        body.classList.add('dark-theme');
+        if(themeThumb) themeThumb.innerHTML = '<i data-lucide="moon" style="width:14px;height:14px;"></i>'; 
+        safeSet(THEME_KEY, 'dark');
+        try {
+            if(window.Telegram?.WebApp?.setHeaderColor) window.Telegram.WebApp.setHeaderColor('#060b14');
+            if(window.Telegram?.WebApp?.setBackgroundColor) window.Telegram.WebApp.setBackgroundColor('#060b14');
+        } catch(e){}
+    } else {
+        body.classList.remove('dark-theme');
+        if(themeThumb) themeThumb.innerHTML = '<i data-lucide="sun" style="width:14px;height:14px;"></i>'; 
+        safeSet(THEME_KEY, 'light');
+        try {
+            if(window.Telegram?.WebApp?.setHeaderColor) window.Telegram.WebApp.setHeaderColor('#f4f9ff');
+            if(window.Telegram?.WebApp?.setBackgroundColor) window.Telegram.WebApp.setBackgroundColor('#f4f9ff');
+        } catch(e){}
+    }
+    lucide.createIcons(); 
+}
+function toggleTheme() {
+    const isDark = body.classList.contains('dark-theme');
+    applyTheme(!isDark);
+}
+applyTheme(safeGet(THEME_KEY, 'light') === 'dark');
+
+const USERNAME_KEY = `tonplay_name_${userRefId}`;
+const PROFILE_PIC_KEY = `tonplay_pic_${userRefId}`;
+
+if (tgUser) {
+    let fullName = tgUser.first_name;
+    if (tgUser.last_name) { fullName += " " + tgUser.last_name; }
+    localStorage.setItem(USERNAME_KEY, fullName);
+    if (tgUser.photo_url) { localStorage.setItem(PROFILE_PIC_KEY, tgUser.photo_url); }
+}
+
+const userRefLink = `https://t.me/tonplayrbot?startapp=${userRefId}`;
+
+const BAL_KEY = `tonplay_bal_${userRefId}`;
+const COUNT_KEY = `tonplay_cnt_${userRefId}`;
+const RESET_KEY = `tonplay_resetTime_${userRefId}`;
+const JOIN_KEY = `tonplay_joined_community_${userRefId}`;
+const HISTORY_KEY = `tonplay_withdraw_history_${userRefId}`;
+
+const LIMIT = 50;
+const AD_REWARD = 0.002;
+const TASK_REWARD = 0.10;
+const MIN_WITHDRAW = 3;
+const FEE_PERCENT = 0.05;
+
+let bal = parseFloat(safeGet(BAL_KEY, 0.000)); 
+let withdrawHistory = safeGet(HISTORY_KEY, []);
+let cnt = parseInt(safeGet(COUNT_KEY,0));
+let resetTime = safeGet(RESET_KEY,null);
+let isAdRunning = false; 
+
+let currentLang = localStorage.getItem(LANG_KEY) || 'en';
+if (!['en', 'tr', 'ru'].includes(currentLang)) currentLang = 'en';
+document.getElementById('langSelect').value = currentLang;
+
+const TRANSLATIONS = {
+    'en': {
+        loading: 'Loading...', yourBalance: 'Ton Balance',
+        dailyAdsHeader: 'Daily Ads', adReward: 'Watch & earn 0.002 TON', 
+        watched: 'Watched', maximum: 'Maximum', maxCount: '50',
+        watchAd: 'Watch Ad', watching: 'Watching...', adLimitReached: 'Daily limit reached!',
+        wait: 'Wait {s}s',
+        joinCommunity: 'Join Community', joinCommunityDesc: 'Join our official community and earn!',
+        completed: 'Completed', rewardEarned: 'Reward Earned',
+        withdrawTitle: 'Withdraw', withdraw: 'Withdraw', minAmountLabel: 'Min 3 TON', back: 'Back',
+        tonAddress: 'TON Wallet Address', placeholderAmount: 'Amount (Min 3 TON)',
+        withdrawAmtText: 'Withdrawal Amount:', feeText: 'Network Fee (5%):', youReceive: 'You will receive:',
+        detailsError: 'Enter valid TON address', amountError: 'Enter correct amount',
+        minAmount: 'Minimum amount is 3 TON', balanceError: 'Insufficient balance',
+        withdrawSuccess: 'Withdrawal successful! Processing will take a few moments.',
+        home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile',
+        taskSuccess: 'Task Completed!',
+        guestUser: 'User', theme: 'Theme', language: 'Language',
+        withdrawHistory: 'Withdrawal History', pending: 'Pending', emptyHistory: 'No history found',
+        shareBtn: 'Invite Friends', shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: 'Link copied to clipboard!', close: 'Cancel',
+        shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nWatch daily ads and start earning 💰\nTON coins effortlessly. No complex steps just watch, complete, and grow your balance!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\nTurn your free time into profit 🔥 👇 Join now and start earning!\n\n🔗 {LINK}"
+    },
+    'tr': {
+        loading: 'Yükleniyor...', yourBalance: 'Ton Bakiyesi',
+        dailyAdsHeader: 'Günlük Reklamlar', adReward: 'İzle & 0.002 TON kazan', 
+        watched: 'İzlenen', maximum: 'Maksimum', maxCount: '50',
+        watchAd: 'Reklam İzle', watching: 'İzleniyor...', adLimitReached: 'Günlük limite ulaştınız!',
+        wait: '{s}sn bekle',
+        joinCommunity: 'Topluluğa Katıl', joinCommunityDesc: 'Resmi topluluğumuza katılın ve kazanın!',
+        completed: 'Tamamlandı', rewardEarned: 'Ödül Kazanıldı',
+        withdrawTitle: 'Çekim', withdraw: 'Çekim Yap', minAmountLabel: 'Min 3 TON', back: 'Geri',
+        tonAddress: 'TON Cüzdan Adresi', placeholderAmount: 'Miktar (Min 3 TON)',
+        withdrawAmtText: 'Çekim Miktarı:', feeText: 'Ağ Ücreti (5%):', youReceive: 'Alacağınız Miktar:',
+        detailsError: 'Geçerli TON adresi girin', amountError: 'Doğru miktar girin',
+        minAmount: 'Minimum miktar 3 TON', balanceError: 'Yetersiz bakiye',
+        withdrawSuccess: 'Çekim başarılı! İşlem kısa süre içinde gerçekleşecektir.',
+        home: 'Ev', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil',
+        taskSuccess: 'Görev Tamamlandı!',
+        guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil',
+        withdrawHistory: 'Çekim Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş bulunamadı',
+        shareBtn: 'Arkadaş Davet Et', shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Linki Kopyala', linkCopied: 'Link panoya kopyalandı!', close: 'İptal',
+        shareMsg: "🚀 TonPlay ile basit, hızlı, gerçek ödüller kazan!\n\nGünlük reklamları izle ve kolayca 💰\nTON coin kazanmaya başla. Karmaşık adımlar yok, sadece izle, tamamla ve bakiyeni büyüt!\n\n✨ Kolay ve kullanıcı dostu sistem\n🎯 Günlük kazanç fırsatları\n💎 Gerçek ödüller, gerçek sonuçlar\n\nBoş vaktini kazanca çevir 🔥 👇 Şimdi katıl ve kazanmaya başla!\n\n🔗 {LINK}"
+    },
+    'ru': { 
+        loading: 'Загрузка...', yourBalance: 'Баланс Ton',
+        dailyAdsHeader: 'Ежедневная Реклама', adReward: 'Смотри и получай 0.002 TON', 
+        watched: 'Просмотры', maximum: 'Максимум', maxCount: '50',
+        watchAd: 'Смотреть', watching: 'Просмотр...', adLimitReached: 'Дневной лимит достигнут!',
+        wait: 'Ждите {s}с',
+        joinCommunity: 'Присоединиться', joinCommunityDesc: 'Присоединяйтесь к нашему комьюнити и зарабатывайте!',
+        completed: 'Выполнено', rewardEarned: 'Награда получена',
+        withdrawTitle: 'Вывод', withdraw: 'Вывести', minAmountLabel: 'Мин 3 TON', back: 'Назад',
+        tonAddress: 'Адрес кошелька TON', placeholderAmount: 'Сумма (Мин 3 TON)',
+        withdrawAmtText: 'Сумма вывода:', feeText: 'Комиссия сети (5%):', youReceive: 'Вы получите:',
+        detailsError: 'Введите верный TON адрес', amountError: 'Введите корректную сумму',
+        minAmount: 'Минимальная сумма 3 TON', balanceError: 'Недостаточно средств',
+        withdrawSuccess: 'Вывод успешен! Обработка займет несколько минут.',
+        home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль',
+        taskSuccess: 'Задание выполнено!',
+        guestUser: 'Пользователь', theme: 'Тема', language: 'Язык',
+        withdrawHistory: 'История выводов', pending: 'В ожидании', emptyHistory: 'История пуста',
+        shareBtn: 'Пригласить друзей', shareTitle: 'Пригласить друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Копировать ссылку', linkCopied: 'Ссылка скопирована в буфер!', close: 'Отмена',
+        shareMsg: "🚀 Зарабатывайте с TonPlay простые, быстрые и реальные награды!\n\nСмотрите ежедневную рекламу и начните зарабатывать 💰\nTON coin без усилий. Никаких сложных шагов — просто смотрите, выполняйте и увеличивайте свой баланс!\n\n✨ Удобная система\n🎯 Ежедневные возможности заработка\n💎 Реальные награды\n\nПревратите свободное время в прибыль 🔥 👇 Присоединяйтесь прямо сейчас!\n\n🔗 {LINK}"
+    }
+};
+
+function getNextResetTime(){
+  const now = new Date();
+  let resetUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 19, 55, 0, 0));
+  if(now.getTime() > resetUTC.getTime()){ resetUTC.setUTCDate(resetUTC.getUTCDate() + 1); }
+  return resetUTC.getTime();
+}
+
+if(!resetTime||Date.now()>resetTime){
+  cnt=0; resetTime=getNextResetTime(); safeSet(RESET_KEY,resetTime); safeSet(COUNT_KEY,cnt);
+}
+
+function loadProfile() {
+    const savedName = localStorage.getItem(USERNAME_KEY);
+    const displayEl = document.getElementById('displayUsername');
+    if (savedName) {
+        displayEl.textContent = savedName;
+        displayEl.removeAttribute('data-translate-key');
+    }
+    document.getElementById('displayUserId').textContent = userRefId;
+    const pic = localStorage.getItem(PROFILE_PIC_KEY);
+    const avatar = document.querySelector('.profile-avatar');
+    const img = document.getElementById('profileImage');
+    if (pic) {
+        img.src = pic;
+        avatar.classList.add('has-image');
+    }
+}
+
+function update(){
+  const fmtBal = bal.toFixed(3);
+  document.getElementById('balance').textContent = fmtBal;
+  document.getElementById('balance2').textContent = fmtBal;
+  document.getElementById('balance3').textContent = fmtBal;
+  
+  document.getElementById('adsCount').textContent=cnt;
+  document.getElementById('progress').style.width=(cnt/LIMIT*100)+'%';
+  
+  safeSet(BAL_KEY,bal); safeSet(COUNT_KEY,cnt); 
+  updateTaskUI(); 
+}
+
+function updateTaskUI() {
+    const t = TRANSLATIONS[currentLang];
+    const joinBtn = document.getElementById('joinBtn');
+    if (joinBtn) {
+        if (localStorage.getItem(JOIN_KEY)){
+            joinBtn.className = 'task-btn completed'; joinBtn.innerHTML = `<i data-lucide="check-circle" style="width:20px;height:20px;"></i> ${t.completed}`; joinBtn.disabled = true; 
+        } else {
+            if (!joinBtn.classList.contains('waiting')) {
+                 joinBtn.className = 'task-btn action'; joinBtn.disabled = false; joinBtn.innerHTML = `<i data-lucide="send" style="width:20px;height:20px;"></i> ${t.joinCommunity}`;
+            }
+        }
+    }
+    lucide.createIcons(); 
+}
+
+function renderHistory() {
+    const list = document.getElementById('historyList');
+    const t = TRANSLATIONS[currentLang];
+    list.innerHTML = '';
+    
+    if (withdrawHistory.length === 0) {
+        list.innerHTML = `<div class="history-empty">${t.emptyHistory}</div>`;
+        return;
+    }
+    
+    const reversed = [...withdrawHistory].reverse();
+    reversed.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        const d = new Date(item.date);
+        const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        const statusText = t[item.status] || item.status;
+        
+        div.innerHTML = `
+            <div class="history-info">
+                <div class="history-method"><img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg"> TON Coin</div>
+                <div class="history-date">${dateStr}</div>
+            </div>
+            <div class="history-status-wrap">
+                <div class="history-amount">${item.amount.toFixed(3)} TON</div>
+                <div class="history-status">${statusText}</div>
+            </div>
+        `;
+        list.appendChild(div);
+    });
+}
+
+function applyTranslations(lang) {
+    const t = TRANSLATIONS[lang];
+    if (!t) return;
+    document.querySelectorAll('[data-translate-key]').forEach(el => {
+        const key = el.getAttribute('data-translate-key');
+        if(t[key]) {
+             if(el.tagName === 'INPUT') el.placeholder = t[key];
+             else el.innerHTML = t[key];
+        }
+    });
+    updateTaskUI(); loadProfile(); renderHistory(); update(); 
+    restoreAdBtnState();
+}
+
+function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem(LANG_KEY, lang);
+    applyTranslations(lang);
+}
+
+function showTaskNotification(amountStr) {
+    const taskNotification = document.getElementById('taskNotification');
+    const notifText = document.getElementById('taskNotificationText');
+    notifText.innerHTML = `+${amountStr} TON`;
+    taskNotification.classList.add('notification-show');
+    setTimeout(() => { taskNotification.classList.remove('notification-show'); }, 3500);
+}
+
+const adBtn=document.getElementById('adBtn'), msg=document.getElementById('msg');
+const adBtnContent = document.querySelector('.ad-btn-content');
+
+function restoreAdBtnState() {
+    const t = TRANSLATIONS[currentLang];
+    const textSpan = adBtnContent.querySelector('span');
+    if (isAdRunning) {
+        adBtn.classList.add('waiting'); adBtn.disabled = true;
+        if(textSpan) textSpan.textContent = t.watching; return; 
+    }
+    if (cnt >= LIMIT) {
+        adBtn.classList.remove('waiting'); adBtn.disabled = true; 
+        if(textSpan) textSpan.textContent = t.watchAd;
+        msg.textContent = t.adLimitReached; return; 
+    }
+    adBtn.classList.remove('waiting'); adBtn.disabled = false; 
+    if(textSpan) textSpan.textContent = t.watchAd;
+    msg.textContent = '';
+}
+
+adBtn.onclick = async () => {
+    const t = TRANSLATIONS[currentLang];
+    if (cnt >= LIMIT) { msg.textContent = t.adLimitReached; return; }
+    if (isAdRunning || adBtn.classList.contains('waiting')) return;
+    
+    isAdRunning = true; 
+    adBtn.disabled = true; adBtn.classList.add('waiting');
+    const textSpan = adBtnContent.querySelector('span');
+    if(textSpan) textSpan.textContent = t.watching; msg.textContent = '';
+    
+    try {
+        if (typeof show_10871626 === 'function') {
+            const adResult = show_10871626();
+            if (adResult && typeof adResult.then === 'function') {
+                await adResult; giveAdReward();
+            } else { giveAdReward(); }
+        } else { resetAdBtnState(); }
+    } catch(e) { resetAdBtnState(); } 
+};
+
+function giveAdReward() {
+    bal += AD_REWARD; cnt++; 
+    update(); showTaskNotification(AD_REWARD.toFixed(3));
+    resetAdBtnState();
+}
+
+function resetAdBtnState() {
+    isAdRunning = false; restoreAdBtnState();
+}
+
+const joinBtn = document.getElementById('joinBtn');
+if (joinBtn) {
+    joinBtn.onclick = () => {
+        if (localStorage.getItem(JOIN_KEY) || joinBtn.disabled) return; 
+        const t = TRANSLATIONS[currentLang];
+        window.open('https://t.me/tonplay_app', '_blank'); 
+        joinBtn.disabled = true; joinBtn.classList.add('waiting'); 
+        joinBtn.innerHTML = `<i data-lucide="loader" style="width:20px;height:20px; animation: pulseRing 1s infinite;"></i> ${t.wait.replace('{s}', '3')}`;
+        lucide.createIcons();
+        setTimeout(() => {
+            bal += TASK_REWARD; 
+            safeSet(BAL_KEY, bal); localStorage.setItem(JOIN_KEY, '1'); update();
+            showTaskNotification(TASK_REWARD.toFixed(3));
+        }, 3000); 
+    };
+}
+
+function showPage(id, btn){
+  if (btn.classList.contains('active')) return; 
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if (id === 'adsPage') restoreAdBtnState();
+}
+
+function openWithdrawForm() {
+    document.getElementById('methods').style.display = 'none';
+    const form = document.getElementById('form');
+    form.style.display = 'block';
+    form.style.animation = 'none';
+    form.offsetHeight; 
+    form.style.animation = 'fadeIn 0.4s ease';
+}
+
+function closeWithdrawForm() {
+    document.getElementById('form').style.display = 'none';
+    document.getElementById('methods').style.display = 'flex';
+    document.getElementById('alert').style.display = 'none';
+}
+
+const details = document.getElementById('details');
+const amountInput = document.getElementById('amount'); 
+const alertBox = document.getElementById('alert');
+
+amountInput.addEventListener('input', () => {
+    let val = parseFloat(amountInput.value);
+    if(isNaN(val) || val < 0) val = 0;
+    
+    const fee = val * FEE_PERCENT;
+    const receive = val - fee;
+    
+    document.getElementById('calcAmount').textContent = val.toFixed(3);
+    document.getElementById('calcFee').textContent = fee.toFixed(3);
+    document.getElementById('calcReceive').textContent = receive.toFixed(3);
+});
+
+document.getElementById('withdrawBtn').onclick=()=>{
+  const det = details.value.trim(); const amt = parseFloat(amountInput.value);
+  alertBox.style.display='none'; const t = TRANSLATIONS[currentLang];
+
+  if(!det){ showErr(t.detailsError); return; }
+  if(isNaN(amt) || amt <= 0){ showErr(t.amountError); return; }
+  if(amt < MIN_WITHDRAW){ showErr(t.minAmount); return; }
+  if(amt > bal){ showErr(t.balanceError); return; }
+  
+  bal = bal - amt; 
+  safeSet(BAL_KEY,bal); update();
+  
+  const finalReceive = amt - (amt * FEE_PERCENT); 
+  const historyItem = { amount: finalReceive, status: 'pending', date: Date.now() };
+  withdrawHistory.push(historyItem); safeSet(HISTORY_KEY, withdrawHistory); renderHistory(); 
+
+  alertBox.textContent=t.withdrawSuccess; alertBox.className='alert success'; alertBox.style.display='block';
+  details.value = ''; amountInput.value = '';
+  document.getElementById('calcAmount').textContent = '0.000';
+  document.getElementById('calcFee').textContent = '0.000';
+  document.getElementById('calcReceive').textContent = '0.000';
+  
+  setTimeout(()=> {
+      closeWithdrawForm();
+  }, 3000);
+};
+
+function showErr(msg){ alertBox.textContent=msg; alertBox.className='alert error'; alertBox.style.display='block'; }
+
+function openShareModal() {
+    const overlay = document.getElementById('shareModalOverlay');
+    overlay.style.display = 'flex'; setTimeout(() => overlay.classList.add('show'), 10);
+}
+function closeShareModal() {
+    const overlay = document.getElementById('shareModalOverlay');
+    overlay.classList.remove('show'); setTimeout(() => overlay.style.display = 'none', 500);
+}
+function shareOnTelegramAction() {
+    const t = TRANSLATIONS[currentLang];
+    const msg = t.shareMsg.replace('{LINK}', userRefLink);
+    window.open(`https://t.me/share/url?url=&text=${encodeURIComponent(msg)}`, '_blank'); closeShareModal();
+}
+function shareOnWhatsappAction() {
+    const t = TRANSLATIONS[currentLang];
+    const msg = t.shareMsg.replace('{LINK}', userRefLink);
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank'); closeShareModal();
+}
+function copyRefLinkAction() {
+    const t = TRANSLATIONS[currentLang];
+    const textarea = document.createElement("textarea");
+    textarea.value = userRefLink;
+    textarea.style.position = "fixed";
+    textarea.style.top = "0";
+    textarea.style.left = "0";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    
+    try {
+        const successful = document.execCommand('copy');
+        if(successful) {
+            const notifText = document.getElementById('taskNotificationText');
+            notifText.innerHTML = t.linkCopied;
+            document.querySelector('.notif-title').style.display = 'none';
+            document.getElementById('taskNotification').classList.add('notification-show');
+            setTimeout(() => { 
+                document.getElementById('taskNotification').classList.remove('notification-show'); 
+                document.querySelector('.notif-title').style.display = 'block';
+            }, 3000);
+        }
+    } catch (err) {}
+    
+    document.body.removeChild(textarea);
+    closeShareModal();
+}
+
+applyTranslations(currentLang); 
+setTimeout(()=>{
+  const s=document.getElementById("loadingScreen");
+  s.style.opacity="0"; setTimeout(()=>s.style.display="none",600);
+},2500);
+
+window.addEventListener('resize', () => {
+    const navMenu = document.querySelector('.menu');
+    if (window.innerHeight < 500) { navMenu.style.display = 'none'; } else { navMenu.style.display = 'flex'; }
+});
+</script>
+</body>
+</html>
