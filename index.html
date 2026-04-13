@@ -571,7 +571,6 @@ function toggleTheme() {
     applyTheme(!isDark);
 }
 
-// Bura default Ağ tema üçün dəyişdirildi
 applyTheme(safeGet(THEME_KEY, 'light') === 'dark');
 
 const USERNAME_KEY = `user_profile_name_${userRefId}`;
@@ -681,14 +680,26 @@ let resetTime = safeGet(RESET_KEY, null);
 let rewardMsgTimeout = null; 
 let isAdRunning = false; 
 
-function getNextResetTime(){
-  const now = new Date();
-  let resetUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0));
-  if(now.getTime() > resetUTC.getTime()){ resetUTC.setUTCDate(resetUTC.getUTCDate() + 1); }
-  return resetUTC.getTime();
+// --- YENİLƏNMİŞ DƏQİQ SIFIRLANMA FUNKSİYASI ---
+function getNextResetTime() {
+    // Hazırkı vaxt (dünyanın harasında olmasından asılı olmayaraq)
+    const now = new Date();
+    
+    // İstənilən istifadəçinin saat qurşağından asılı olmayaraq, 
+    // Qlobal olaraq hədəfimiz UTC 00:00:00 -dır. (Çünki Azərbaycan saatı UTC+4-dür, yəni UTC 00:00 = AZT 04:00 deməkdir).
+    let resetUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0));
+    
+    // Əgər istifadəçinin hazırkı vaxtı bugünkü təyin olunmuş UTC 00:00 (AZT 04:00) vaxtını keçibsə, 
+    // limiti növbəti günün eyni vaxtına sıfırlayırıq.
+    if(now.getTime() >= resetUTC.getTime()){
+        resetUTC.setUTCDate(resetUTC.getUTCDate() + 1); 
+    }
+    
+    return resetUTC.getTime();
 }
+// ------------------------------------------------
 
-if(!resetTime || Date.now() > resetTime){
+if(!resetTime || Date.now() >= resetTime){
   cnt=0; resetTime=getNextResetTime(); safeSet(RESET_KEY,resetTime); safeSet(COUNT_KEY,cnt);
 }
 
@@ -780,6 +791,13 @@ function formatTon(val) {
 }
 
 function update(){
+  // Hər çağırışda vaxtın sıfırlanıb-sıfırlanmadığını kontrol edirik
+  if(Date.now() >= resetTime){
+      cnt = 0;
+      resetTime = getNextResetTime();
+      safeSet(RESET_KEY, resetTime);
+  }
+
   const formattedBal = formatTon(bal);
   document.getElementById('balance').textContent = formattedBal;
   document.getElementById('balance2').textContent = formattedBal;
@@ -967,6 +985,9 @@ function restoreAdBtnState() {
 }
 
 adBtn.onclick = async () => {
+    // Tıklandıqda belə yenidən yoxlayırıq ki, bəlkə sıfırlanma vaxtı gəlib çatıb
+    update();
+    
     const t = TRANSLATIONS[currentLang];
     if (cnt >= MAX_ADS_PER_DAY) { msg.textContent = t.adLimitReached; return; }
     if (isAdRunning || adBtn.classList.contains('waiting')) return;
