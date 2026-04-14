@@ -192,10 +192,11 @@ body.dark-theme .toggle-thumb i { color: #0F172A; }
 .lang-select { background: var(--card-bg); border: 1.5px solid var(--card-border); color: var(--text-dark); font-weight: 700; padding: 8px 14px; border-radius: 12px; outline: none; cursor: pointer; font-family: 'Inter', sans-serif; appearance: none; -webkit-appearance: none; padding-right: 25px; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 8px center; background-size: 14px;}
 body.dark-theme .lang-select { background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F8FAFC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); }
 
-.profile-btn { width: 100%; padding: 18px; margin-bottom: 15px; border-radius: 20px; font-weight: 800; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; border: none; transition: transform 0.2s, box-shadow 0.2s;}
+.profile-btn { width: 100%; padding: 18px; margin-bottom: 12px; border-radius: 20px; font-weight: 800; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; border: none; transition: transform 0.2s, box-shadow 0.2s;}
 .profile-btn:active {transform: scale(0.98);}
 .profile-btn i { width: 20px; height: 20px; }
 .btn-share { background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); color: white; box-shadow: 0 8px 25px var(--btn-shadow); }
+.btn-promote { background: linear-gradient(135deg, #F59E0B, #D97706); color: white; box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3); }
 
 #form{display:none;}
 #form input{width:100%;padding:18px;margin:10px 0;border-radius:18px;border:1.5px solid var(--card-border);background:var(--input-bg);color:var(--input-text); font-size: 15px;font-weight: 600;outline: none;transition: all 0.3s; box-shadow: none; font-family: 'Inter', sans-serif;}
@@ -307,11 +308,20 @@ body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shad
 .notification-show {opacity: 1 !important;transform: translate(-50%, 0) !important; }
 .notification-hide {opacity: 0;transform: translate(-50%, -100px); }
 
+/* MODAL STYLES */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 9999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
 .modal-overlay.show { display: flex; opacity: 1; }
 .share-modal { background: var(--card-bg); width: 90%; max-width: 360px; border-radius: 32px; padding: 35px 25px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); border: 1.5px solid var(--card-border); transform: scale(0.95) translateY(20px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); text-align: center; }
 .modal-overlay.show .share-modal { transform: scale(1) translateY(0); }
 .share-modal-title { font-size: 20px; font-weight: 800; color: var(--text-dark); margin-bottom: 25px; }
+
+/* PROMOTE MODAL SPECIFIC */
+.promote-modal { background: var(--card-bg); width: 90%; max-width: 380px; border-radius: 32px; padding: 35px 25px 25px 25px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); border: 1.5px solid var(--card-border); transform: scale(0.95) translateY(20px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); text-align: left; position: relative; }
+.modal-overlay.show .promote-modal { transform: scale(1) translateY(0); }
+.close-modal-icon { position: absolute; top: 15px; right: 15px; background: var(--input-bg); border: none; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-muted); transition: all 0.2s; }
+.close-modal-icon:hover { background: #fee2e2; color: #ef4444; }
+.promote-content { font-size: 14.5px; color: var(--text-dark); line-height: 1.6; margin-bottom: 25px; font-weight: 600; }
+
 .share-btn-action { width: 100%; padding: 16px; border-radius: 20px; border: none; font-weight: 700; font-size: 15px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; color: #fff; transition: transform 0.2s;}
 .share-btn-action:active {transform: scale(0.98);}
 .share-btn-action.tg { background: linear-gradient(135deg, #2AABEE, #229ED9); box-shadow: 0 8px 20px rgba(34, 158, 217, 0.25); }
@@ -514,6 +524,10 @@ if(savedTheme === 'dark') {
         <button class="profile-btn btn-share" onclick="openShareModal()">
             <i data-lucide="user-plus"></i> <span data-translate-key="shareBtn">Invite Friends</span>
         </button>
+        
+        <button class="profile-btn btn-promote" onclick="openPromoteModal()">
+            <i data-lucide="megaphone"></i> <span data-translate-key="promoteBtn">Promote</span>
+        </button>
     </div>
   </div>
 </div>
@@ -555,6 +569,38 @@ if(savedTheme === 'dark') {
         
         <button class="share-btn-action close-modal" onclick="closeShareModal()">
             <span data-translate-key="close">Close</span>
+        </button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="promoteModalOverlay">
+    <div class="promote-modal">
+        <button class="close-modal-icon" onclick="closePromoteModal()">
+            <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+        </button>
+        
+        <div class="share-modal-title" style="text-align: center;" data-translate-key="promoteTitle">🚀 Advertise on Ton Play Bot!</div>
+        
+        <div class="promote-content" data-translate-key="promoteText">
+            Want to grow your project, channel, or bot?<br>
+            You’re in the right place! 🎯<br><br>
+            
+            🎯 Reach a wide audience<br>
+            📈 Boost your growth fast<br>
+            💸 Effective and affordable advertising options<br><br>
+            
+            💎 Advertising Packages (in TON Coin):<br>
+            • 1 Week — 3 TON<br>
+            • 1 Month — 12 TON<br>
+            • 3 Months — 33 TON<br>
+            • 6 Months — 62 TON<br><br>
+            
+            📩 Contact us now to get started<br><br>
+            🚀 Take your project to the next level with Ton Play!
+        </div>
+        
+        <button class="share-btn-action tg" onclick="window.open('https://t.me/ton_playsupport', '_blank')">
+            <i data-lucide="message-square" style="width:18px; height:18px;"></i> <span data-translate-key="contactBtn">Contact</span>
         </button>
     </div>
 </div>
@@ -628,7 +674,6 @@ if (!currentLang || !['en', 'tr', 'ru'].includes(currentLang)) {
 }
 document.getElementById('langSelect').value = currentLang;
 
-// Mətni istəyə uyğunlaşdıraraq qaranlıq rejimi hər dildə "Tema" kimi adlandırdıq
 const TRANSLATIONS = {
     'en': {
         yourBalance: 'Your Balance', dailyAdsHeader: 'Daily Ads',
@@ -649,7 +694,11 @@ const TRANSLATIONS = {
         guestUser: 'User', theme: 'Theme', language: 'Language',
         withdrawHistory: 'Withdrawal History', pending: 'Pending', emptyHistory: 'History is empty',
         shareBtn: 'Invite Friends', shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Close',
-        shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nWatch daily ads and start earning 💰\nTON coins effortlessly. No complex steps just watch, complete, and grow your balance!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\nTurn your free time into profit 🔥 👇 Join now and start earning!\n\n🔗 Link: {LINK}"
+        shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nWatch daily ads and start earning 💰\nTON coins effortlessly. No complex steps just watch, complete, and grow your balance!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\nTurn your free time into profit 🔥 👇 Join now and start earning!\n\n🔗 Link: {LINK}",
+        promoteBtn: 'Promote',
+        promoteTitle: '🚀 Advertise on Ton Play Bot!',
+        promoteText: "Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable advertising options<br><br>💎 Advertising Packages (in TON Coin):<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>📩 Contact us now to get started<br><br>🚀 Take your project to the next level with Ton Play!",
+        contactBtn: 'Contact'
     },
     'tr': {
         yourBalance: 'Bakiyeniz', dailyAdsHeader: 'Günlük Reklamlar',
@@ -670,7 +719,11 @@ const TRANSLATIONS = {
         guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil',
         withdrawHistory: 'Çekim Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş',
         shareBtn: 'Arkadaşlarını Davet Et', shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Kapat',
-        shareMsg: "🚀 TonPlay ile basit, hızlı, gerçek ödüller kazanın!\n\nGünlük reklamları izleyin ve zahmetsizce 💰 TON coin kazanmaya başlayın. Karmaşık adımlar yok, sadece izleyin, tamamlayın ve bakiyenizi büyütün!\n\n✨ Kolay ve kullanıcı dostu sistem\n🎯 Günlük kazanma fırsatları\n💎 Gerçek ödüller, gerçek sonuçlar\n\nBoş zamanınızı kazanca dönüştürün 🔥 👇 Şimdi katılın ve kazanmaya başlayın!\n\n🔗 Link: {LINK}"
+        shareMsg: "🚀 TonPlay ile basit, hızlı, gerçek ödüller kazanın!\n\nGünlük reklamları izleyin ve zahmetsizce 💰 TON coin kazanmaya başlayın. Karmaşık adımlar yok, sadece izleyin, tamamlayın ve bakiyenizi büyütün!\n\n✨ Kolay ve kullanıcı dostu sistem\n🎯 Günlük kazanma fırsatları\n💎 Gerçek ödüller, gerçek sonuçlar\n\nBoş zamanınızı kazanca dönüştürün 🔥 👇 Şimdi katılın ve kazanmaya başlayın!\n\n🔗 Link: {LINK}",
+        promoteBtn: 'Reklam Ver',
+        promoteTitle: "🚀 Ton Play Bot'ta Reklam Verin!",
+        promoteText: "Projenizi, kanalınızı veya botunuzu büyütmek mi istiyorsunuz?<br>Doğru yerdesiniz! 🎯<br><br>🎯 Geniş bir kitleye ulaşın<br>📈 Büyümenizi hızlandırın<br>💸 Etkili ve uygun fiyatlı reklam seçenekleri<br><br>💎 Reklam Paketleri (TON Coin ile):<br>• 1 Hafta — 3 TON<br>• 1 Ay — 12 TON<br>• 3 Ay — 33 TON<br>• 6 Ay — 62 TON<br><br>📩 Başlamak için hemen iletişime geçin<br><br>🚀 Projenizi Ton Play ile bir sonraki seviyeye taşıyın!",
+        contactBtn: 'İletişim'
     },
     'ru': { 
         yourBalance: 'Ваш Баланс', dailyAdsHeader: 'Ежедневная Реклама',
@@ -691,7 +744,11 @@ const TRANSLATIONS = {
         guestUser: 'Пользователь', theme: 'Тема', language: 'Язык',
         withdrawHistory: 'История Выводов', pending: 'В ожидании', emptyHistory: 'История пуста',
         shareBtn: 'Пригласить Друзей', shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Закрыть',
-        shareMsg: "🚀 Зарабатывайте с TonPlay: просто, быстро, реальные награды!\n\nСмотрите ежедневную рекламу и начните легко зарабатывать 💰 TON. Никаких сложных шагов — просто смотрите, выполняйте и увеличивайте свой баланс!\n\n✨ Удобная система\n🎯 Ежедневные возможности\n💎 Реальные награды\n\nПревратите свободное время в прибыль 🔥 👇 Присоединяйтесь и начните зарабатывать!\n\n🔗 Ссылка: {LINK}"
+        shareMsg: "🚀 Зарабатывайте с TonPlay: просто, быстро, реальные награды!\n\nСмотрите ежедневную рекламу и начните легко зарабатывать 💰 TON. Никаких сложных шагов — просто смотрите, выполняйте и увеличивайте свой баланс!\n\n✨ Удобная система\n🎯 Ежедневные возможности\n💎 Реальные награды\n\nПревратите свободное время в прибыль 🔥 👇 Присоединяйтесь и начните зарабатывать!\n\n🔗 Ссылка: {LINK}",
+        promoteBtn: 'Реклама',
+        promoteTitle: '🚀 Разместите рекламу в Ton Play Bot!',
+        promoteText: "Хотите развить свой проект, канал или бота?<br>Вы в правильном месте! 🎯<br><br>🎯 Охватите широкую аудиторию<br>📈 Быстро ускорьте свой рост<br>💸 Эффективные и доступные варианты рекламы<br><br>💎 Рекламные пакеты (в TON Coin):<br>• 1 Неделя — 3 TON<br>• 1 Месяц — 12 TON<br>• 3 Месяца — 33 TON<br>• 6 Месяцев — 62 TON<br><br>📩 Свяжитесь с нами прямо сейчас, чтобы начать<br><br>🚀 Выведите свой проект на новый уровень с Ton Play!",
+        contactBtn: 'Связаться'
     }
 };
 
@@ -749,6 +806,18 @@ function openShareModal() {
 
 function closeShareModal() {
     const overlay = document.getElementById('shareModalOverlay');
+    overlay.classList.remove('show');
+    setTimeout(() => overlay.style.display = 'none', 300);
+}
+
+function openPromoteModal() {
+    const overlay = document.getElementById('promoteModalOverlay');
+    overlay.style.display = 'flex';
+    setTimeout(() => overlay.classList.add('show'), 10);
+}
+
+function closePromoteModal() {
+    const overlay = document.getElementById('promoteModalOverlay');
     overlay.classList.remove('show');
     setTimeout(() => overlay.style.display = 'none', 300);
 }
@@ -1158,49 +1227,39 @@ function runLoadingScreen() {
     
     const coinSrc = "https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg";
     
-    // Təsadüfi coin yaradan funksiya
     function createCoin(isInitial) {
         const coin = document.createElement('img');
         coin.src = coinSrc;
         coin.className = 'falling-coin';
         
-        // Ekranda sağa və ya sola təsadüfi olaraq yerləşməsi (0-dan 100vw-ə qədər)
         coin.style.left = (Math.random() * 100) + 'vw';
         
-        // Ölçülər fərqli olsun ki, 3D/Paralaks effekti yaratsın (15px - 40px)
         const size = Math.random() * 25 + 15;
         coin.style.width = size + 'px';
         coin.style.height = size + 'px';
         
-        // Düşmə sürəti - 1.5 ilə 3.5 saniyə arasında
         const duration = Math.random() * 2 + 1.5;
         coin.style.animationDuration = duration + 's';
         
-        // Arxa planda olanların şəffaflığı fərqli olsun
         coin.style.opacity = (Math.random() * 0.5 + 0.3).toString();
 
-        // Ekran açılanda dərhal yağış damlası kimi görünməsi üçün mənfi delay
         if (isInitial) {
             coin.style.animationDelay = '-' + (Math.random() * duration) + 's';
         }
 
         container.appendChild(coin);
         
-        // Animasiya bitdikdən sonra silmək
         setTimeout(() => { if(coin.parentNode) coin.remove(); }, duration * 1000);
     }
 
-    // Əvvəlcədən 20 coin yaradaq ki, yüklənən kimi ekran boş görünməsin
     for(let i=0; i<20; i++) {
         createCoin(true);
     }
 
-    // Hər 150ms-də bir yeni coin düşür (Mütəmadi yağış)
     const coinInterval = setInterval(() => {
         createCoin(false);
     }, 150);
 
-    // Tam 5 saniyə sonra ekran bağlanır
     setTimeout(()=>{
         clearInterval(coinInterval);
         container.style.opacity="0"; 
