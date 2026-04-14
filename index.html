@@ -24,11 +24,10 @@ if (window.Telegram && window.Telegram.WebApp) {
 <style>
 /* --- PREMIUM FINTECH RƏNG DƏYİŞƏNLƏRİ (VARS) --- */
 :root {
-  /* LIGHT TEMA - AĞ VƏ MAVİ (Arxa plan bir az boz-mavi, kartlar tam ağdır ki seçilsin) */
   --bg-start: #E8F0F8; 
   --bg-end: #D6E4F0;   
   --card-bg: #FFFFFF; 
-  --card-border: rgba(0, 152, 234, 0.2); /* Kartları fərqləndirən mavi çərçivə */
+  --card-border: rgba(0, 152, 234, 0.2);
   --text-light: #FFFFFF;
   --text-dark: #0F172A;
   --text-muted: #64748B;
@@ -47,12 +46,12 @@ if (window.Telegram && window.Telegram.WebApp) {
   --notification-text: #FFFFFF; 
 }
 
-/* DEEP FINTECH DARK TEMA - TÜND GÖY VƏ NEON MAVİ (Qara rənglər ayrılır) */
+/* DEEP FINTECH DARK TEMA */
 body.dark-theme {
-  --bg-start: #080F1D; /* Çox tünd göy arxa plan */
+  --bg-start: #080F1D;
   --bg-end: #04080F;   
-  --card-bg: #111827; /* Kartlar arxa plandan daha açıq rəngdədir */
-  --card-border: rgba(56, 189, 248, 0.25); /* Fərqləndirici neon mavi çərçivə */
+  --card-bg: #111827;
+  --card-border: rgba(56, 189, 248, 0.25);
   --text-light: #F8FAFC;
   --text-dark: #F8FAFC;
   --text-muted: #94A3B8;
@@ -60,7 +59,7 @@ body.dark-theme {
   --menu-bg: rgba(17, 24, 39, 0.95);
   --progress-bg: rgba(56, 189, 248, 0.15);
   --input-text: #F8FAFC; 
-  --input-bg: #1F2937; /* İnputlar kartlardan da fərqlidir */
+  --input-bg: #1F2937;
   
   --btn-shadow: rgba(56, 189, 248, 0.25); 
   --notification-bg: #00A8FF; 
@@ -93,15 +92,15 @@ body{
   border-radius:28px;
   padding:30px 20px;
   margin-bottom:20px;
-  box-shadow:0 8px 30px rgba(0, 152, 234, 0.05); /* Yüngül mavi kölgə */
+  box-shadow:0 8px 30px rgba(0, 152, 234, 0.05);
   backdrop-filter:blur(20px);
   -webkit-backdrop-filter:blur(20px);
   text-align:center;
-  border:1.5px solid var(--card-border); /* Qalınlaşdırılmış fərqləndirici çərçivə */
+  border:1.5px solid var(--card-border);
   transition: background-color 0.5s, border-color 0.5s, box-shadow 0.5s;
 }
 body.dark-theme .balance-card, body.dark-theme .ad-card, body.dark-theme .profile-card {
-  box-shadow:0 8px 30px rgba(0,0,0,0.4), 0 0 15px rgba(56, 189, 248, 0.05); /* Tünd mövzuda dərinlik */
+  box-shadow:0 8px 30px rgba(0,0,0,0.4), 0 0 15px rgba(56, 189, 248, 0.05);
 }
 
 .balance-card h3{font-size:14px;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:1.5px; font-weight: 800;}
@@ -228,7 +227,7 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 .history-status { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 10px; background: rgba(245, 158, 11, 0.1); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.2); letter-spacing: 0.3px;}
 .history-empty { text-align: center; font-size: 14px; color: var(--text-muted); padding: 30px 20px; font-weight: 600; background: var(--input-bg); border-radius: 18px; border: 1px dashed var(--card-border);}
 
-/* YENİ TAM EKRAN LOADING EKRANI */
+/* YENİ TAM EKRAN LOADING EKRANI VƏ NORMAL YAĞIŞ EFFEKTİ */
 #loadingScreen {
     position: fixed;
     top: 0; left: 0;
@@ -244,24 +243,22 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
-    overflow: hidden; /* Düşən coinlər üçün */
+    overflow: hidden; 
 }
 
-/* Yuxarıdan düşən animasiyalı coinlər */
+/* Yenilənmiş düşən yağış coinləri */
 .falling-coin {
     position: absolute;
-    top: -50px;
+    top: -50px; /* Ekrandan yuxarıda başlayır */
     border-radius: 50%;
     pointer-events: none;
     animation: fall linear forwards;
-    opacity: 0.7;
-    box-shadow: 0 0 15px rgba(0, 152, 234, 0.4);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    z-index: 1; /* Loqonun arxasında qalması üçün */
 }
 @keyframes fall {
-    0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.8; }
-    90% { opacity: 0.8; }
-    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    0% { transform: translateY(-50px) rotate(0deg); }
+    100% { transform: translateY(120vh) rotate(360deg); }
 }
 
 .loader-logo {
@@ -301,7 +298,6 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 .loader-fill {
     position: absolute; top:0; left:0; height:100%; width:0%; border-radius:10px; 
     background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); 
-    /* DÜZ 5 SANİYƏYƏ NORMAL SÜRƏTLƏ (linear) DOLUR */
     animation: fillAnim 5s linear forwards; 
 }
 @keyframes fillAnim{0%{width:0%;} 100%{width:100%;}}
@@ -495,7 +491,7 @@ if(savedTheme === 'dark') {
             <div class="setting-item">
                 <div class="setting-info">
                     <span class="setting-icon"><i data-lucide="moon"></i></span>
-                    <span data-translate-key="theme">Dark Mode</span>
+                    <span data-translate-key="theme">Theme</span>
                 </div>
                 <div class="toggle-switch" onclick="toggleTheme()">
                     <div class="toggle-thumb" id="themeThumb"><i data-lucide="moon"></i></div>
@@ -632,6 +628,7 @@ if (!currentLang || !['en', 'tr', 'ru'].includes(currentLang)) {
 }
 document.getElementById('langSelect').value = currentLang;
 
+// Mətni istəyə uyğunlaşdıraraq qaranlıq rejimi hər dildə "Tema" kimi adlandırdıq
 const TRANSLATIONS = {
     'en': {
         yourBalance: 'Your Balance', dailyAdsHeader: 'Daily Ads',
@@ -649,7 +646,7 @@ const TRANSLATIONS = {
         home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile',
         placeholderDetails_ton: 'Your TON Wallet Address', placeholderAmount: 'Amount (Min 3 TON)',
         taskSuccess: (r) => `✅ Task Completed! ${r} added.`,
-        guestUser: 'User', theme: 'Dark Mode', language: 'Language',
+        guestUser: 'User', theme: 'Theme', language: 'Language',
         withdrawHistory: 'Withdrawal History', pending: 'Pending', emptyHistory: 'History is empty',
         shareBtn: 'Invite Friends', shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Close',
         shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nWatch daily ads and start earning 💰\nTON coins effortlessly. No complex steps just watch, complete, and grow your balance!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\nTurn your free time into profit 🔥 👇 Join now and start earning!\n\n🔗 Link: {LINK}"
@@ -670,7 +667,7 @@ const TRANSLATIONS = {
         home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil',
         placeholderDetails_ton: 'TON Cüzdan Adresiniz', placeholderAmount: 'Miktar (Min 3 TON)',
         taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} eklendi.`,
-        guestUser: 'Kullanıcı', theme: 'Karanlık Mod', language: 'Dil',
+        guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil',
         withdrawHistory: 'Çekim Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş',
         shareBtn: 'Arkadaşlarını Davet Et', shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Kapat',
         shareMsg: "🚀 TonPlay ile basit, hızlı, gerçek ödüller kazanın!\n\nGünlük reklamları izleyin ve zahmetsizce 💰 TON coin kazanmaya başlayın. Karmaşık adımlar yok, sadece izleyin, tamamlayın ve bakiyenizi büyütün!\n\n✨ Kolay ve kullanıcı dostu sistem\n🎯 Günlük kazanma fırsatları\n💎 Gerçek ödüller, gerçek sonuçlar\n\nBoş zamanınızı kazanca dönüştürün 🔥 👇 Şimdi katılın ve kazanmaya başlayın!\n\n🔗 Link: {LINK}"
@@ -691,7 +688,7 @@ const TRANSLATIONS = {
         home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль',
         placeholderDetails_ton: 'Ваш TON Адрес', placeholderAmount: 'Сумма (Мин 3 TON)',
         taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено.`,
-        guestUser: 'Пользователь', theme: 'Темный Режим', language: 'Язык',
+        guestUser: 'Пользователь', theme: 'Тема', language: 'Язык',
         withdrawHistory: 'История Выводов', pending: 'В ожидании', emptyHistory: 'История пуста',
         shareBtn: 'Пригласить Друзей', shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Закрыть',
         shareMsg: "🚀 Зарабатывайте с TonPlay: просто, быстро, реальные награды!\n\nСмотрите ежедневную рекламу и начните легко зарабатывать 💰 TON. Никаких сложных шагов — просто смотрите, выполняйте и увеличивайте свой баланс!\n\n✨ Удобная система\n🎯 Ежедневные возможности\n💎 Реальные награды\n\nПревратите свободное время в прибыль 🔥 👇 Присоединяйтесь и начните зарабатывать!\n\n🔗 Ссылка: {LINK}"
@@ -1154,28 +1151,56 @@ update();
 applyTranslations(currentLang); 
 restoreAdBtnState();
 
-// --- YENİ 5 SANİYƏLİK LOADING EKRANI VƏ DÜŞƏN COİNLƏR ---
+// --- TƏKMİLLƏŞDİRİLMİŞ YAĞIŞ EFFEKTİ İLƏ EKRAN YÜKLƏNMƏSİ ---
 function runLoadingScreen() {
     const container = document.getElementById('loadingScreen');
     if(!container) return;
     
-    // Yuxarıdan düşən coinlərin yaradılması
     const coinSrc = "https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg";
-    const coinInterval = setInterval(() => {
+    
+    // Təsadüfi coin yaradan funksiya
+    function createCoin(isInitial) {
         const coin = document.createElement('img');
         coin.src = coinSrc;
         coin.className = 'falling-coin';
-        coin.style.left = (Math.random() * 90 + 5) + 'vw'; // Ekranda sağa sola təsadüfi
-        coin.style.animationDuration = (Math.random() * 2 + 1.5) + 's'; // 1.5 - 3.5 saniyə arası düşmə sürəti
-        const size = Math.random() * 20 + 25; // 25px - 45px arası böyüklük
+        
+        // Ekranda sağa və ya sola təsadüfi olaraq yerləşməsi (0-dan 100vw-ə qədər)
+        coin.style.left = (Math.random() * 100) + 'vw';
+        
+        // Ölçülər fərqli olsun ki, 3D/Paralaks effekti yaratsın (15px - 40px)
+        const size = Math.random() * 25 + 15;
         coin.style.width = size + 'px';
         coin.style.height = size + 'px';
+        
+        // Düşmə sürəti - 1.5 ilə 3.5 saniyə arasında
+        const duration = Math.random() * 2 + 1.5;
+        coin.style.animationDuration = duration + 's';
+        
+        // Arxa planda olanların şəffaflığı fərqli olsun
+        coin.style.opacity = (Math.random() * 0.5 + 0.3).toString();
+
+        // Ekran açılanda dərhal yağış damlası kimi görünməsi üçün mənfi delay
+        if (isInitial) {
+            coin.style.animationDelay = '-' + (Math.random() * duration) + 's';
+        }
+
         container.appendChild(coin);
         
-        setTimeout(() => { if(coin.parentNode) coin.remove(); }, 4000);
-    }, 250); // Hər 250ms-də bir yeni coin düşür
+        // Animasiya bitdikdən sonra silmək
+        setTimeout(() => { if(coin.parentNode) coin.remove(); }, duration * 1000);
+    }
 
-    // TAM 5 SANİYƏ (5000ms) SONRA EKRAN BAĞLANIR
+    // Əvvəlcədən 20 coin yaradaq ki, yüklənən kimi ekran boş görünməsin
+    for(let i=0; i<20; i++) {
+        createCoin(true);
+    }
+
+    // Hər 150ms-də bir yeni coin düşür (Mütəmadi yağış)
+    const coinInterval = setInterval(() => {
+        createCoin(false);
+    }, 150);
+
+    // Tam 5 saniyə sonra ekran bağlanır
     setTimeout(()=>{
         clearInterval(coinInterval);
         container.style.opacity="0"; 
