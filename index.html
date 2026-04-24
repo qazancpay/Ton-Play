@@ -394,15 +394,15 @@ if(savedTheme === 'dark') {
     <div id="adRewardNotificationContainer"></div> 
     <div class="ad-card"> 
       <h2 data-translate-key="dailyAdsHeader">Daily Ads</h2>
-      <p id="adRewardText" data-translate-key="adReward">Earn <b>0.002 TON</b> for each ad</p>
+      <p id="adRewardText" data-translate-key="adReward">Earn <b>0.1 TON</b> for each ad</p>
       
       <div class="stats">
         <div class="stat"><span id="adsCount">0</span><label data-translate-key="watched">Watched</label></div>
-        <div class="stat"><span data-translate-key="maxCount">50</span><label data-translate-key="maximum">Maximum</label></div>
+        <div class="stat"><span data-translate-key="maxCount">100</span><label data-translate-key="maximum">Maximum</label></div>
       </div>
       
       <div class="progress"><div class="progress-fill" id="progress"></div></div>
-      <p style="margin-top:12px; font-weight:700; color: var(--text-dark); font-size: 14px;" data-translate-key="progressText">Progress: <span id="progressTextSpan">0/50</span></p>
+      <p style="margin-top:12px; font-weight:700; color: var(--text-dark); font-size: 14px;" data-translate-key="progressText">Progress: <span id="progressTextSpan">0/100</span></p>
       
       <button id="adBtn" class="ad-btn">
         <span class="ad-btn-content">
@@ -430,7 +430,7 @@ if(savedTheme === 'dark') {
                     <div class="task-icon"><i data-lucide="users" style="width:20px;height:20px;"></i></div>
                     <span data-translate-key="joinCommunityTitle">Join Community</span>
                 </div>
-                <div class="task-reward-badge" id="taskJoinRewardBadge">0.10 TON</div>
+                <div class="task-reward-badge" id="taskJoinRewardBadge">1.00 TON</div>
             </div>
             <div class="task-desc" data-translate-key="joinCommunityDesc">Join our official community channel and earn!</div>
             <button id="joinBtn" class="task-btn action">
@@ -458,7 +458,7 @@ if(savedTheme === 'dark') {
           <div class="method" data-type="ton">
               <img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" alt="TON" class="method-logo" draggable="false">
               <span class="method-text">TON Coin</span>
-              <span class="min-withdraw-label" data-translate-key="minTonLabel">Min: 3 TON</span>
+              <span class="min-withdraw-label" data-translate-key="minTonLabel">Min: 100 TON</span>
           </div>
         </div>
     </div>
@@ -472,7 +472,7 @@ if(savedTheme === 'dark') {
       <h3 style="margin-bottom: 18px; font-weight: 800; color: var(--text-dark); font-size: 18px;" data-translate-key="withdrawTonTitle">Withdraw TON</h3>
       
       <input id="details" placeholder="Your TON Wallet Address" type="text">
-      <input id="amount" type="number" step="0.1" placeholder="Amount (Min 3 TON)">
+      <input id="amount" type="number" step="0.1" placeholder="Amount (Min 100 TON)">
       
       <div id="feeCalcBox" class="fee-calc-box">
           <span style="color:var(--text-muted); font-weight:500;" data-translate-key="feeText">Network Fee (5%):</span> <span id="feeAmount">0.00</span> TON<br>
@@ -671,10 +671,10 @@ const JOIN_COMMUNITY_KEY = `joined_ton_community_${userRefId}`;
 const REWARD_MSG_KEY = `rewardMsgExpire_ton_${userRefId}`;
 const HISTORY_KEY = `withdraw_history_ton_${userRefId}`;
 
-const REWARD_PER_AD = 0.002;
-const MAX_ADS_PER_DAY = 50;
-const TASK_REWARD = 0.10;
-const MIN_WITHDRAW = 3;
+const REWARD_PER_AD = 0.1;
+const MAX_ADS_PER_DAY = 100;
+const TASK_REWARD = 1.0;
+const MIN_WITHDRAW = 100;
 const FEE_PERCENT = 0.05;
 
 let withdrawHistory = safeGet(HISTORY_KEY, []);
@@ -689,19 +689,19 @@ document.getElementById('langSelect').value = currentLang;
 const TRANSLATIONS = {
     'en': {
         yourBalance: 'Your Balance', dailyAdsHeader: 'Daily Ads',
-        adReward: 'Earn <b>0.002 TON</b> for each ad',
-        watched: 'Watched', maximum: 'Maximum', maxCount: '50', progressText: 'Progress:',
+        adReward: 'Earn <b>0.1 TON</b> for each ad',
+        watched: 'Watched', maximum: 'Maximum', maxCount: '100', progressText: 'Progress:',
         watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!',
         rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ Wait {s}s',
         joinCommunityTitle: 'Join Community', joinCommunityDesc: 'Join our official community channel and earn!',
         joinBtnText: 'Join Channel', completed: 'Completed',
-        withdrawTitle: 'Withdrawal', selectMethod: 'Select withdrawal method', minTonLabel: 'Min: 3 TON',
+        withdrawTitle: 'Withdrawal', selectMethod: 'Select withdrawal method', minTonLabel: 'Min: 100 TON',
         back: 'Back', withdrawTonTitle: 'Withdraw TON', withdraw: 'Withdraw', feeText: 'Network Fee (5%):', receiveText: 'You will receive:',
         methodError: 'Select a method', detailsError: 'Enter valid TON address', amountError: 'Enter correct amount',
-        minAmount: 'Minimum withdrawal is 3 TON', balanceError: 'Insufficient balance',
+        minAmount: 'Minimum withdrawal is 100 TON', balanceError: 'Insufficient balance',
         withdrawSuccess: '✅ Withdrawal requested! It will be processed soon.',
         home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile',
-        placeholderDetails_ton: 'Your TON Wallet Address', placeholderAmount: 'Amount (Min 3 TON)',
+        placeholderDetails_ton: 'Your TON Wallet Address', placeholderAmount: 'Amount (Min 100 TON)',
         taskSuccess: (r) => `✅ Task Completed! ${r} added.`,
         guestUser: 'User', theme: 'Theme', language: 'Language',
         withdrawHistory: 'Withdrawal History', pending: 'Pending', emptyHistory: 'History is empty',
@@ -714,19 +714,19 @@ const TRANSLATIONS = {
     },
     'tr': {
         yourBalance: 'Bakiyeniz', dailyAdsHeader: 'Günlük Reklamlar',
-        adReward: 'Her reklam için <b>0.002 TON</b> kazanın',
-        watched: 'İzlenen', maximum: 'Maksimum', maxCount: '50', progressText: 'İlerleme:',
+        adReward: 'Her reklam için <b>0.1 TON</b> kazanın',
+        watched: 'İzlenen', maximum: 'Maksimum', maxCount: '100', progressText: 'İlerleme:',
         watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!',
         rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin',
         joinCommunityTitle: 'Topluluğa Katıl', joinCommunityDesc: 'Resmi topluluk kanalımıza katılın ve kazanın!',
         joinBtnText: 'Kanala Katıl', completed: 'Tamamlandı',
-        withdrawTitle: 'Para Çekme', selectMethod: 'Çekim yöntemi seçin', minTonLabel: 'Min: 3 TON',
+        withdrawTitle: 'Para Çekme', selectMethod: 'Çekim yöntemi seçin', minTonLabel: 'Min: 100 TON',
         back: 'Geri', withdrawTonTitle: 'TON Çek', withdraw: 'Çekim Yap', feeText: 'Ağ Ücreti (5%):', receiveText: 'Alacağınız:',
         methodError: 'Yöntem seçin', detailsError: 'Geçerli TON adresi girin', amountError: 'Miktarı doğru girin',
-        minAmount: 'Minimum çekim 3 TON', balanceError: 'Yetersiz bakiye',
+        minAmount: 'Minimum çekim 100 TON', balanceError: 'Yetersiz bakiye',
         withdrawSuccess: '✅ Çekim talebi alındı! Yakında işlenecektir.',
         home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil',
-        placeholderDetails_ton: 'TON Cüzdan Adresiniz', placeholderAmount: 'Miktar (Min 3 TON)',
+        placeholderDetails_ton: 'TON Cüzdan Adresiniz', placeholderAmount: 'Miktar (Min 100 TON)',
         taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} eklendi.`,
         guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil',
         withdrawHistory: 'Çekim Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş',
@@ -739,19 +739,19 @@ const TRANSLATIONS = {
     },
     'ru': { 
         yourBalance: 'Ваш Баланс', dailyAdsHeader: 'Ежедневная Реклама',
-        adReward: 'Зарабатывайте <b>0.002 TON</b> за рекламу',
-        watched: 'Просмотрено', maximum: 'Максимум', maxCount: '50', progressText: 'Прогресс:',
+        adReward: 'Зарабатывайте <b>0.1 TON</b> за рекламу',
+        watched: 'Просмотрено', maximum: 'Максимум', maxCount: '100', progressText: 'Прогресс:',
         watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут лимит!',
         rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ Ожидайте {s}с',
         joinCommunityTitle: 'Присоединиться к сообществу', joinCommunityDesc: 'Вступайте в наше официальное сообщество и зарабатывайте!',
         joinBtnText: 'Подписаться', completed: 'Выполнено',
-        withdrawTitle: 'Вывод Средств', selectMethod: 'Выберите способ вывода', minTonLabel: 'Мин: 3 TON',
+        withdrawTitle: 'Вывод Средств', selectMethod: 'Выберите способ вывода', minTonLabel: 'Мин: 100 TON',
         back: 'Назад', withdrawTonTitle: 'Вывести TON', withdraw: 'Вывести', feeText: 'Комиссия сети (5%):', receiveText: 'Вы получите:',
         methodError: 'Выберите способ', detailsError: 'Введите верный TON адрес', amountError: 'Введите правильную сумму',
-        minAmount: 'Минимальный вывод 3 TON', balanceError: 'Недостаточно средств',
+        minAmount: 'Минимальный вывод 100 TON', balanceError: 'Недостаточно средств',
         withdrawSuccess: '✅ Заявка отправлена! Будет обработана скоро.',
         home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль',
-        placeholderDetails_ton: 'Ваш TON Адрес', placeholderAmount: 'Сумма (Мин 3 TON)',
+        placeholderDetails_ton: 'Ваш TON Адрес', placeholderAmount: 'Сумма (Мин 100 TON)',
         taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено.`,
         guestUser: 'Пользователь', theme: 'Тема', language: 'Язык',
         withdrawHistory: 'История Выводов', pending: 'В ожидании', emptyHistory: 'История пуста',
