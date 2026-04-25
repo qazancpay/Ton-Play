@@ -6,6 +6,7 @@
 <title id="pageTitle">Ton Play</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
 <script>
 if (window.Telegram && window.Telegram.WebApp) {
@@ -81,11 +82,32 @@ body{
   padding-bottom: 90px; 
 }
 
-.container{max-width:480px;margin:auto;padding:40px 20px 20px;} 
+.container{max-width:480px;margin:auto;padding:40px 20px 20px; position: relative;} 
 
-.page{display:none;animation:fadeIn .4s cubic-bezier(0.16, 1, 0.3, 1);}
-.page.active{display:block;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
+/* YENİLƏNMİŞ SƏLİS SƏHİFƏ KEÇİDLƏRİ ÜÇÜN CSS */
+.page {
+  display: none;
+}
+.page.active {
+  display: block;
+  animation: smoothFadeIn .4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.page.fading-out {
+  animation: smoothFadeOut .3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  display: block;
+  position: absolute;
+  width: calc(100% - 40px); /* Padding adjustment */
+  top: 40px;
+}
+
+@keyframes smoothFadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes smoothFadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-10px); }
+}
 
 /* KART DİZAYNLARI */
 .balance-card, .ad-card, .profile-card{
@@ -229,7 +251,6 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 .history-status { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 10px; background: rgba(245, 158, 11, 0.1); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.2); letter-spacing: 0.3px;}
 .history-empty { text-align: center; font-size: 14px; color: var(--text-muted); padding: 30px 20px; font-weight: 600; background: var(--input-bg); border-radius: 18px; border: 1px dashed var(--card-border);}
 
-/* YENİ TAM EKRAN LOADING EKRANI VƏ NORMAL YAĞIŞ EFFEKTİ */
 #loadingScreen {
     position: fixed;
     top: 0; left: 0;
@@ -248,15 +269,14 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
     overflow: hidden; 
 }
 
-/* Yenilənmiş düşən yağış coinləri */
 .falling-coin {
     position: absolute;
-    top: -50px; /* Ekrandan yuxarıda başlayır */
+    top: -50px; 
     border-radius: 50%;
     pointer-events: none;
     animation: fall linear forwards;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-    z-index: 1; /* Loqonun arxasında qalması üçün */
+    z-index: 1; 
 }
 @keyframes fall {
     0% { transform: translateY(-50px) rotate(0deg); }
@@ -309,7 +329,6 @@ body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shad
 .notification-show {opacity: 1 !important;transform: translate(-50%, 0) !important; }
 .notification-hide {opacity: 0;transform: translate(-50%, -100px); }
 
-/* MODAL STYLES - DONMA(KASMA) PROBLEMI BURADA HƏLL EDİLDİ */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 9999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; will-change: opacity; }
 .modal-overlay.show { display: flex; opacity: 1; }
 
@@ -317,11 +336,9 @@ body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shad
 .modal-overlay.show .share-modal { transform: scale(1) translateY(0); }
 .share-modal-title { font-size: 20px; font-weight: 800; color: var(--text-dark); margin-bottom: 25px; }
 
-/* PROMOTE MODAL SPECIFIC - 'X' BUTONUNUN YAZIYA ÇIXMASI HƏLL EDİLDİ */
 .promote-modal { background: var(--card-bg); width: 90%; max-width: 380px; border-radius: 32px; padding: 60px 25px 25px 25px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); border: 1.5px solid var(--card-border); transform: scale(0.95) translateY(20px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity; text-align: left; position: relative; }
 .modal-overlay.show .promote-modal { transform: scale(1) translateY(0); }
 
-/* DAHA KEYFİYYƏTLİ VƏ GÖRÜNƏN X BUTONU */
 .close-modal-icon { position: absolute; top: 16px; right: 16px; background: var(--input-bg); border: 1.5px solid var(--card-border); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-dark); transition: transform 0.2s, background-color 0.2s, color 0.2s; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 .close-modal-icon:hover { background: #fee2e2; color: #ef4444; border-color: #fca5a5; transform: scale(1.05); }
 .close-modal-icon:active { transform: scale(0.95); }
@@ -449,6 +466,8 @@ if(savedTheme === 'dark') {
           <div class="currency">TON</div>
       </div>
     </div>
+
+    <div id="ton-connect-btn" style="display: flex; justify-content: center; margin-bottom: 25px;"></div>
     
     <div id="methodsContainer">
         <h2 style="text-align:center;margin-bottom:8px;color:var(--text-dark);font-weight:800; font-size:20px;" data-translate-key="withdrawTitle">Withdrawal</h2>
@@ -613,6 +632,31 @@ if(savedTheme === 'dark') {
 
 <script>
 lucide.createIcons();
+
+// --- TON CONNECT INICIALİZASİYASI VƏ AVTO-DOLDURMA ---
+const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+    manifestUrl: 'https://qazancpay.github.io/Ton-Play/tonconnect-manifest.json',
+    buttonRootId: 'ton-connect-btn'
+});
+
+tonConnectUI.onStatusChange(wallet => {
+    const detailsInput = document.getElementById('details');
+    if (wallet && wallet.account && wallet.account.address) {
+        try {
+            // Raw hex adresi user-friendly (İstifadəçi üçün oxunaqlı) formata çeviririk
+            const userFriendlyAddress = TON_CONNECT_UI.toUserFriendlyAddress(
+                wallet.account.address,
+                wallet.account.chain === '-239'
+            );
+            detailsInput.value = userFriendlyAddress;
+        } catch(e) {
+            detailsInput.value = wallet.account.address;
+        }
+    } else {
+        detailsInput.value = ''; // Cüzdan bağlantısı kəsilsə, silinsin
+    }
+});
+
 
 // Adsgram Quraşdırılması
 let adManager = null;
@@ -1157,11 +1201,28 @@ if (joinBtn) {
     };
 }
 
+// YENİLƏNMİŞ SƏLİS SƏHİFƏ KEÇİDİ FUNKSİYASI
 function showPage(id, btn){
   if (btn.classList.contains('active')) return; 
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  
+  const activePage = document.querySelector('.page.active');
+  
+  if (activePage) {
+      activePage.classList.remove('active');
+      activePage.classList.add('fading-out');
+      
+      setTimeout(() => {
+          activePage.classList.remove('fading-out');
+          activateNewPage(id, btn);
+      }, 250); 
+  } else {
+      activateNewPage(id, btn);
+  }
+}
+
+function activateNewPage(id, btn) {
   document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   
   if (id === 'adsPage') { restoreAdBtnState(); } 
@@ -1190,7 +1251,21 @@ methods.forEach(m=>{
     details.placeholder = t.placeholderDetails_ton;
     amount.placeholder = t.placeholderAmount;
     
-    details.value=''; amount.value=''; alertBox.style.display='none'; feeCalcBox.style.display='none';
+    // Cüzdan artıq qoşulubsa avtomatik doldursun
+    if (tonConnectUI.wallet && tonConnectUI.wallet.account && tonConnectUI.wallet.account.address) {
+        try {
+            details.value = TON_CONNECT_UI.toUserFriendlyAddress(
+                tonConnectUI.wallet.account.address,
+                tonConnectUI.wallet.account.chain === '-239'
+            );
+        } catch(e) {
+            details.value = tonConnectUI.wallet.account.address;
+        }
+    } else {
+        details.value = ''; 
+    }
+    
+    amount.value=''; alertBox.style.display='none'; feeCalcBox.style.display='none';
   };
 });
 
@@ -1242,7 +1317,6 @@ update();
 applyTranslations(currentLang); 
 restoreAdBtnState();
 
-// --- TƏKMİLLƏŞDİRİLMİŞ YAĞIŞ EFFEKTİ İLƏ EKRAN YÜKLƏNMƏSİ ---
 function runLoadingScreen() {
     const container = document.getElementById('loadingScreen');
     if(!container) return;
