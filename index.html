@@ -721,7 +721,7 @@ const TRANSLATIONS = {
         depositTitleTab: 'Deposit', withdrawTitleTab: 'Withdrawal', depositInfo: 'Add TON directly from your connected wallet.', depositActionBtn: 'Deposit TON', placeholderDepositAmount: 'Amount (Min 0.01 TON)', minDepositText: 'Minimum deposit is 0.01 TON', depositSuccess: '✅ Deposit transaction sent! Balance updated.', connectWalletFirst: 'Please connect wallet first.', txFailed: 'Transaction failed or cancelled.',
         withdrawTitle: 'Withdrawal', selectMethod: 'Select withdrawal method', minTonLabel: 'Min: 3 TON', back: 'Back', withdrawTonTitle: 'Withdraw TON', withdraw: 'Withdraw', feeText: 'Network Fee (5%):', receiveText: 'You will receive:', methodError: 'Select a method', detailsError: 'Enter valid TON address', amountError: 'Enter correct amount', minAmount: 'Minimum withdrawal is 3 TON', balanceError: 'Insufficient balance', withdrawSuccess: '✅ Withdrawal requested! It will be processed soon.', withdrawDepositCondition: 'You must watch 1000 ads to withdraw after a deposit! (Watched: {count}/1000)',
         home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile', placeholderDetails_ton: 'Your TON Wallet Address', placeholderAmount: 'Amount (Min 3 TON)', taskSuccess: (r) => `✅ Task Completed! ${r} added.`, guestUser: 'User', theme: 'Theme', language: 'Language', withdrawHistory: 'Transaction History', pending: 'Pending', emptyHistory: 'History is empty', shareBtn: 'Invite Friends', shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Close',
-        shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nWatch daily ads and start earning 💰\nTON coins effortlessly. No complex steps just watch, complete, and grow your balance!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\nTurn your free time into profit 🔥 👇 Join now and start earning!\n\n🔗 Link: {LINK}", promoteBtn: 'Promote', promoteTitle: '🚀 Advertise on Ton Play Bot!', promoteText: "Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable advertising options<br><br>💎 Advertising Packages (in TON Coin):<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>📩 Contact us now to get started<br><br>🚀 Take your project to the next level with Ton Play!", contactBtn: 'Contact', depositText: 'Deposit',
+        shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nWatch daily ads and start earning 💰\nTON coins effortlessly. No complex steps just watch, complete, and grow your balance!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\nTurn বজ্র free time into profit 🔥 👇 Join now and start earning!\n\n🔗 Link: {LINK}", promoteBtn: 'Promote', promoteTitle: '🚀 Advertise on Ton Play Bot!', promoteText: "Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable advertising options<br><br>💎 Advertising Packages (in TON Coin):<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>📩 Contact us now to get started<br><br>🚀 Take your project to the next level with Ton Play!", contactBtn: 'Contact', depositText: 'Deposit',
         market: 'Market', vipReward1: '0.02 TON per Ad', vipDays1: 'Active for 21 Days', vipReward2: '0.05 TON per Ad', vipDays2: 'Active for 23 Days', vipReward3: '0.1 TON per Ad', vipDays3: 'Active for 25 Days', vipBenefit: 'Boosted Earnings', buyVipBtn: 'Buy VIP', activeVip: 'Active', vipActiveError: 'You already have an active VIP level!', vipSuccess: '✅ VIP purchased successfully! Your earnings are boosted.'
     },
     'tr': {
@@ -1091,8 +1091,14 @@ async function buyVip(level, price, days) {
         return;
     }
 
+    // YENİLİk: Cüzdan bağlı deyilsə, birbaşa bağlama pəncərəsini açırıq
     if (!tonConnectUI.connected) {
-        showAlertAutoHiding(alertBox, t.connectWalletFirst, 'error');
+        try {
+            tonConnectUI.openModal();
+            showAlertAutoHiding(alertBox, t.connectWalletFirst, 'error');
+        } catch(e) {
+            console.error(e);
+        }
         return;
     }
 
@@ -1141,8 +1147,14 @@ document.getElementById('confirmDepositBtn').onclick = async () => {
     const depAlert = document.getElementById('depositAlert');
     depAlert.style.display = 'none';
 
+    // YENİLİk: Cüzdan bağlı deyilsə, birbaşa bağlama pəncərəsini açırıq
     if (!tonConnectUI.connected) {
-        showAlertAutoHiding(depAlert, t.connectWalletFirst, 'error');
+        try {
+            tonConnectUI.openModal();
+            showAlertAutoHiding(depAlert, t.connectWalletFirst, 'error');
+        } catch(e) {
+            console.error(e);
+        }
         return;
     }
 
