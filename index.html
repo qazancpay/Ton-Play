@@ -289,8 +289,8 @@ body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shad
 <body id="body">
 
 <script>
-// --- RESET MƏNTİQİ (V5 - API ƏSASLI MOSKVA VAXTI) ---
-const APP_VERSION = 'v5_api_time_ui_fix'; 
+// --- RESET MƏNTİQİ (V6 - ANTI-CHEAT SERVER TIME) ---
+const APP_VERSION = 'v6_anti_cheat_fixed'; 
 if (localStorage.getItem('app_version') !== APP_VERSION) {
     localStorage.clear();
     localStorage.setItem('app_version', APP_VERSION);
@@ -755,33 +755,46 @@ let rewardMsgTimeout = null;
 let isAdRunning = false; 
 let isCheckingTime = false;
 
-// --- API ƏSASLI MOSKVA VAXTI YOXLANMASI ---
+// --- YENİLƏNMİŞ API ƏSASLI VAXT YOXLANMASI (ANTI-CHEAT) ---
 async function checkDailyReset() {
     if (isCheckingTime) return;
     isCheckingTime = true;
+    let realDate = null;
+
     try {
-        const response = await fetch('https://worldtimeapi.org/api/timezone/Europe/Moscow');
+        // Əsas API - Keşləmənin qarşısını almaq üçün '{ cache: 'no-store' }' əlavə edilib
+        const response = await fetch('https://worldtimeapi.org/api/timezone/Europe/Moscow', { cache: 'no-store' });
         if (response.ok) {
             const data = await response.json();
-            const realDate = data.datetime.split('T')[0]; // "YYYY-MM-DD"
-            const savedDate = safeGet('moscow_reset_date_' + userRefId, null);
-            if (savedDate !== realDate) {
-                cnt = 0;
-                safeSet('moscow_reset_date_' + userRefId, realDate);
-                safeSet(COUNT_KEY, cnt);
-            }
+            realDate = data.datetime.split('T')[0]; // "YYYY-MM-DD"
         }
     } catch (e) {
-        // İnternet zəif olduqda və ya API işləmədikdə ehtiyat variant (həmişə işləyəcək)
-        console.log("Could not fetch real time, falling back to local...");
-        const localDate = new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Moscow" });
+        console.warn("Əsas saat API işləmədi, ehtiyata keçilir...");
+    }
+
+    if (!realDate) {
+        try {
+            // Ehtiyat API (Birinci işləməsə istifadəçi zərər görməsin deyə)
+            const response2 = await fetch('https://timeapi.io/api/Time/current/zone?timeZone=Europe/Moscow', { cache: 'no-store' });
+            if (response2.ok) {
+                const data2 = await response2.json();
+                realDate = `${data2.year}-${String(data2.month).padStart(2, '0')}-${String(data2.day).padStart(2, '0')}`;
+            }
+        } catch (e) {
+            console.error("Heç bir API-dan vaxt alına bilmədi. SIFIRLANMA QADAĞANDIR.");
+        }
+    }
+
+    // YALNIZ VƏ YALNIZ SERVERDƏN VAXT GƏLƏRSƏ SIFIRLANMA İCAZƏ VERİLİR
+    if (realDate) {
         const savedDate = safeGet('moscow_reset_date_' + userRefId, null);
-        if (savedDate !== localDate) {
-            cnt = 0;
-            safeSet('moscow_reset_date_' + userRefId, localDate);
+        if (savedDate !== realDate) {
+            cnt = 0; 
+            safeSet('moscow_reset_date_' + userRefId, realDate);
             safeSet(COUNT_KEY, cnt);
         }
     }
+
     isCheckingTime = false;
     updateUI();
 }
@@ -1035,14 +1048,12 @@ function restoreAdBtnState() {
     adBtn.classList.remove('waiting'); adBtn.disabled = false; if(textSpan) textSpan.textContent = t.watchAd; msg.textContent = ''; checkAndDisplayRewardMsg();
 }
 
-// OPTİMİZA EDİLMİŞ SÜRƏTLİ REKLAM BAXMA DÜYMƏSİ MƏNTİQİ
 adBtn.onclick = () => {
     const t = TRANSLATIONS[currentLang];
     
     if (cnt >= MAX_ADS_PER_DAY) { msg.textContent = t.adLimitReached; return; }
     if (isAdRunning || adBtn.classList.contains('waiting')) return;
     
-    // Gecikmənin qarşısını almaq üçün UI dərhal yenilənir
     isAdRunning = true; 
     adBtn.disabled = true; 
     adBtn.classList.add('waiting');
@@ -1055,13 +1066,12 @@ adBtn.onclick = () => {
     let rewardMsgElement = document.getElementById('rewardMsg');
     if (rewardMsgElement) { rewardMsgElement.classList.remove('show'); setTimeout(() => { const container = document.getElementById('adRewardNotificationContainer'); if(container && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 200); }
     
-    // API vaxt yoxlaması arxa planda baş verir (UI bloklamır)
+    // API vaxt yoxlaması arxa planda baş verir
     checkDailyReset();
 
     try {
         if (!adManager && window.Adsgram) { adManager = window.Adsgram.init({ blockId: "int-28300" }); }
         if (adManager) { 
-            // await olmadan dərhal işə salınır (safari/iOS tələbləri üçün)
             adManager.show().then((result) => { giveAdReward(t); }).catch((error) => { console.error("Adsgram error", error); resetAdBtnState(t); }); 
         } 
         else { console.error("Adsgram init fail"); resetAdBtnState(t); }
@@ -1098,7 +1108,6 @@ if (joinBtn) {
     };
 }
 
-// SÜRƏTLƏNDİRİLMİŞ SƏHİFƏ KEÇİDİ
 function showPage(id, btn){
   if (btn.classList.contains('active')) return; 
   const activePage = document.querySelector('.page.active');
