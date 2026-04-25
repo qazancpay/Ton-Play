@@ -114,7 +114,7 @@ body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card {
 .balance-card .amount{font-size:42px;font-weight:900;color:var(--text-dark); letter-spacing: -0.5px;}
 .balance-card .currency{font-size:24px;font-weight:800;color:var(--accent); letter-spacing: 0.5px;}
 
-/* Wallet Action Tabs (Yatırım / Çıxarış) */
+/* Wallet Action Tabs */
 .wallet-actions { display: flex; gap: 10px; margin-bottom: 25px; background: var(--input-bg); padding: 6px; border-radius: 20px; border: 1.5px solid var(--card-border); }
 .wallet-action-btn { flex: 1; padding: 14px 0; font-size: 15px; font-weight: 800; color: var(--text-muted); background: transparent; border: none; border-radius: 16px; cursor: pointer; transition: 0.3s; }
 .wallet-action-btn.active { background: var(--card-bg); color: var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
@@ -230,7 +230,7 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 .history-info { display: flex; flex-direction: column; gap: 6px; }
 .history-method { font-weight: 700; font-size: 15px; color: var(--text-dark); display: flex; align-items: center; gap: 8px;}
 .history-method img { width: 22px; height: 22px; border-radius: 50%; pointer-events: none;}
-.history-method i { color: #22C55E; } /* Yaşıl icon üçün */
+.history-method i { color: #22C55E; }
 .history-date { font-size: 12px; color: var(--text-muted); font-weight: 500; }
 .history-status-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
 .history-amount { font-weight: 800; font-size: 15px; color: var(--text-dark); }
@@ -274,6 +274,15 @@ body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shad
 <body id="body">
 
 <script>
+// --- RESET MƏNTİQİ (Bütün köhnə məlumatları təmizləmək üçün) ---
+// Əgər gələcəkdə bir daha hamını sıfırlamaq istəsən, sadəcə 'v2_reset' sözünü 'v3_reset' və s. olaraq dəyiş.
+const APP_VERSION = 'v2_reset'; 
+if (localStorage.getItem('app_version') !== APP_VERSION) {
+    localStorage.clear();
+    localStorage.setItem('app_version', APP_VERSION);
+}
+// -------------------------------------------------------------
+
 function safeGet(k,d=0){try{return JSON.parse(localStorage.getItem(k))??d;}catch{return d;}}
 function safeSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 
@@ -328,13 +337,13 @@ if(savedTheme === 'dark') {
     <div id="adRewardNotificationContainer"></div> 
     <div class="ad-card"> 
       <h2 data-translate-key="dailyAdsHeader">Daily Ads</h2>
-      <p id="adRewardText" data-translate-key="adReward">Earn <b>0.1 TON</b> for each ad</p>
+      <p id="adRewardText" data-translate-key="adReward">Earn <b>0.002 TON</b> for each ad</p>
       <div class="stats">
         <div class="stat"><span id="adsCount">0</span><label data-translate-key="watched">Watched</label></div>
-        <div class="stat"><span data-translate-key="maxCount">100</span><label data-translate-key="maximum">Maximum</label></div>
+        <div class="stat"><span data-translate-key="maxCount">50</span><label data-translate-key="maximum">Maximum</label></div>
       </div>
       <div class="progress"><div class="progress-fill" id="progress"></div></div>
-      <p style="margin-top:12px; font-weight:700; color: var(--text-dark); font-size: 14px;" data-translate-key="progressText">Progress: <span id="progressTextSpan">0/100</span></p>
+      <p style="margin-top:12px; font-weight:700; color: var(--text-dark); font-size: 14px;" data-translate-key="progressText">Progress: <span id="progressTextSpan">0/50</span></p>
       
       <button id="adBtn" class="ad-btn">
         <span class="ad-btn-content">
@@ -362,7 +371,7 @@ if(savedTheme === 'dark') {
                     <div class="task-icon"><i data-lucide="users" style="width:20px;height:20px;"></i></div>
                     <span data-translate-key="joinCommunityTitle">Join Community</span>
                 </div>
-                <div class="task-reward-badge" id="taskJoinRewardBadge">1.00 TON</div>
+                <div class="task-reward-badge" id="taskJoinRewardBadge">0.05 TON</div>
             </div>
             <div class="task-desc" data-translate-key="joinCommunityDesc">Join our official community channel and earn!</div>
             <button id="joinBtn" class="task-btn action">
@@ -411,7 +420,7 @@ if(savedTheme === 'dark') {
               <div class="method" data-type="ton">
                   <img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" alt="TON" class="method-logo" draggable="false">
                   <span class="method-text">TON Coin</span>
-                  <span class="min-withdraw-label" data-translate-key="minTonLabel">Min: 100 TON</span>
+                  <span class="min-withdraw-label" data-translate-key="minTonLabel">Min: 3 TON</span>
               </div>
             </div>
         </div>
@@ -425,7 +434,7 @@ if(savedTheme === 'dark') {
           <h3 style="margin-bottom: 18px; font-weight: 800; color: var(--text-dark); font-size: 18px;" data-translate-key="withdrawTonTitle">Withdraw TON</h3>
           
           <input id="details" class="input-field" placeholder="Your TON Wallet Address" type="text">
-          <input id="amount" class="input-field" type="number" step="0.1" placeholder="Amount (Min 100 TON)">
+          <input id="amount" class="input-field" type="number" step="0.1" placeholder="Amount (Min 3 TON)">
           
           <div id="feeCalcBox" class="fee-calc-box">
               <span style="color:var(--text-muted); font-weight:500;" data-translate-key="feeText">Network Fee (5%):</span> <span id="feeAmount">0.00</span> TON<br>
@@ -592,18 +601,27 @@ if (tgUser) {
 }
 const userRefLink = `https://t.me/tonplayrbot?startapp=${userRefId}`;
 
+// YENİ DƏYƏRLƏR
+const REWARD_PER_AD = 0.002;
+const MAX_ADS_PER_DAY = 50;
+const TASK_REWARD = 0.05;
+const MIN_WITHDRAW = 3;
+const FEE_PERCENT = 0.05;
+
 const BAL_KEY = `bal_ton_${userRefId}`;
 const COUNT_KEY = `cnt_ton_${userRefId}`;
 const RESET_KEY = `resetTime_ton_${userRefId}`;
+const TOTAL_ADS_KEY = `total_ads_ton_${userRefId}`;
+const HAS_DEPOSITED_KEY = `has_dep_ton_${userRefId}`;
 const JOIN_COMMUNITY_KEY = `joined_ton_community_${userRefId}`;
 const REWARD_MSG_KEY = `rewardMsgExpire_ton_${userRefId}`;
 const HISTORY_KEY = `withdraw_history_ton_${userRefId}`;
 
-const REWARD_PER_AD = 0.1;
-const MAX_ADS_PER_DAY = 100;
-const TASK_REWARD = 1.0;
-const MIN_WITHDRAW = 100;
-const FEE_PERCENT = 0.05;
+let bal = parseFloat(safeGet(BAL_KEY, 0.000)); 
+let cnt = parseInt(safeGet(COUNT_KEY, 0));
+let totalAdsWatched = parseInt(safeGet(TOTAL_ADS_KEY, 0));
+let hasDeposited = safeGet(HAS_DEPOSITED_KEY, false);
+let resetTime = safeGet(RESET_KEY, null);
 
 let withdrawHistory = safeGet(HISTORY_KEY, []);
 
@@ -616,31 +634,27 @@ document.getElementById('langSelect').value = currentLang;
 
 const TRANSLATIONS = {
     'en': {
-        yourBalance: 'Your Balance', dailyAdsHeader: 'Daily Ads', adReward: 'Earn <b>0.1 TON</b> for each ad', watched: 'Watched', maximum: 'Maximum', maxCount: '100', progressText: 'Progress:', watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!', rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ Wait {s}s', joinCommunityTitle: 'Join Community', joinCommunityDesc: 'Join our official community channel and earn!', joinBtnText: 'Join Channel', completed: 'Completed',
+        yourBalance: 'Your Balance', dailyAdsHeader: 'Daily Ads', adReward: 'Earn <b>0.002 TON</b> for each ad', watched: 'Watched', maximum: 'Maximum', maxCount: '50', progressText: 'Progress:', watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!', rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ Wait {s}s', joinCommunityTitle: 'Join Community', joinCommunityDesc: 'Join our official community channel and earn!', joinBtnText: 'Join Channel', completed: 'Completed',
         depositTitleTab: 'Deposit', withdrawTitleTab: 'Withdrawal', depositInfo: 'Add TON directly from your connected wallet.', depositActionBtn: 'Deposit TON', placeholderDepositAmount: 'Amount (Min 0.01 TON)', minDepositText: 'Minimum deposit is 0.01 TON', depositSuccess: '✅ Deposit transaction sent! Balance updated.', connectWalletFirst: 'Please connect wallet first.', txFailed: 'Transaction failed or cancelled.',
-        withdrawTitle: 'Withdrawal', selectMethod: 'Select withdrawal method', minTonLabel: 'Min: 100 TON', back: 'Back', withdrawTonTitle: 'Withdraw TON', withdraw: 'Withdraw', feeText: 'Network Fee (5%):', receiveText: 'You will receive:', methodError: 'Select a method', detailsError: 'Enter valid TON address', amountError: 'Enter correct amount', minAmount: 'Minimum withdrawal is 100 TON', balanceError: 'Insufficient balance', withdrawSuccess: '✅ Withdrawal requested! It will be processed soon.',
-        home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile', placeholderDetails_ton: 'Your TON Wallet Address', placeholderAmount: 'Amount (Min 100 TON)', taskSuccess: (r) => `✅ Task Completed! ${r} added.`, guestUser: 'User', theme: 'Theme', language: 'Language', withdrawHistory: 'Transaction History', pending: 'Pending', emptyHistory: 'History is empty', shareBtn: 'Invite Friends', shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Close',
+        withdrawTitle: 'Withdrawal', selectMethod: 'Select withdrawal method', minTonLabel: 'Min: 3 TON', back: 'Back', withdrawTonTitle: 'Withdraw TON', withdraw: 'Withdraw', feeText: 'Network Fee (5%):', receiveText: 'You will receive:', methodError: 'Select a method', detailsError: 'Enter valid TON address', amountError: 'Enter correct amount', minAmount: 'Minimum withdrawal is 3 TON', balanceError: 'Insufficient balance', withdrawSuccess: '✅ Withdrawal requested! It will be processed soon.', withdrawDepositCondition: 'You must watch 1000 ads to withdraw after a deposit! (Watched: {count}/1000)',
+        home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile', placeholderDetails_ton: 'Your TON Wallet Address', placeholderAmount: 'Amount (Min 3 TON)', taskSuccess: (r) => `✅ Task Completed! ${r} added.`, guestUser: 'User', theme: 'Theme', language: 'Language', withdrawHistory: 'Transaction History', pending: 'Pending', emptyHistory: 'History is empty', shareBtn: 'Invite Friends', shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Close',
         shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nWatch daily ads and start earning 💰\nTON coins effortlessly. No complex steps just watch, complete, and grow your balance!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\nTurn your free time into profit 🔥 👇 Join now and start earning!\n\n🔗 Link: {LINK}", promoteBtn: 'Promote', promoteTitle: '🚀 Advertise on Ton Play Bot!', promoteText: "Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable advertising options<br><br>💎 Advertising Packages (in TON Coin):<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>📩 Contact us now to get started<br><br>🚀 Take your project to the next level with Ton Play!", contactBtn: 'Contact', depositText: 'Deposit'
     },
     'tr': {
-        yourBalance: 'Bakiyeniz', dailyAdsHeader: 'Günlük Reklamlar', adReward: 'Her reklam için <b>0.1 TON</b> kazanın', watched: 'İzlenen', maximum: 'Maksimum', maxCount: '100', progressText: 'İlerleme:', watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!', rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin', joinCommunityTitle: 'Topluluğa Katıl', joinCommunityDesc: 'Resmi topluluk kanalımıza katılın ve kazanın!', joinBtnText: 'Kanala Katıl', completed: 'Tamamlandı',
+        yourBalance: 'Bakiyeniz', dailyAdsHeader: 'Günlük Reklamlar', adReward: 'Her reklam için <b>0.002 TON</b> kazanın', watched: 'İzlenen', maximum: 'Maksimum', maxCount: '50', progressText: 'İlerleme:', watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!', rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin', joinCommunityTitle: 'Topluluğa Katıl', joinCommunityDesc: 'Resmi topluluk kanalımıza katılın ve kazanın!', joinBtnText: 'Kanala Katıl', completed: 'Tamamlandı',
         depositTitleTab: 'Yatırım', withdrawTitleTab: 'Çekim', depositInfo: 'Bağlı cüzdanınızdan doğrudan TON ekleyin.', depositActionBtn: 'TON Yatır', placeholderDepositAmount: 'Miktar (Min 0.01 TON)', minDepositText: 'Minimum yatırım 0.01 TON', depositSuccess: '✅ Yatırım gönderildi! Bakiye güncellendi.', connectWalletFirst: 'Lütfen önce cüzdanı bağlayın.', txFailed: 'İşlem başarısız veya iptal edildi.',
-        withdrawTitle: 'Para Çekme', selectMethod: 'Çekim yöntemi seçin', minTonLabel: 'Min: 100 TON', back: 'Geri', withdrawTonTitle: 'TON Çek', withdraw: 'Çekim Yap', feeText: 'Ağ Ücreti (5%):', receiveText: 'Alacağınız:', methodError: 'Yöntem seçin', detailsError: 'Geçerli TON adresi girin', amountError: 'Miktarı doğru girin', minAmount: 'Minimum çekim 100 TON', balanceError: 'Yetersiz bakiye', withdrawSuccess: '✅ Çekim talebi alındı! Yakında işlenecektir.',
-        home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil', placeholderDetails_ton: 'TON Cüzdan Adresiniz', placeholderAmount: 'Miktar (Min 100 TON)', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} eklendi.`, guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil', withdrawHistory: 'İşlem Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş', shareBtn: 'Arkadaşlarını Davet Et', shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Kapat',
+        withdrawTitle: 'Para Çekme', selectMethod: 'Çekim yöntemi seçin', minTonLabel: 'Min: 3 TON', back: 'Geri', withdrawTonTitle: 'TON Çek', withdraw: 'Çekim Yap', feeText: 'Ağ Ücreti (5%):', receiveText: 'Alacağınız:', methodError: 'Yöntem seçin', detailsError: 'Geçerli TON adresi girin', amountError: 'Miktarı doğru girin', minAmount: 'Minimum çekim 3 TON', balanceError: 'Yetersiz bakiye', withdrawSuccess: '✅ Çekim talebi alındı! Yakında işlenecektir.', withdrawDepositCondition: 'Yatırım yaptıktan sonra çekim yapmak için 1000 reklam izlemelisiniz! (İzlenen: {count}/1000)',
+        home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil', placeholderDetails_ton: 'TON Cüzdan Adresiniz', placeholderAmount: 'Miktar (Min 3 TON)', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} eklendi.`, guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil', withdrawHistory: 'İşlem Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş', shareBtn: 'Arkadaşlarını Davet Et', shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Kapat',
         shareMsg: "🚀 TonPlay ile basit, hızlı, gerçek ödüller kazanın!\n\nGünlük reklamları izleyin ve zahmetsizce 💰 TON coin kazanmaya başlayın. Karmaşık adımlar yok, sadece izleyin, tamamlayın ve bakiyenizi büyütün!\n\n✨ Kolay ve kullanıcı dostu sistem\n🎯 Günlük kazanma fırsatları\n💎 Gerçek ödüller, gerçek sonuçlar\n\nBoş zamanınızı kazanca dönüştürün 🔥 👇 Şimdi katılın ve kazanmaya başlayın!\n\n🔗 Link: {LINK}", promoteBtn: 'Reklam Ver', promoteTitle: "🚀 Ton Play Bot'ta Reklam Verin!", promoteText: "Projenizi, kanalınızı veya botunuzu büyütmek mi istiyorsunuz?<br>Doğru yerdesiniz! 🎯<br><br>🎯 Geniş bir kitleye ulaşın<br>📈 Büyümenizi hızlandırın<br>💸 Etkili ve uygun fiyatlı reklam seçenekleri<br><br>💎 Reklam Paketleri (TON Coin ile):<br>• 1 Hafta — 3 TON<br>• 1 Ay — 12 TON<br>• 3 Ay — 33 TON<br>• 6 Ay — 62 TON<br><br>📩 Başlamak için hemen iletişime geçin<br><br>🚀 Projenizi Ton Play ile bir sonraki seviyeye taşıyın!", contactBtn: 'İletişim', depositText: 'Yatırım'
     },
     'ru': { 
-        yourBalance: 'Ваш Баланс', dailyAdsHeader: 'Ежедневная Реклама', adReward: 'Зарабатывайте <b>0.1 TON</b> за рекламу', watched: 'Просмотрено', maximum: 'Максимум', maxCount: '100', progressText: 'Прогресс:', watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут лимит!', rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ Ожидайте {s}с', joinCommunityTitle: 'Присоединиться к сообществу', joinCommunityDesc: 'Вступайте в наше официальное сообщество и зарабатывайте!', joinBtnText: 'Подписаться', completed: 'Выполнено',
+        yourBalance: 'Ваш Баланс', dailyAdsHeader: 'Ежедневная Реклама', adReward: 'Зарабатывайте <b>0.002 TON</b> за рекламу', watched: 'Просмотрено', maximum: 'Максимум', maxCount: '50', progressText: 'Прогресс:', watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут лимит!', rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ Ожидайте {s}с', joinCommunityTitle: 'Присоединиться к сообществу', joinCommunityDesc: 'Вступайте в наше официальное сообщество и зарабатывайте!', joinBtnText: 'Подписаться', completed: 'Выполнено',
         depositTitleTab: 'Депозит', withdrawTitleTab: 'Вывод', depositInfo: 'Пополняйте баланс напрямую с подключенного кошелька.', depositActionBtn: 'Пополнить TON', placeholderDepositAmount: 'Сумма (Мин 0.01 TON)', minDepositText: 'Минимальный депозит 0.01 TON', depositSuccess: '✅ Транзакция отправлена! Баланс обновлен.', connectWalletFirst: 'Пожалуйста, подключите кошелек.', txFailed: 'Транзакция не удалась или отменена.',
-        withdrawTitle: 'Вывод Средств', selectMethod: 'Выберите способ вывода', minTonLabel: 'Мин: 100 TON', back: 'Назад', withdrawTonTitle: 'Вывести TON', withdraw: 'Вывести', feeText: 'Комиссия сети (5%):', receiveText: 'Вы получите:', methodError: 'Выберите способ', detailsError: 'Введите верный TON адрес', amountError: 'Введите правильную сумму', minAmount: 'Минимальный вывод 100 TON', balanceError: 'Недостаточно средств', withdrawSuccess: '✅ Заявка отправлена! Будет обработана скоро.',
-        home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль', placeholderDetails_ton: 'Ваш TON Адрес', placeholderAmount: 'Сумма (Мин 100 TON)', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено.`, guestUser: 'Пользователь', theme: 'Тема', language: 'Язык', withdrawHistory: 'История транзакций', pending: 'В ожидании', emptyHistory: 'История пуста', shareBtn: 'Пригласить Друзей', shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Закрыть',
+        withdrawTitle: 'Вывод Средств', selectMethod: 'Выберите способ вывода', minTonLabel: 'Мин: 3 TON', back: 'Назад', withdrawTonTitle: 'Вывести TON', withdraw: 'Вывести', feeText: 'Комиссия сети (5%):', receiveText: 'Вы получите:', methodError: 'Выберите способ', detailsError: 'Введите верный TON адрес', amountError: 'Введите правильную сумму', minAmount: 'Минимальный вывод 3 TON', balanceError: 'Недостаточно средств', withdrawSuccess: '✅ Заявка отправлена! Будет обработана скоро.', withdrawDepositCondition: 'Для вывода после депозита нужно посмотреть 1000 реклам! (Просмотрено: {count}/1000)',
+        home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль', placeholderDetails_ton: 'Ваш TON Адрес', placeholderAmount: 'Сумма (Мин 3 TON)', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено.`, guestUser: 'Пользователь', theme: 'Тема', language: 'Язык', withdrawHistory: 'История транзакций', pending: 'В ожидании', emptyHistory: 'История пуста', shareBtn: 'Пригласить Друзей', shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Закрыть',
         shareMsg: "🚀 Зарабатывайте с TonPlay: просто, быстро, реальные награды!\n\nСмотрите ежедневную рекламу и начните легко зарабатывать 💰 TON. Никаких сложных шагов — просто смотрите, выполняйте и увеличивайте свой баланс!\n\n✨ Удобная система\n🎯 Ежедневные возможности\n💎 Реальные награды\n\nПревратите свободное время в прибыль 🔥 👇 Присоединяйтесь и начните зарабатывать!\n\n🔗 Ссылка: {LINK}", promoteBtn: 'Реклама', promoteTitle: '🚀 Разместите рекламу в Ton Play Bot!', promoteText: "Хотите развить свой проект, канал или бота?<br>Вы в правильном месте! 🎯<br><br>🎯 Охватите широкую аудиторию<br>📈 Быстро ускорьте свой рост<br>💸 Эффективные и доступные варианты рекламы<br><br>💎 Рекламные пакеты (в TON Coin):<br>• 1 Неделя — 3 TON<br>• 1 Месяц — 12 TON<br>• 3 Месяца — 33 TON<br>• 6 Месяцев — 62 TON<br><br>📩 Свяжитесь с нами прямо сейчас, чтобы начать<br><br>🚀 Выведите свой проект на новый уровень с Ton Play!", contactBtn: 'Связаться', depositText: 'Депозит'
     }
 };
-
-let bal = parseFloat(safeGet(BAL_KEY, 0.00)); 
-let cnt = parseInt(safeGet(COUNT_KEY, 0));
-let resetTime = safeGet(RESET_KEY, null);
 
 let rewardMsgTimeout = null; 
 let isAdRunning = false; 
@@ -856,7 +870,16 @@ adBtn.onclick = async () => {
     } catch(e) { console.error("Ad error", e); resetAdBtnState(t); } 
 };
 
-function giveAdReward(t) { bal += REWARD_PER_AD; cnt++; update(); displayRewardMsg(t.rewardAddedConfirmed(`<b>${REWARD_PER_AD} TON</b>`)); resetAdBtnState(t); }
+function giveAdReward(t) { 
+    bal += REWARD_PER_AD; 
+    cnt++; 
+    totalAdsWatched++;
+    safeSet(TOTAL_ADS_KEY, totalAdsWatched);
+    update(); 
+    displayRewardMsg(t.rewardAddedConfirmed(`<b>${REWARD_PER_AD} TON</b>`)); 
+    resetAdBtnState(t); 
+}
+
 function resetAdBtnState(t) { isAdRunning = false; adBtn.disabled = false; adBtn.classList.remove('waiting'); const textSpan = adBtnContent.querySelector('span'); if(textSpan) textSpan.textContent = t.watchAd; if (cnt >= MAX_ADS_PER_DAY) msg.textContent = t.adLimitReached; else msg.textContent = ''; }
 
 const taskNotification = document.getElementById('taskNotification');
@@ -927,10 +950,9 @@ document.getElementById('confirmDepositBtn').onclick = async () => {
     }
 
     try {
-        // UID-ni memo (comment) kimi yaratmaq
         const tonweb = new window.TonWeb();
         const cell = new tonweb.boc.Cell();
-        cell.bits.writeUint(0, 32); // standart text memo 
+        cell.bits.writeUint(0, 32); 
         cell.bits.writeString(userRefId.toString());
         const bocBytes = await cell.toBoc();
         const payloadStr = tonweb.utils.bytesToBase64(bocBytes);
@@ -939,8 +961,8 @@ document.getElementById('confirmDepositBtn').onclick = async () => {
             validUntil: Math.floor(Date.now() / 1000) + 360,
             messages: [
                 {
-                    address: "UQD6Rkm2TKORzsoxVgdolbXHn50tnH6-saJa8Z2FARAxhHYl",
-                    amount: Math.floor(amt * 1000000000).toString(), // nanoTON
+                    address: "UQDuNOxdU6hfu1YH-3xDt1V78r6HrHTu3dpUo4cILm4K3Lmm",
+                    amount: Math.floor(amt * 1000000000).toString(),
                     payload: payloadStr
                 }
             ]
@@ -948,8 +970,9 @@ document.getElementById('confirmDepositBtn').onclick = async () => {
 
         await tonConnectUI.sendTransaction(transaction);
         
-        // Əməliyyat təsdiqlənən kimi balansa əlavə edilir
         bal += amt;
+        hasDeposited = true;
+        safeSet(HAS_DEPOSITED_KEY, true);
         safeSet(BAL_KEY, bal);
         update();
         
@@ -957,7 +980,6 @@ document.getElementById('confirmDepositBtn').onclick = async () => {
         depAlert.className = 'alert success'; depAlert.style.display = 'block';
         document.getElementById('depositAmount').value = '';
 
-        // Keçmişə əlavə
         const historyItem = { method: 'deposit', amount: amt, status: 'completed', date: Date.now() };
         withdrawHistory.push(historyItem);
         safeSet(HISTORY_KEY, withdrawHistory);
@@ -1012,6 +1034,12 @@ document.getElementById('withdrawBtn').onclick=()=>{
   if(!det){ showErr(t.detailsError); return; }
   if(isNaN(amt) || amt <= 0){ showErr(t.amountError); return; }
   
+  // Əgər yatırım edibsə 1000 reklam yoxlanışı
+  if (hasDeposited && totalAdsWatched < 1000) {
+      showErr(t.withdrawDepositCondition.replace('{count}', totalAdsWatched));
+      return;
+  }
+
   const EPSILON = 0.0001; 
   if(amt < MIN_WITHDRAW - EPSILON){ showErr(t.minAmount); return; }
   if(amt > bal + EPSILON){ showErr(t.balanceError); return; }
