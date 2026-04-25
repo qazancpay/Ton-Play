@@ -642,16 +642,7 @@ const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
 tonConnectUI.onStatusChange(wallet => {
     const detailsInput = document.getElementById('details');
     if (wallet && wallet.account && wallet.account.address) {
-        try {
-            // Raw hex adresi user-friendly (İstifadəçi üçün oxunaqlı) formata çeviririk
-            const userFriendlyAddress = TON_CONNECT_UI.toUserFriendlyAddress(
-                wallet.account.address,
-                wallet.account.chain === '-239'
-            );
-            detailsInput.value = userFriendlyAddress;
-        } catch(e) {
-            detailsInput.value = wallet.account.address;
-        }
+        detailsInput.value = wallet.account.address;
     } else {
         detailsInput.value = ''; // Cüzdan bağlantısı kəsilsə, silinsin
     }
@@ -1253,14 +1244,7 @@ methods.forEach(m=>{
     
     // Cüzdan artıq qoşulubsa avtomatik doldursun
     if (tonConnectUI.wallet && tonConnectUI.wallet.account && tonConnectUI.wallet.account.address) {
-        try {
-            details.value = TON_CONNECT_UI.toUserFriendlyAddress(
-                tonConnectUI.wallet.account.address,
-                tonConnectUI.wallet.account.chain === '-239'
-            );
-        } catch(e) {
-            details.value = tonConnectUI.wallet.account.address;
-        }
+        details.value = tonConnectUI.wallet.account.address;
     } else {
         details.value = ''; 
     }
