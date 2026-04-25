@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+<script src="https://unpkg.com/tonweb@latest/dist/tonweb.js"></script>
 
 <script>
 if (window.Telegram && window.Telegram.WebApp) {
@@ -85,20 +86,9 @@ body{
 .container{max-width:480px;margin:auto;padding:40px 20px 20px; position: relative;} 
 
 /* YENİLƏNMİŞ SƏLİS SƏHİFƏ KEÇİDLƏRİ ÜÇÜN CSS */
-.page {
-  display: none;
-}
-.page.active {
-  display: block;
-  animation: smoothFadeIn .4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-.page.fading-out {
-  animation: smoothFadeOut .3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  display: block;
-  position: absolute;
-  width: calc(100% - 40px); /* Padding adjustment */
-  top: 40px;
-}
+.page { display: none; }
+.page.active { display: block; animation: smoothFadeIn .4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.page.fading-out { animation: smoothFadeOut .3s cubic-bezier(0.16, 1, 0.3, 1) forwards; display: block; position: absolute; width: calc(100% - 40px); top: 40px; }
 
 @keyframes smoothFadeIn {
   from { opacity: 0; transform: translateY(15px); }
@@ -111,16 +101,9 @@ body{
 
 /* KART DİZAYNLARI */
 .balance-card, .ad-card, .profile-card{
-  background:var(--card-bg);
-  border-radius:28px;
-  padding:30px 20px;
-  margin-bottom:20px;
-  box-shadow:0 8px 30px rgba(0, 152, 234, 0.05);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  text-align:center;
-  border:1.5px solid var(--card-border);
-  transition: background-color 0.5s, border-color 0.5s, box-shadow 0.5s;
+  background:var(--card-bg); border-radius:28px; padding:30px 20px; margin-bottom:20px;
+  box-shadow:0 8px 30px rgba(0, 152, 234, 0.05); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  text-align:center; border:1.5px solid var(--card-border); transition: background-color 0.5s, border-color 0.5s, box-shadow 0.5s;
 }
 body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card {
   box-shadow:0 8px 30px rgba(0,0,0,0.4), 0 0 15px rgba(56, 189, 248, 0.05);
@@ -130,6 +113,11 @@ body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card {
 .balance-card .amount-wrap { display: flex; align-items: center; justify-content: center; gap: 8px; }
 .balance-card .amount{font-size:42px;font-weight:900;color:var(--text-dark); letter-spacing: -0.5px;}
 .balance-card .currency{font-size:24px;font-weight:800;color:var(--accent); letter-spacing: 0.5px;}
+
+/* Wallet Action Tabs (Yatırım / Çıxarış) */
+.wallet-actions { display: flex; gap: 10px; margin-bottom: 25px; background: var(--input-bg); padding: 6px; border-radius: 20px; border: 1.5px solid var(--card-border); }
+.wallet-action-btn { flex: 1; padding: 14px 0; font-size: 15px; font-weight: 800; color: var(--text-muted); background: transparent; border: none; border-radius: 16px; cursor: pointer; transition: 0.3s; }
+.wallet-action-btn.active { background: var(--card-bg); color: var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
 
 .method-list{display:flex;justify-content:center;margin:20px 0;}
 .method{width: 100%; max-width: 250px; padding:25px 20px;border-radius:24px;background:var(--card-bg); color:var(--text-dark);text-align:center;font-weight:800;cursor:pointer;display:flex;flex-direction: column;align-items: center;justify-content: center;position: relative;overflow: hidden;box-shadow:0 8px 25px rgba(0,0,0,0.03); border: 1.5px solid var(--card-border); transition: transform 0.2s, box-shadow 0.2s;}
@@ -151,7 +139,6 @@ body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card {
 .task-icon { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 14px; color: white; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); box-shadow: 0 4px 15px var(--btn-shadow);}
 .task-reward-badge { background: var(--progress-bg); color: var(--accent); padding: 6px 14px; border-radius: 12px; font-weight: 800; font-size: 14px; border: 1px solid var(--card-border);}
 .task-desc { font-size: 14px; color: var(--text-muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
-
 .task-btn { width: 100%; padding: 16px; font-size: 16px; font-weight: 800; border: none; border-radius: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.2s, box-shadow 0.2s;}
 .task-btn:active:not(:disabled) {transform: scale(0.98);}
 .task-btn.action { background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); color: white; box-shadow: 0 8px 20px var(--btn-shadow); }
@@ -194,10 +181,8 @@ body.dark-theme .menu {box-shadow:0 20px 40px rgba(0,0,0,.5);}
 .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none; }
 .profile-avatar.has-image img { display: block; }
 .profile-avatar.has-image .default-icon { display: none; }
-
 .profile-name { font-size: 20px; font-weight: 800; color: var(--text-dark); margin-bottom: 6px; }
 .profile-id { font-size: 13px; font-weight: 600; color: var(--text-muted); background: var(--input-bg); padding: 6px 16px; border-radius: 100px; border: 1.5px solid var(--card-border);}
-
 .settings-list { text-align: left; background: var(--input-bg); border-radius: 24px; padding: 10px 20px; margin-bottom: 25px; border: 1.5px solid var(--card-border); }
 .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1.5px solid var(--card-border); }
 .setting-item:last-child { border-bottom: none; }
@@ -221,13 +206,13 @@ body.dark-theme .lang-select { background-image: url("data:image/svg+xml;charset
 .btn-share { background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); color: white; box-shadow: 0 8px 25px var(--btn-shadow); }
 .btn-promote { background: linear-gradient(135deg, #F59E0B, #D97706); color: white; box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3); }
 
-#form{display:none;}
-#form input{width:100%;padding:18px;margin:10px 0;border-radius:18px;border:1.5px solid var(--card-border);background:var(--input-bg);color:var(--input-text); font-size: 15px;font-weight: 600;outline: none;transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s; font-family: 'Inter', sans-serif;}
-#form input:focus { border-color: var(--accent); background: var(--card-bg); box-shadow: 0 0 0 4px var(--progress-bg);}
-#form input::placeholder { color: var(--text-muted); opacity: 0.8; font-weight: 500;}
-#form button{width:100%;padding:18px;margin-top:20px;border:none;border-radius:20px;background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));color:var(--text-light);font-weight:800;font-size: 16px;cursor:pointer; box-shadow: 0 8px 25px var(--btn-shadow); display:flex; align-items:center; justify-content:center; gap:10px; transition: transform 0.2s;}
-#form button:active {transform: scale(0.98);}
-#form button i { width: 20px; height: 20px; }
+#form, #depositFormWrap {display:none;}
+.input-field {width:100%;padding:18px;margin:10px 0;border-radius:18px;border:1.5px solid var(--card-border);background:var(--input-bg);color:var(--input-text); font-size: 15px;font-weight: 600;outline: none;transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s; font-family: 'Inter', sans-serif;}
+.input-field:focus { border-color: var(--accent); background: var(--card-bg); box-shadow: 0 0 0 4px var(--progress-bg);}
+.input-field::placeholder { color: var(--text-muted); opacity: 0.8; font-weight: 500;}
+
+.submit-btn {width:100%;padding:18px;margin-top:20px;border:none;border-radius:20px;background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));color:var(--text-light);font-weight:800;font-size: 16px;cursor:pointer; box-shadow: 0 8px 25px var(--btn-shadow); display:flex; align-items:center; justify-content:center; gap:10px; transition: transform 0.2s;}
+.submit-btn:active {transform: scale(0.98);}
 
 .fee-calc-box { font-size: 13px; font-weight: 600; color: var(--text-muted); margin: 5px 0 15px; text-align: left; padding: 16px; background: var(--input-bg); border-radius: 16px; border: 1.5px solid var(--card-border); display: none;}
 .fee-calc-box span { color: var(--text-dark); font-weight: 800; }
@@ -245,106 +230,38 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 .history-info { display: flex; flex-direction: column; gap: 6px; }
 .history-method { font-weight: 700; font-size: 15px; color: var(--text-dark); display: flex; align-items: center; gap: 8px;}
 .history-method img { width: 22px; height: 22px; border-radius: 50%; pointer-events: none;}
+.history-method i { color: #22C55E; } /* Yaşıl icon üçün */
 .history-date { font-size: 12px; color: var(--text-muted); font-weight: 500; }
 .history-status-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
 .history-amount { font-weight: 800; font-size: 15px; color: var(--text-dark); }
 .history-status { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 10px; background: rgba(245, 158, 11, 0.1); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.2); letter-spacing: 0.3px;}
+.history-status.completed { background: rgba(34, 197, 94, 0.1); color: #22C55E; border-color: rgba(34, 197, 94, 0.2); }
 .history-empty { text-align: center; font-size: 14px; color: var(--text-muted); padding: 30px 20px; font-weight: 600; background: var(--input-bg); border-radius: 18px; border: 1px dashed var(--card-border);}
 
-#loadingScreen {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: var(--tg-viewport-stable-height, 100vh);
-    background: var(--bg-start);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999;
-    transition: opacity 0.6s ease-out;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-    overflow: hidden; 
-}
-
-.falling-coin {
-    position: absolute;
-    top: -50px; 
-    border-radius: 50%;
-    pointer-events: none;
-    animation: fall linear forwards;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-    z-index: 1; 
-}
-@keyframes fall {
-    0% { transform: translateY(-50px) rotate(0deg); }
-    100% { transform: translateY(120vh) rotate(360deg); }
-}
-
-.loader-logo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin-bottom: 30px;
-    animation: pulseLogo 2s infinite alternate cubic-bezier(0.16, 1, 0.3, 1);
-    pointer-events: none;
-    -webkit-user-drag: none;
-    user-select: none;
-    -webkit-touch-callout: none;
-    box-shadow: 0 10px 30px rgba(0, 152, 234, 0.3);
-    z-index: 2;
-}
-
-@keyframes pulseLogo {
-    0% { transform: scale(1) translateY(0); box-shadow: 0 10px 30px rgba(0, 152, 234, 0.3); }
-    100% { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 40px rgba(0, 152, 234, 0.6); }
-}
-
-.loader-title {
-    font-size: 24px;
-    font-weight: 900;
-    color: var(--text-dark);
-    margin-bottom: 40px;
-    letter-spacing: 2px;
-    z-index: 2;
-}
-
-.loader-bar-wrap { 
-    position: relative; width: 200px; height: 6px; 
-    background: var(--card-border); 
-    border-radius: 10px; overflow: hidden; 
-    z-index: 2;
-}
-.loader-fill {
-    position: absolute; top:0; left:0; height:100%; width:0%; border-radius:10px; 
-    background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); 
-    animation: fillAnim 3s linear forwards; 
-}
+#loadingScreen { position: fixed; top: 0; left: 0; width: 100%; height: var(--tg-viewport-stable-height, 100vh); background: var(--bg-start); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 99999; transition: opacity 0.6s ease-out; user-select: none; overflow: hidden; }
+.falling-coin { position: absolute; top: -50px; border-radius: 50%; pointer-events: none; animation: fall linear forwards; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); z-index: 1; }
+@keyframes fall { 0% { transform: translateY(-50px) rotate(0deg); } 100% { transform: translateY(120vh) rotate(360deg); } }
+.loader-logo { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 30px; animation: pulseLogo 2s infinite alternate cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none; user-select: none; box-shadow: 0 10px 30px rgba(0, 152, 234, 0.3); z-index: 2;}
+@keyframes pulseLogo { 0% { transform: scale(1) translateY(0); box-shadow: 0 10px 30px rgba(0, 152, 234, 0.3); } 100% { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 40px rgba(0, 152, 234, 0.6); } }
+.loader-title { font-size: 24px; font-weight: 900; color: var(--text-dark); margin-bottom: 40px; letter-spacing: 2px; z-index: 2;}
+.loader-bar-wrap { position: relative; width: 200px; height: 6px; background: var(--card-border); border-radius: 10px; overflow: hidden; z-index: 2;}
+.loader-fill { position: absolute; top:0; left:0; height:100%; width:0%; border-radius:10px; background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); animation: fillAnim 3s linear forwards; }
 @keyframes fillAnim{0%{width:0%;} 100%{width:100%;}}
-
 #taskNotification {position: fixed;top: 25px;left: 50%;transform: translate(-50%, -100px); background: var(--text-dark);color: var(--card-bg);padding: 16px 24px;border-radius: 100px;box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);font-weight: 700;font-size: 14px;opacity: 0;z-index: 10000;transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1); text-align: center;border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px; white-space: nowrap; will-change: transform, opacity;}
 body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shadow: 0 15px 30px rgba(255, 255, 255, 0.15);}
 .notification-show {opacity: 1 !important;transform: translate(-50%, 0) !important; }
 .notification-hide {opacity: 0;transform: translate(-50%, -100px); }
-
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 9999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; will-change: opacity; }
 .modal-overlay.show { display: flex; opacity: 1; }
-
 .share-modal { background: var(--card-bg); width: 90%; max-width: 360px; border-radius: 32px; padding: 35px 25px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); border: 1.5px solid var(--card-border); transform: scale(0.95) translateY(20px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity; text-align: center; }
 .modal-overlay.show .share-modal { transform: scale(1) translateY(0); }
 .share-modal-title { font-size: 20px; font-weight: 800; color: var(--text-dark); margin-bottom: 25px; }
-
 .promote-modal { background: var(--card-bg); width: 90%; max-width: 380px; border-radius: 32px; padding: 60px 25px 25px 25px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); border: 1.5px solid var(--card-border); transform: scale(0.95) translateY(20px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity; text-align: left; position: relative; }
 .modal-overlay.show .promote-modal { transform: scale(1) translateY(0); }
-
 .close-modal-icon { position: absolute; top: 16px; right: 16px; background: var(--input-bg); border: 1.5px solid var(--card-border); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-dark); transition: transform 0.2s, background-color 0.2s, color 0.2s; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 .close-modal-icon:hover { background: #fee2e2; color: #ef4444; border-color: #fca5a5; transform: scale(1.05); }
 .close-modal-icon:active { transform: scale(0.95); }
-
 .promote-content { font-size: 14.5px; color: var(--text-dark); line-height: 1.6; margin-bottom: 25px; font-weight: 600; }
-
 .share-btn-action { width: 100%; padding: 16px; border-radius: 20px; border: none; font-weight: 700; font-size: 15px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; color: #fff; transition: transform 0.2s;}
 .share-btn-action:active {transform: scale(0.98);}
 .share-btn-action.tg { background: linear-gradient(135deg, #2AABEE, #229ED9); box-shadow: 0 8px 20px rgba(34, 158, 217, 0.25); }
@@ -412,12 +329,10 @@ if(savedTheme === 'dark') {
     <div class="ad-card"> 
       <h2 data-translate-key="dailyAdsHeader">Daily Ads</h2>
       <p id="adRewardText" data-translate-key="adReward">Earn <b>0.1 TON</b> for each ad</p>
-      
       <div class="stats">
         <div class="stat"><span id="adsCount">0</span><label data-translate-key="watched">Watched</label></div>
         <div class="stat"><span data-translate-key="maxCount">100</span><label data-translate-key="maximum">Maximum</label></div>
       </div>
-      
       <div class="progress"><div class="progress-fill" id="progress"></div></div>
       <p style="margin-top:12px; font-weight:700; color: var(--text-dark); font-size: 14px;" data-translate-key="progressText">Progress: <span id="progressTextSpan">0/100</span></p>
       
@@ -469,44 +384,64 @@ if(savedTheme === 'dark') {
 
     <div id="ton-connect-btn" style="display: flex; justify-content: center; margin-bottom: 25px;"></div>
     
-    <div id="methodsContainer">
-        <h2 style="text-align:center;margin-bottom:8px;color:var(--text-dark);font-weight:800; font-size:20px;" data-translate-key="withdrawTitle">Withdrawal</h2>
-        <p style="text-align:center; color:var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 25px;" data-translate-key="selectMethod">Select withdrawal method</p>
-        
-        <div class="method-list" id="methods">
-          <div class="method" data-type="ton">
-              <img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" alt="TON" class="method-logo" draggable="false">
-              <span class="method-text">TON Coin</span>
-              <span class="min-withdraw-label" data-translate-key="minTonLabel">Min: 100 TON</span>
-          </div>
+    <div class="wallet-actions">
+        <button id="btnDepositTab" class="wallet-action-btn active" data-translate-key="depositTitleTab">Deposit</button>
+        <button id="btnWithdrawTab" class="wallet-action-btn" data-translate-key="withdrawTitleTab">Withdrawal</button>
+    </div>
+
+    <div id="depositSection">
+        <div id="depositFormWrap" style="display:block;">
+            <p style="text-align:center; color:var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 15px;" data-translate-key="depositInfo">Add TON directly from your connected wallet.</p>
+            <input id="depositAmount" class="input-field" type="number" step="0.01" placeholder="Amount (Min 0.01 TON)">
+            
+            <button id="confirmDepositBtn" class="submit-btn">
+                <i data-lucide="arrow-down-circle"></i>
+                <span data-translate-key="depositActionBtn">Deposit TON</span>
+            </button>
+            <div id="depositAlert" class="alert"></div>
         </div>
     </div>
 
-    <div id="form">
-      <button id="backBtn" style="background:var(--input-bg); border:1.5px solid var(--card-border); color:var(--text-dark); font-weight:700; font-size:14px; border-radius: 16px; padding: 12px 20px; width: max-content; margin: 0 0 25px 0; box-shadow: none;">
-        <i data-lucide="arrow-left" style="width:18px;height:18px;"></i>
-        <span data-translate-key="back">Back</span>
-      </button>
-      
-      <h3 style="margin-bottom: 18px; font-weight: 800; color: var(--text-dark); font-size: 18px;" data-translate-key="withdrawTonTitle">Withdraw TON</h3>
-      
-      <input id="details" placeholder="Your TON Wallet Address" type="text">
-      <input id="amount" type="number" step="0.1" placeholder="Amount (Min 100 TON)">
-      
-      <div id="feeCalcBox" class="fee-calc-box">
-          <span style="color:var(--text-muted); font-weight:500;" data-translate-key="feeText">Network Fee (5%):</span> <span id="feeAmount">0.00</span> TON<br>
-          <span style="color:var(--text-muted); font-weight:500;" data-translate-key="receiveText">You will receive:</span> <span id="receiveAmount">0.00</span> TON
-      </div>
+    <div id="withdrawSection" style="display:none;">
+        <div id="methodsContainer">
+            <h2 style="text-align:center;margin-bottom:8px;color:var(--text-dark);font-weight:800; font-size:20px;" data-translate-key="withdrawTitle">Withdrawal</h2>
+            <p style="text-align:center; color:var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 25px;" data-translate-key="selectMethod">Select withdrawal method</p>
+            
+            <div class="method-list" id="methods">
+              <div class="method" data-type="ton">
+                  <img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" alt="TON" class="method-logo" draggable="false">
+                  <span class="method-text">TON Coin</span>
+                  <span class="min-withdraw-label" data-translate-key="minTonLabel">Min: 100 TON</span>
+              </div>
+            </div>
+        </div>
 
-      <button id="withdrawBtn">
-        <i data-lucide="arrow-up-circle"></i>
-        <span data-translate-key="withdraw">Withdraw</span>
-      </button>
-      <div id="alert" class="alert"></div>
+        <div id="form">
+          <button id="backBtn" style="background:var(--input-bg); border:1.5px solid var(--card-border); color:var(--text-dark); font-weight:700; font-size:14px; border-radius: 16px; padding: 12px 20px; width: max-content; margin: 0 0 25px 0; box-shadow: none;">
+            <i data-lucide="arrow-left" style="width:18px;height:18px;"></i>
+            <span data-translate-key="back">Back</span>
+          </button>
+          
+          <h3 style="margin-bottom: 18px; font-weight: 800; color: var(--text-dark); font-size: 18px;" data-translate-key="withdrawTonTitle">Withdraw TON</h3>
+          
+          <input id="details" class="input-field" placeholder="Your TON Wallet Address" type="text">
+          <input id="amount" class="input-field" type="number" step="0.1" placeholder="Amount (Min 100 TON)">
+          
+          <div id="feeCalcBox" class="fee-calc-box">
+              <span style="color:var(--text-muted); font-weight:500;" data-translate-key="feeText">Network Fee (5%):</span> <span id="feeAmount">0.00</span> TON<br>
+              <span style="color:var(--text-muted); font-weight:500;" data-translate-key="receiveText">You will receive:</span> <span id="receiveAmount">0.00</span> TON
+          </div>
+
+          <button id="withdrawBtn" class="submit-btn">
+            <i data-lucide="arrow-up-circle"></i>
+            <span data-translate-key="withdraw">Withdraw</span>
+          </button>
+          <div id="alert" class="alert"></div>
+        </div>
     </div>
 
     <div class="history-card" id="historyCard">
-        <h3 class="history-title" data-translate-key="withdrawHistory">Withdrawal History</h3>
+        <h3 class="history-title" data-translate-key="withdrawHistory">Transaction History</h3>
         <div class="history-list" id="historyList"></div>
     </div>
   </div>
@@ -532,7 +467,6 @@ if(savedTheme === 'dark') {
                     <div class="toggle-thumb" id="themeThumb"><i data-lucide="moon"></i></div>
                 </div>
             </div>
-            
             <div class="setting-item">
                 <div class="setting-info">
                     <span class="setting-icon"><i data-lucide="globe"></i></span>
@@ -549,7 +483,6 @@ if(savedTheme === 'dark') {
         <button class="profile-btn btn-share" onclick="openShareModal()">
             <i data-lucide="user-plus"></i> <span data-translate-key="shareBtn">Invite Friends</span>
         </button>
-        
         <button class="profile-btn btn-promote" onclick="openPromoteModal()">
             <i data-lucide="megaphone"></i> <span data-translate-key="promoteBtn">Promote</span>
         </button>
@@ -559,74 +492,40 @@ if(savedTheme === 'dark') {
 
 <div class="menu">
   <button onclick="showPage('adsPage',this)" class="active" data-page-id="adsPage">
-    <i data-lucide="house" class="nav-icon"></i>
-    <span class="nav-text" data-translate-key="home">Home</span>
+    <i data-lucide="house" class="nav-icon"></i> <span class="nav-text" data-translate-key="home">Home</span>
   </button>
   <button onclick="showPage('tasksPage',this)" data-page-id="tasksPage">
-    <i data-lucide="layout-list" class="nav-icon"></i>
-    <span class="nav-text" data-translate-key="tasks">Tasks</span>
+    <i data-lucide="layout-list" class="nav-icon"></i> <span class="nav-text" data-translate-key="tasks">Tasks</span>
   </button>
   <button onclick="showPage('walletPage',this)" data-page-id="walletPage">
-    <i data-lucide="wallet" class="nav-icon"></i>
-    <span class="nav-text" data-translate-key="wallet">Wallet</span>
+    <i data-lucide="wallet" class="nav-icon"></i> <span class="nav-text" data-translate-key="wallet">Wallet</span>
   </button>
   <button onclick="showPage('profilePage',this)" data-page-id="profilePage">
-    <i data-lucide="user" class="nav-icon"></i>
-    <span class="nav-text" data-translate-key="profile">Profile</span>
+    <i data-lucide="user" class="nav-icon"></i> <span class="nav-text" data-translate-key="profile">Profile</span>
   </button>
 </div>
 
 <div class="modal-overlay" id="shareModalOverlay">
     <div class="share-modal">
         <div class="share-modal-title" data-translate-key="shareTitle">Invite Friends</div>
-        
-        <button class="share-btn-action tg" onclick="shareOnTelegramAction()">
-            <i data-lucide="send" style="width:18px; height:18px;"></i> <span data-translate-key="shareTelegram">Share on Telegram</span>
-        </button>
-        
-        <button class="share-btn-action wa" onclick="shareOnWhatsappAction()">
-            <i data-lucide="message-circle" style="width:18px; height:18px;"></i> <span data-translate-key="shareWhatsapp">Share on WhatsApp</span>
-        </button>
-        
-        <button class="share-btn-action copy" onclick="copyRefLinkAction()">
-            <i data-lucide="copy" style="width:18px; height:18px;"></i> <span data-translate-key="copyLink">Copy Link</span>
-        </button>
-        
-        <button class="share-btn-action close-modal" onclick="closeShareModal()">
-            <span data-translate-key="close">Close</span>
-        </button>
+        <button class="share-btn-action tg" onclick="shareOnTelegramAction()"><i data-lucide="send" style="width:18px; height:18px;"></i> <span data-translate-key="shareTelegram">Share on Telegram</span></button>
+        <button class="share-btn-action wa" onclick="shareOnWhatsappAction()"><i data-lucide="message-circle" style="width:18px; height:18px;"></i> <span data-translate-key="shareWhatsapp">Share on WhatsApp</span></button>
+        <button class="share-btn-action copy" onclick="copyRefLinkAction()"><i data-lucide="copy" style="width:18px; height:18px;"></i> <span data-translate-key="copyLink">Copy Link</span></button>
+        <button class="share-btn-action close-modal" onclick="closeShareModal()"><span data-translate-key="close">Close</span></button>
     </div>
 </div>
 
 <div class="modal-overlay" id="promoteModalOverlay">
     <div class="promote-modal">
-        <button class="close-modal-icon" onclick="closePromoteModal()">
-            <i data-lucide="x" style="width: 18px; height: 18px;"></i>
-        </button>
-        
+        <button class="close-modal-icon" onclick="closePromoteModal()"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
         <div class="share-modal-title" style="text-align: center;" data-translate-key="promoteTitle">🚀 Advertise on Ton Play Bot!</div>
-        
         <div class="promote-content" data-translate-key="promoteText">
-            Want to grow your project, channel, or bot?<br>
-            You’re in the right place! 🎯<br><br>
-            
-            🎯 Reach a wide audience<br>
-            📈 Boost your growth fast<br>
-            💸 Effective and affordable advertising options<br><br>
-            
-            💎 Advertising Packages (in TON Coin):<br>
-            • 1 Week — 3 TON<br>
-            • 1 Month — 12 TON<br>
-            • 3 Months — 33 TON<br>
-            • 6 Months — 62 TON<br><br>
-            
-            📩 Contact us now to get started<br><br>
-            🚀 Take your project to the next level with Ton Play!
+            Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>
+            🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable advertising options<br><br>
+            💎 Advertising Packages (in TON Coin):<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>
+            📩 Contact us now to get started<br><br>🚀 Take your project to the next level with Ton Play!
         </div>
-        
-        <button class="share-btn-action tg" onclick="window.open('https://t.me/ton_playsupport', '_blank')">
-            <i data-lucide="message-square" style="width:18px; height:18px;"></i> <span data-translate-key="contactBtn">Contact</span>
-        </button>
+        <button class="share-btn-action tg" onclick="window.open('https://t.me/ton_playsupport', '_blank')"><i data-lucide="message-square" style="width:18px; height:18px;"></i> <span data-translate-key="contactBtn">Contact</span></button>
     </div>
 </div>
 
@@ -644,16 +543,12 @@ tonConnectUI.onStatusChange(wallet => {
     if (wallet && wallet.account && wallet.account.address) {
         detailsInput.value = wallet.account.address;
     } else {
-        detailsInput.value = ''; // Cüzdan bağlantısı kəsilsə, silinsin
+        detailsInput.value = ''; 
     }
 });
 
-
-// Adsgram Quraşdırılması
 let adManager = null;
-if (window.Adsgram) {
-    adManager = window.Adsgram.init({ blockId: "int-28300" });
-}
+if (window.Adsgram) { adManager = window.Adsgram.init({ blockId: "int-28300" }); }
 
 function safeRemove(k){try{localStorage.removeItem(k);}catch(e){}}
 
@@ -684,7 +579,6 @@ function toggleTheme() {
     const isDark = body.classList.contains('dark-theme');
     applyTheme(!isDark);
 }
-
 applyTheme(safeGet(THEME_KEY, 'light') === 'dark');
 
 const USERNAME_KEY = `user_profile_name_${userRefId}`;
@@ -696,7 +590,6 @@ if (tgUser) {
     localStorage.setItem(USERNAME_KEY, fullName);
     if (tgUser.photo_url) { localStorage.setItem(PROFILE_PIC_KEY, tgUser.photo_url); }
 }
-
 const userRefLink = `https://t.me/tonplayrbot?startapp=${userRefId}`;
 
 const BAL_KEY = `bal_ton_${userRefId}`;
@@ -723,79 +616,25 @@ document.getElementById('langSelect').value = currentLang;
 
 const TRANSLATIONS = {
     'en': {
-        yourBalance: 'Your Balance', dailyAdsHeader: 'Daily Ads',
-        adReward: 'Earn <b>0.1 TON</b> for each ad',
-        watched: 'Watched', maximum: 'Maximum', maxCount: '100', progressText: 'Progress:',
-        watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!',
-        rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ Wait {s}s',
-        joinCommunityTitle: 'Join Community', joinCommunityDesc: 'Join our official community channel and earn!',
-        joinBtnText: 'Join Channel', completed: 'Completed',
-        withdrawTitle: 'Withdrawal', selectMethod: 'Select withdrawal method', minTonLabel: 'Min: 100 TON',
-        back: 'Back', withdrawTonTitle: 'Withdraw TON', withdraw: 'Withdraw', feeText: 'Network Fee (5%):', receiveText: 'You will receive:',
-        methodError: 'Select a method', detailsError: 'Enter valid TON address', amountError: 'Enter correct amount',
-        minAmount: 'Minimum withdrawal is 100 TON', balanceError: 'Insufficient balance',
-        withdrawSuccess: '✅ Withdrawal requested! It will be processed soon.',
-        home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile',
-        placeholderDetails_ton: 'Your TON Wallet Address', placeholderAmount: 'Amount (Min 100 TON)',
-        taskSuccess: (r) => `✅ Task Completed! ${r} added.`,
-        guestUser: 'User', theme: 'Theme', language: 'Language',
-        withdrawHistory: 'Withdrawal History', pending: 'Pending', emptyHistory: 'History is empty',
-        shareBtn: 'Invite Friends', shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Close',
-        shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nWatch daily ads and start earning 💰\nTON coins effortlessly. No complex steps just watch, complete, and grow your balance!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\nTurn your free time into profit 🔥 👇 Join now and start earning!\n\n🔗 Link: {LINK}",
-        promoteBtn: 'Promote',
-        promoteTitle: '🚀 Advertise on Ton Play Bot!',
-        promoteText: "Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable advertising options<br><br>💎 Advertising Packages (in TON Coin):<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>📩 Contact us now to get started<br><br>🚀 Take your project to the next level with Ton Play!",
-        contactBtn: 'Contact'
+        yourBalance: 'Your Balance', dailyAdsHeader: 'Daily Ads', adReward: 'Earn <b>0.1 TON</b> for each ad', watched: 'Watched', maximum: 'Maximum', maxCount: '100', progressText: 'Progress:', watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!', rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ Wait {s}s', joinCommunityTitle: 'Join Community', joinCommunityDesc: 'Join our official community channel and earn!', joinBtnText: 'Join Channel', completed: 'Completed',
+        depositTitleTab: 'Deposit', withdrawTitleTab: 'Withdrawal', depositInfo: 'Add TON directly from your connected wallet.', depositActionBtn: 'Deposit TON', placeholderDepositAmount: 'Amount (Min 0.01 TON)', minDepositText: 'Minimum deposit is 0.01 TON', depositSuccess: '✅ Deposit transaction sent! Balance updated.', connectWalletFirst: 'Please connect wallet first.', txFailed: 'Transaction failed or cancelled.',
+        withdrawTitle: 'Withdrawal', selectMethod: 'Select withdrawal method', minTonLabel: 'Min: 100 TON', back: 'Back', withdrawTonTitle: 'Withdraw TON', withdraw: 'Withdraw', feeText: 'Network Fee (5%):', receiveText: 'You will receive:', methodError: 'Select a method', detailsError: 'Enter valid TON address', amountError: 'Enter correct amount', minAmount: 'Minimum withdrawal is 100 TON', balanceError: 'Insufficient balance', withdrawSuccess: '✅ Withdrawal requested! It will be processed soon.',
+        home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile', placeholderDetails_ton: 'Your TON Wallet Address', placeholderAmount: 'Amount (Min 100 TON)', taskSuccess: (r) => `✅ Task Completed! ${r} added.`, guestUser: 'User', theme: 'Theme', language: 'Language', withdrawHistory: 'Transaction History', pending: 'Pending', emptyHistory: 'History is empty', shareBtn: 'Invite Friends', shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Close',
+        shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nWatch daily ads and start earning 💰\nTON coins effortlessly. No complex steps just watch, complete, and grow your balance!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\nTurn your free time into profit 🔥 👇 Join now and start earning!\n\n🔗 Link: {LINK}", promoteBtn: 'Promote', promoteTitle: '🚀 Advertise on Ton Play Bot!', promoteText: "Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable advertising options<br><br>💎 Advertising Packages (in TON Coin):<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>📩 Contact us now to get started<br><br>🚀 Take your project to the next level with Ton Play!", contactBtn: 'Contact', depositText: 'Deposit'
     },
     'tr': {
-        yourBalance: 'Bakiyeniz', dailyAdsHeader: 'Günlük Reklamlar',
-        adReward: 'Her reklam için <b>0.1 TON</b> kazanın',
-        watched: 'İzlenen', maximum: 'Maksimum', maxCount: '100', progressText: 'İlerleme:',
-        watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!',
-        rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin',
-        joinCommunityTitle: 'Topluluğa Katıl', joinCommunityDesc: 'Resmi topluluk kanalımıza katılın ve kazanın!',
-        joinBtnText: 'Kanala Katıl', completed: 'Tamamlandı',
-        withdrawTitle: 'Para Çekme', selectMethod: 'Çekim yöntemi seçin', minTonLabel: 'Min: 100 TON',
-        back: 'Geri', withdrawTonTitle: 'TON Çek', withdraw: 'Çekim Yap', feeText: 'Ağ Ücreti (5%):', receiveText: 'Alacağınız:',
-        methodError: 'Yöntem seçin', detailsError: 'Geçerli TON adresi girin', amountError: 'Miktarı doğru girin',
-        minAmount: 'Minimum çekim 100 TON', balanceError: 'Yetersiz bakiye',
-        withdrawSuccess: '✅ Çekim talebi alındı! Yakında işlenecektir.',
-        home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil',
-        placeholderDetails_ton: 'TON Cüzdan Adresiniz', placeholderAmount: 'Miktar (Min 100 TON)',
-        taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} eklendi.`,
-        guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil',
-        withdrawHistory: 'Çekim Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş',
-        shareBtn: 'Arkadaşlarını Davet Et', shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Kapat',
-        shareMsg: "🚀 TonPlay ile basit, hızlı, gerçek ödüller kazanın!\n\nGünlük reklamları izleyin ve zahmetsizce 💰 TON coin kazanmaya başlayın. Karmaşık adımlar yok, sadece izleyin, tamamlayın ve bakiyenizi büyütün!\n\n✨ Kolay ve kullanıcı dostu sistem\n🎯 Günlük kazanma fırsatları\n💎 Gerçek ödüller, gerçek sonuçlar\n\nBoş zamanınızı kazanca dönüştürün 🔥 👇 Şimdi katılın ve kazanmaya başlayın!\n\n🔗 Link: {LINK}",
-        promoteBtn: 'Reklam Ver',
-        promoteTitle: "🚀 Ton Play Bot'ta Reklam Verin!",
-        promoteText: "Projenizi, kanalınızı veya botunuzu büyütmek mi istiyorsunuz?<br>Doğru yerdesiniz! 🎯<br><br>🎯 Geniş bir kitleye ulaşın<br>📈 Büyümenizi hızlandırın<br>💸 Etkili ve uygun fiyatlı reklam seçenekleri<br><br>💎 Reklam Paketleri (TON Coin ile):<br>• 1 Hafta — 3 TON<br>• 1 Ay — 12 TON<br>• 3 Ay — 33 TON<br>• 6 Ay — 62 TON<br><br>📩 Başlamak için hemen iletişime geçin<br><br>🚀 Projenizi Ton Play ile bir sonraki seviyeye taşıyın!",
-        contactBtn: 'İletişim'
+        yourBalance: 'Bakiyeniz', dailyAdsHeader: 'Günlük Reklamlar', adReward: 'Her reklam için <b>0.1 TON</b> kazanın', watched: 'İzlenen', maximum: 'Maksimum', maxCount: '100', progressText: 'İlerleme:', watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!', rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin', joinCommunityTitle: 'Topluluğa Katıl', joinCommunityDesc: 'Resmi topluluk kanalımıza katılın ve kazanın!', joinBtnText: 'Kanala Katıl', completed: 'Tamamlandı',
+        depositTitleTab: 'Yatırım', withdrawTitleTab: 'Çekim', depositInfo: 'Bağlı cüzdanınızdan doğrudan TON ekleyin.', depositActionBtn: 'TON Yatır', placeholderDepositAmount: 'Miktar (Min 0.01 TON)', minDepositText: 'Minimum yatırım 0.01 TON', depositSuccess: '✅ Yatırım gönderildi! Bakiye güncellendi.', connectWalletFirst: 'Lütfen önce cüzdanı bağlayın.', txFailed: 'İşlem başarısız veya iptal edildi.',
+        withdrawTitle: 'Para Çekme', selectMethod: 'Çekim yöntemi seçin', minTonLabel: 'Min: 100 TON', back: 'Geri', withdrawTonTitle: 'TON Çek', withdraw: 'Çekim Yap', feeText: 'Ağ Ücreti (5%):', receiveText: 'Alacağınız:', methodError: 'Yöntem seçin', detailsError: 'Geçerli TON adresi girin', amountError: 'Miktarı doğru girin', minAmount: 'Minimum çekim 100 TON', balanceError: 'Yetersiz bakiye', withdrawSuccess: '✅ Çekim talebi alındı! Yakında işlenecektir.',
+        home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil', placeholderDetails_ton: 'TON Cüzdan Adresiniz', placeholderAmount: 'Miktar (Min 100 TON)', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} eklendi.`, guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil', withdrawHistory: 'İşlem Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş', shareBtn: 'Arkadaşlarını Davet Et', shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Kapat',
+        shareMsg: "🚀 TonPlay ile basit, hızlı, gerçek ödüller kazanın!\n\nGünlük reklamları izleyin ve zahmetsizce 💰 TON coin kazanmaya başlayın. Karmaşık adımlar yok, sadece izleyin, tamamlayın ve bakiyenizi büyütün!\n\n✨ Kolay ve kullanıcı dostu sistem\n🎯 Günlük kazanma fırsatları\n💎 Gerçek ödüller, gerçek sonuçlar\n\nBoş zamanınızı kazanca dönüştürün 🔥 👇 Şimdi katılın ve kazanmaya başlayın!\n\n🔗 Link: {LINK}", promoteBtn: 'Reklam Ver', promoteTitle: "🚀 Ton Play Bot'ta Reklam Verin!", promoteText: "Projenizi, kanalınızı veya botunuzu büyütmek mi istiyorsunuz?<br>Doğru yerdesiniz! 🎯<br><br>🎯 Geniş bir kitleye ulaşın<br>📈 Büyümenizi hızlandırın<br>💸 Etkili ve uygun fiyatlı reklam seçenekleri<br><br>💎 Reklam Paketleri (TON Coin ile):<br>• 1 Hafta — 3 TON<br>• 1 Ay — 12 TON<br>• 3 Ay — 33 TON<br>• 6 Ay — 62 TON<br><br>📩 Başlamak için hemen iletişime geçin<br><br>🚀 Projenizi Ton Play ile bir sonraki seviyeye taşıyın!", contactBtn: 'İletişim', depositText: 'Yatırım'
     },
     'ru': { 
-        yourBalance: 'Ваш Баланс', dailyAdsHeader: 'Ежедневная Реклама',
-        adReward: 'Зарабатывайте <b>0.1 TON</b> за рекламу',
-        watched: 'Просмотрено', maximum: 'Максимум', maxCount: '100', progressText: 'Прогресс:',
-        watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут лимит!',
-        rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ Ожидайте {s}с',
-        joinCommunityTitle: 'Присоединиться к сообществу', joinCommunityDesc: 'Вступайте в наше официальное сообщество и зарабатывайте!',
-        joinBtnText: 'Подписаться', completed: 'Выполнено',
-        withdrawTitle: 'Вывод Средств', selectMethod: 'Выберите способ вывода', minTonLabel: 'Мин: 100 TON',
-        back: 'Назад', withdrawTonTitle: 'Вывести TON', withdraw: 'Вывести', feeText: 'Комиссия сети (5%):', receiveText: 'Вы получите:',
-        methodError: 'Выберите способ', detailsError: 'Введите верный TON адрес', amountError: 'Введите правильную сумму',
-        minAmount: 'Минимальный вывод 100 TON', balanceError: 'Недостаточно средств',
-        withdrawSuccess: '✅ Заявка отправлена! Будет обработана скоро.',
-        home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль',
-        placeholderDetails_ton: 'Ваш TON Адрес', placeholderAmount: 'Сумма (Мин 100 TON)',
-        taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено.`,
-        guestUser: 'Пользователь', theme: 'Тема', language: 'Язык',
-        withdrawHistory: 'История Выводов', pending: 'В ожидании', emptyHistory: 'История пуста',
-        shareBtn: 'Пригласить Друзей', shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Закрыть',
-        shareMsg: "🚀 Зарабатывайте с TonPlay: просто, быстро, реальные награды!\n\nСмотрите ежедневную рекламу и начните легко зарабатывать 💰 TON. Никаких сложных шагов — просто смотрите, выполняйте и увеличивайте свой баланс!\n\n✨ Удобная система\n🎯 Ежедневные возможности\n💎 Реальные награды\n\nПревратите свободное время в прибыль 🔥 👇 Присоединяйтесь и начните зарабатывать!\n\n🔗 Ссылка: {LINK}",
-        promoteBtn: 'Реклама',
-        promoteTitle: '🚀 Разместите рекламу в Ton Play Bot!',
-        promoteText: "Хотите развить свой проект, канал или бота?<br>Вы в правильном месте! 🎯<br><br>🎯 Охватите широкую аудиторию<br>📈 Быстро ускорьте свой рост<br>💸 Эффективные и доступные варианты рекламы<br><br>💎 Рекламные пакеты (в TON Coin):<br>• 1 Неделя — 3 TON<br>• 1 Месяц — 12 TON<br>• 3 Месяца — 33 TON<br>• 6 Месяцев — 62 TON<br><br>📩 Свяжитесь с нами прямо сейчас, чтобы начать<br><br>🚀 Выведите свой проект на новый уровень с Ton Play!",
-        contactBtn: 'Связаться'
+        yourBalance: 'Ваш Баланс', dailyAdsHeader: 'Ежедневная Реклама', adReward: 'Зарабатывайте <b>0.1 TON</b> за рекламу', watched: 'Просмотрено', maximum: 'Максимум', maxCount: '100', progressText: 'Прогресс:', watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут лимит!', rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ Ожидайте {s}с', joinCommunityTitle: 'Присоединиться к сообществу', joinCommunityDesc: 'Вступайте в наше официальное сообщество и зарабатывайте!', joinBtnText: 'Подписаться', completed: 'Выполнено',
+        depositTitleTab: 'Депозит', withdrawTitleTab: 'Вывод', depositInfo: 'Пополняйте баланс напрямую с подключенного кошелька.', depositActionBtn: 'Пополнить TON', placeholderDepositAmount: 'Сумма (Мин 0.01 TON)', minDepositText: 'Минимальный депозит 0.01 TON', depositSuccess: '✅ Транзакция отправлена! Баланс обновлен.', connectWalletFirst: 'Пожалуйста, подключите кошелек.', txFailed: 'Транзакция не удалась или отменена.',
+        withdrawTitle: 'Вывод Средств', selectMethod: 'Выберите способ вывода', minTonLabel: 'Мин: 100 TON', back: 'Назад', withdrawTonTitle: 'Вывести TON', withdraw: 'Вывести', feeText: 'Комиссия сети (5%):', receiveText: 'Вы получите:', methodError: 'Выберите способ', detailsError: 'Введите верный TON адрес', amountError: 'Введите правильную сумму', minAmount: 'Минимальный вывод 100 TON', balanceError: 'Недостаточно средств', withdrawSuccess: '✅ Заявка отправлена! Будет обработана скоро.',
+        home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль', placeholderDetails_ton: 'Ваш TON Адрес', placeholderAmount: 'Сумма (Мин 100 TON)', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено.`, guestUser: 'Пользователь', theme: 'Тема', language: 'Язык', withdrawHistory: 'История транзакций', pending: 'В ожидании', emptyHistory: 'История пуста', shareBtn: 'Пригласить Друзей', shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Закрыть',
+        shareMsg: "🚀 Зарабатывайте с TonPlay: просто, быстро, реальные награды!\n\nСмотрите ежедневную рекламу и начните легко зарабатывать 💰 TON. Никаких сложных шагов — просто смотрите, выполняйте и увеличивайте свой баланс!\n\n✨ Удобная система\n🎯 Ежедневные возможности\n💎 Реальные награды\n\nПревратите свободное время в прибыль 🔥 👇 Присоединяйтесь и начните зарабатывать!\n\n🔗 Ссылка: {LINK}", promoteBtn: 'Реклама', promoteTitle: '🚀 Разместите рекламу в Ton Play Bot!', promoteText: "Хотите развить свой проект, канал или бота?<br>Вы в правильном месте! 🎯<br><br>🎯 Охватите широкую аудиторию<br>📈 Быстро ускорьте свой рост<br>💸 Эффективные и доступные варианты рекламы<br><br>💎 Рекламные пакеты (в TON Coin):<br>• 1 Неделя — 3 TON<br>• 1 Месяц — 12 TON<br>• 3 Месяца — 33 TON<br>• 6 Месяцев — 62 TON<br><br>📩 Свяжитесь с нами прямо сейчас, чтобы начать<br><br>🚀 Выведите свой проект на новый уровень с Ton Play!", contactBtn: 'Связаться', depositText: 'Депозит'
     }
 };
 
@@ -809,136 +648,63 @@ let isAdRunning = false;
 function getNextResetTime() {
     const now = new Date();
     let resetUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0));
-    if(now.getTime() >= resetUTC.getTime()){
-        resetUTC.setUTCDate(resetUTC.getUTCDate() + 1); 
-    }
+    if(now.getTime() >= resetUTC.getTime()){ resetUTC.setUTCDate(resetUTC.getUTCDate() + 1); }
     return resetUTC.getTime();
 }
 
-if(!resetTime || Date.now() >= resetTime){
-  cnt=0; resetTime=getNextResetTime(); safeSet(RESET_KEY,resetTime); safeSet(COUNT_KEY,cnt);
-}
+if(!resetTime || Date.now() >= resetTime){ cnt=0; resetTime=getNextResetTime(); safeSet(RESET_KEY,resetTime); safeSet(COUNT_KEY,cnt); }
 
 function loadProfilePic() {
     const pic = localStorage.getItem(PROFILE_PIC_KEY);
     const avatar = document.querySelector('.profile-avatar');
     const img = document.getElementById('profileImage');
-    if (pic) {
-        img.src = pic;
-        avatar.classList.add('has-image');
-    } else {
-        avatar.classList.remove('has-image');
-    }
+    if (pic) { img.src = pic; avatar.classList.add('has-image'); } 
+    else { avatar.classList.remove('has-image'); }
 }
 
 function loadProfile() {
     const savedName = localStorage.getItem(USERNAME_KEY);
     const displayEl = document.getElementById('displayUsername');
-    if (savedName) {
-        displayEl.textContent = savedName;
-        displayEl.removeAttribute('data-translate-key');
-    } else {
-        displayEl.setAttribute('data-translate-key', 'guestUser');
-        applyTranslationToElement(displayEl, 'guestUser', currentLang);
-    }
+    if (savedName) { displayEl.textContent = savedName; displayEl.removeAttribute('data-translate-key'); } 
+    else { displayEl.setAttribute('data-translate-key', 'guestUser'); applyTranslationToElement(displayEl, 'guestUser', currentLang); }
     document.getElementById('displayUserId').textContent = userRefId;
     loadProfilePic();
 }
 
-function openShareModal() {
-    const overlay = document.getElementById('shareModalOverlay');
-    overlay.style.display = 'flex';
-    setTimeout(() => overlay.classList.add('show'), 10);
-}
-
-function closeShareModal() {
-    const overlay = document.getElementById('shareModalOverlay');
-    overlay.classList.remove('show');
-    setTimeout(() => overlay.style.display = 'none', 300);
-}
-
-function openPromoteModal() {
-    const overlay = document.getElementById('promoteModalOverlay');
-    overlay.style.display = 'flex';
-    setTimeout(() => overlay.classList.add('show'), 10);
-}
-
-function closePromoteModal() {
-    const overlay = document.getElementById('promoteModalOverlay');
-    overlay.classList.remove('show');
-    setTimeout(() => overlay.style.display = 'none', 300);
-}
-
-function shareOnTelegramAction() {
-    const t = TRANSLATIONS[currentLang];
-    const message = t.shareMsg.replace('{LINK}', userRefLink);
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://t.me/share/url?url=&text=${encodedMessage}`, '_blank');
-    closeShareModal();
-}
-
-function shareOnWhatsappAction() {
-    const t = TRANSLATIONS[currentLang];
-    const message = t.shareMsg.replace('{LINK}', userRefLink);
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
-    closeShareModal();
-}
-
+function openShareModal() { const overlay = document.getElementById('shareModalOverlay'); overlay.style.display = 'flex'; setTimeout(() => overlay.classList.add('show'), 10); }
+function closeShareModal() { const overlay = document.getElementById('shareModalOverlay'); overlay.classList.remove('show'); setTimeout(() => overlay.style.display = 'none', 300); }
+function openPromoteModal() { const overlay = document.getElementById('promoteModalOverlay'); overlay.style.display = 'flex'; setTimeout(() => overlay.classList.add('show'), 10); }
+function closePromoteModal() { const overlay = document.getElementById('promoteModalOverlay'); overlay.classList.remove('show'); setTimeout(() => overlay.style.display = 'none', 300); }
+function shareOnTelegramAction() { window.open(`https://t.me/share/url?url=&text=${encodeURIComponent(TRANSLATIONS[currentLang].shareMsg.replace('{LINK}', userRefLink))}`, '_blank'); closeShareModal(); }
+function shareOnWhatsappAction() { window.open(`https://wa.me/?text=${encodeURIComponent(TRANSLATIONS[currentLang].shareMsg.replace('{LINK}', userRefLink))}`, '_blank'); closeShareModal(); }
 function copyRefLinkAction() {
-    const t = TRANSLATIONS[currentLang];
     if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(userRefLink).then(() => {
-            showTaskNotification(t.linkCopied);
-        }).catch(err => fallbackCopyTextToClipboard(userRefLink, t));
-    } else {
-        fallbackCopyTextToClipboard(userRefLink, t);
-    }
+        navigator.clipboard.writeText(userRefLink).then(() => { showTaskNotification(TRANSLATIONS[currentLang].linkCopied); }).catch(err => fallbackCopyTextToClipboard(userRefLink, TRANSLATIONS[currentLang]));
+    } else { fallbackCopyTextToClipboard(userRefLink, TRANSLATIONS[currentLang]); }
     closeShareModal();
 }
-
 function fallbackCopyTextToClipboard(text, t) {
-    var textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.style.top = "0";
-    textArea.style.left = "0";
-    textArea.style.position = "fixed";
-    textArea.style.opacity = "0";
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    try {
-        var successful = document.execCommand('copy');
-        if(successful) showTaskNotification(t.linkCopied);
-    } catch (err) {}
+    var textArea = document.createElement("textarea"); textArea.value = text;
+    textArea.style.top = "0"; textArea.style.left = "0"; textArea.style.position = "fixed"; textArea.style.opacity = "0";
+    document.body.appendChild(textArea); textArea.focus(); textArea.select();
+    try { var successful = document.execCommand('copy'); if(successful) showTaskNotification(t.linkCopied); } catch (err) {}
     document.body.removeChild(textArea);
 }
 
-function formatTon(val) {
-    return parseFloat(val).toFixed(3);
-}
+function formatTon(val) { return parseFloat(val).toFixed(3); }
 
 function update(){
-  if(Date.now() >= resetTime){
-      cnt = 0;
-      resetTime = getNextResetTime();
-      safeSet(RESET_KEY, resetTime);
-  }
-
+  if(Date.now() >= resetTime){ cnt = 0; resetTime = getNextResetTime(); safeSet(RESET_KEY, resetTime); }
   const formattedBal = formatTon(bal);
   document.getElementById('balance').textContent = formattedBal;
   document.getElementById('balance2').textContent = formattedBal;
   document.getElementById('balance3').textContent = formattedBal;
-
   document.getElementById('adsCount').textContent=cnt;
   document.getElementById('progress').style.width=(cnt/MAX_ADS_PER_DAY*100)+'%';
   const progressTextSpan = document.getElementById('progressTextSpan');
   if(progressTextSpan) progressTextSpan.textContent = `${cnt}/${MAX_ADS_PER_DAY}`;
-  
   safeSet(BAL_KEY, bal); safeSet(COUNT_KEY, cnt); 
-  
-  checkAndDisplayRewardMsg();
-  updateTaskButtons(); 
+  checkAndDisplayRewardMsg(); updateTaskButtons(); 
 }
 
 function renderHistory() {
@@ -955,37 +721,46 @@ function renderHistory() {
     reversed.forEach(item => {
         const div = document.createElement('div');
         div.className = 'history-item';
-        
         const d = new Date(item.date);
         const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        const statusText = t[item.status] || item.status;
         
+        let statusText = '';
+        let statusClass = 'history-status';
+        let methodIcon = '<img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" alt="TON" draggable="false">';
+        let amountText = '';
+
+        if(item.method === 'deposit') {
+            statusText = t.completed || 'Completed';
+            statusClass += ' completed';
+            methodIcon = '<i data-lucide="arrow-down-circle"></i> ' + (t.depositText || 'Deposit');
+            amountText = `+${formatTon(item.amount)} TON`;
+        } else {
+            statusText = t[item.status] || item.status;
+            methodIcon = `${methodIcon} TON Coin`;
+            amountText = `-${formatTon(item.amount)} TON`;
+        }
+
         div.innerHTML = `
             <div class="history-info">
-                <div class="history-method"><img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" alt="TON" draggable="false"> TON Coin</div>
+                <div class="history-method">${methodIcon}</div>
                 <div class="history-date">${dateStr}</div>
             </div>
             <div class="history-status-wrap">
-                <div class="history-amount">${formatTon(item.amount)} TON</div>
-                <div class="history-status">${statusText}</div>
+                <div class="history-amount">${amountText}</div>
+                <div class="history-status ${item.method==='deposit' ? 'completed' : ''}">${statusText}</div>
             </div>
         `;
         list.appendChild(div);
     });
+    lucide.createIcons();
 }
 
 function updateTaskButtons() {
     const t = TRANSLATIONS[currentLang];
     const joinBtn = document.getElementById('joinBtn');
-
     if (joinBtn) {
-        if (localStorage.getItem(JOIN_COMMUNITY_KEY)){
-            joinBtn.className = 'task-btn completed'; joinBtn.innerHTML = `<i data-lucide="check-circle" style="width:20px;height:20px;"></i> ${t.completed}`; joinBtn.disabled = true; 
-        } else {
-            if (!joinBtn.classList.contains('waiting')) {
-                 joinBtn.className = 'task-btn action'; joinBtn.disabled = false; joinBtn.innerHTML = `<i data-lucide="send" style="width:20px;height:20px;"></i> ${t.joinBtnText}`;
-            }
-        }
+        if (localStorage.getItem(JOIN_COMMUNITY_KEY)){ joinBtn.className = 'task-btn completed'; joinBtn.innerHTML = `<i data-lucide="check-circle" style="width:20px;height:20px;"></i> ${t.completed}`; joinBtn.disabled = true; } 
+        else { if (!joinBtn.classList.contains('waiting')) { joinBtn.className = 'task-btn action'; joinBtn.disabled = false; joinBtn.innerHTML = `<i data-lucide="send" style="width:20px;height:20px;"></i> ${t.joinBtnText}`; } }
     }
     lucide.createIcons(); 
 }
@@ -993,9 +768,8 @@ function updateTaskButtons() {
 function applyTranslationToElement(el, key, lang) {
     const t = TRANSLATIONS[lang];
     if (!t) return;
-    
-    if (typeof t[key] === 'function') {
-    } else if (t[key]) {
+    if (typeof t[key] === 'function') {} 
+    else if (t[key]) {
          if(el.tagName === 'INPUT') el.placeholder = t[key];
          else el.innerHTML = t[key];
     }
@@ -1007,27 +781,14 @@ function applyTranslations(lang) {
     document.querySelectorAll('[data-translate-key]').forEach(el => {
         applyTranslationToElement(el, el.getAttribute('data-translate-key'), lang);
     });
-    
-    updateTaskButtons(); 
-    loadProfile();
-    renderHistory();
-    
+    updateTaskButtons(); loadProfile(); renderHistory();
     const progressTextSpan = document.getElementById('progressTextSpan');
     if(progressTextSpan) progressTextSpan.textContent = `${cnt}/${MAX_ADS_PER_DAY}`;
-    
     const adBtnWatchSpan = adBtnContent.querySelector('span');
-    if(adBtnWatchSpan) {
-        if (adBtn.classList.contains('waiting')) { adBtnWatchSpan.textContent = t.watching; } 
-        else { adBtnWatchSpan.textContent = t.watchAd; }
-    }
+    if(adBtnWatchSpan) { if (adBtn.classList.contains('waiting')) { adBtnWatchSpan.textContent = t.watching; } else { adBtnWatchSpan.textContent = t.watchAd; } }
 }
 
-function setLang(lang) {
-    currentLang = lang;
-    localStorage.setItem(LANG_KEY, lang);
-    applyTranslations(lang);
-    calculateFee(); 
-}
+function setLang(lang) { currentLang = lang; localStorage.setItem(LANG_KEY, lang); applyTranslations(lang); calculateFee(); }
 
 const adBtn=document.getElementById('adBtn'), msg=document.getElementById('msg');
 const adBtnContent = document.querySelector('.ad-btn-content');
@@ -1036,25 +797,15 @@ function displayRewardMsg(messageHTML) {
     if (rewardMsgTimeout) { clearTimeout(rewardMsgTimeout); rewardMsgTimeout = null; }
     const container = document.getElementById('adRewardNotificationContainer');
     if (!container) return; 
-
     let rewardMsgElement = document.getElementById('rewardMsg');
     if (rewardMsgElement) { rewardMsgElement.innerHTML = messageHTML; } 
-    else {
-        rewardMsgElement = document.createElement('div');
-        rewardMsgElement.className = 'reward-msg'; rewardMsgElement.id = 'rewardMsg';
-        rewardMsgElement.innerHTML = messageHTML;
-        container.appendChild(rewardMsgElement);
-    }
+    else { rewardMsgElement = document.createElement('div'); rewardMsgElement.className = 'reward-msg'; rewardMsgElement.id = 'rewardMsg'; rewardMsgElement.innerHTML = messageHTML; container.appendChild(rewardMsgElement); }
     rewardMsgElement.classList.remove('show');
     safeSet(REWARD_MSG_KEY, { html: messageHTML, expire: Date.now() + 2500 }); 
     setTimeout(() => { rewardMsgElement.classList.add('show'); }, 50);
     rewardMsgTimeout = setTimeout(() => {
-        if (rewardMsgElement) {
-            rewardMsgElement.classList.remove('show');
-            setTimeout(() => { if(rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400); 
-        }
-        safeRemove(REWARD_MSG_KEY);
-        rewardMsgTimeout = null;
+        if (rewardMsgElement) { rewardMsgElement.classList.remove('show'); setTimeout(() => { if(rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400); }
+        safeRemove(REWARD_MSG_KEY); rewardMsgTimeout = null;
     }, 2500);
 }
 
@@ -1062,31 +813,17 @@ function checkAndDisplayRewardMsg() {
     const container = document.getElementById('adRewardNotificationContainer');
     if (!container) return;
     const currentPage = document.querySelector('.page.active');
-    if (!currentPage || currentPage.id !== 'adsPage') {
-        let rewardMsgElement = document.getElementById('rewardMsg');
-        if (rewardMsgElement) rewardMsgElement.classList.remove('show');
-        return;
-    }
+    if (!currentPage || currentPage.id !== 'adsPage') { let rewardMsgElement = document.getElementById('rewardMsg'); if (rewardMsgElement) rewardMsgElement.classList.remove('show'); return; }
     const savedMsg = safeGet(REWARD_MSG_KEY, null);
     let rewardMsgElement = document.getElementById('rewardMsg');
     if (savedMsg) {
         const remainingTime = savedMsg.expire - Date.now();
         if (remainingTime > 0) {
-            if (!rewardMsgElement) {
-                rewardMsgElement = document.createElement('div');
-                rewardMsgElement.className = 'reward-msg'; rewardMsgElement.id = 'rewardMsg';
-                container.appendChild(rewardMsgElement);
-            }
+            if (!rewardMsgElement) { rewardMsgElement = document.createElement('div'); rewardMsgElement.className = 'reward-msg'; rewardMsgElement.id = 'rewardMsg'; container.appendChild(rewardMsgElement); }
             rewardMsgElement.innerHTML = savedMsg.html; rewardMsgElement.classList.remove('show');
             if (rewardMsgTimeout) clearTimeout(rewardMsgTimeout);
             setTimeout(() => { rewardMsgElement.classList.add('show'); }, 50);
-            rewardMsgTimeout = setTimeout(() => {
-                 if (rewardMsgElement) {
-                    rewardMsgElement.classList.remove('show');
-                    setTimeout(() => { if(rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400);
-                }
-                safeRemove(REWARD_MSG_KEY); rewardMsgTimeout = null;
-            }, remainingTime);
+            rewardMsgTimeout = setTimeout(() => { if (rewardMsgElement) { rewardMsgElement.classList.remove('show'); setTimeout(() => { if(rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400); } safeRemove(REWARD_MSG_KEY); rewardMsgTimeout = null; }, remainingTime);
         } else { safeRemove(REWARD_MSG_KEY); if (rewardMsgElement && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }
     } else { if (rewardMsgElement && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }
 }
@@ -1094,86 +831,37 @@ function checkAndDisplayRewardMsg() {
 function restoreAdBtnState() {
     const t = TRANSLATIONS[currentLang];
     const textSpan = adBtnContent.querySelector('span');
-    
-    if (isAdRunning) {
-        adBtn.classList.add('waiting'); adBtn.disabled = true;
-        if(textSpan) textSpan.textContent = t.watching; return; 
-    }
-
-    if (cnt >= MAX_ADS_PER_DAY) {
-        adBtn.classList.remove('waiting'); adBtn.disabled = true; 
-        if(textSpan) textSpan.textContent = t.watchAd;
-        msg.textContent = t.adLimitReached; checkAndDisplayRewardMsg(); return; 
-    }
-    
-    adBtn.classList.remove('waiting'); adBtn.disabled = false; 
-    if(textSpan) textSpan.textContent = t.watchAd;
-    msg.textContent = ''; checkAndDisplayRewardMsg();
+    if (isAdRunning) { adBtn.classList.add('waiting'); adBtn.disabled = true; if(textSpan) textSpan.textContent = t.watching; return; }
+    if (cnt >= MAX_ADS_PER_DAY) { adBtn.classList.remove('waiting'); adBtn.disabled = true; if(textSpan) textSpan.textContent = t.watchAd; msg.textContent = t.adLimitReached; checkAndDisplayRewardMsg(); return; }
+    adBtn.classList.remove('waiting'); adBtn.disabled = false; if(textSpan) textSpan.textContent = t.watchAd; msg.textContent = ''; checkAndDisplayRewardMsg();
 }
 
 adBtn.onclick = async () => {
-    update();
-    
-    const t = TRANSLATIONS[currentLang];
+    update(); const t = TRANSLATIONS[currentLang];
     if (cnt >= MAX_ADS_PER_DAY) { msg.textContent = t.adLimitReached; return; }
     if (isAdRunning || adBtn.classList.contains('waiting')) return;
     isAdRunning = true; 
-
     if (rewardMsgTimeout) { clearTimeout(rewardMsgTimeout); rewardMsgTimeout = null; }
     safeRemove(REWARD_MSG_KEY);
     let rewardMsgElement = document.getElementById('rewardMsg');
-    if (rewardMsgElement) {
-         rewardMsgElement.classList.remove('show');
-         setTimeout(() => { const container = document.getElementById('adRewardNotificationContainer'); if(container && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400); 
-    }
-    
+    if (rewardMsgElement) { rewardMsgElement.classList.remove('show'); setTimeout(() => { const container = document.getElementById('adRewardNotificationContainer'); if(container && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400); }
     adBtn.disabled = true; adBtn.classList.add('waiting');
     const textSpan = adBtnContent.querySelector('span');
     if(textSpan) textSpan.textContent = t.watching; msg.textContent = '';
     
     try {
-        if (!adManager && window.Adsgram) {
-            adManager = window.Adsgram.init({ blockId: "int-28300" });
-        }
-        
-        if (adManager) {
-            adManager.show().then((result) => {
-                giveAdReward(t);
-            }).catch((error) => {
-                console.error("Adsgram ad error or skipped", error);
-                resetAdBtnState(t);
-            });
-        } else {
-            console.error("Adsgram could not be initialized");
-            resetAdBtnState(t);
-        }
-    } catch(e) {
-        console.error("Ad block or network error", e); 
-        resetAdBtnState(t);
-    } 
+        if (!adManager && window.Adsgram) { adManager = window.Adsgram.init({ blockId: "int-28300" }); }
+        if (adManager) { adManager.show().then((result) => { giveAdReward(t); }).catch((error) => { console.error("Adsgram error", error); resetAdBtnState(t); }); } 
+        else { console.error("Adsgram init fail"); resetAdBtnState(t); }
+    } catch(e) { console.error("Ad error", e); resetAdBtnState(t); } 
 };
 
-function giveAdReward(t) {
-    bal += REWARD_PER_AD; cnt++; 
-    update(); 
-    displayRewardMsg(t.rewardAddedConfirmed(`<b>${REWARD_PER_AD} TON</b>`));
-    resetAdBtnState(t);
-}
-
-function resetAdBtnState(t) {
-    isAdRunning = false; adBtn.disabled = false; adBtn.classList.remove('waiting');
-    const textSpan = adBtnContent.querySelector('span');
-    if(textSpan) textSpan.textContent = t.watchAd; 
-    if (cnt >= MAX_ADS_PER_DAY) msg.textContent = t.adLimitReached; else msg.textContent = ''; 
-}
+function giveAdReward(t) { bal += REWARD_PER_AD; cnt++; update(); displayRewardMsg(t.rewardAddedConfirmed(`<b>${REWARD_PER_AD} TON</b>`)); resetAdBtnState(t); }
+function resetAdBtnState(t) { isAdRunning = false; adBtn.disabled = false; adBtn.classList.remove('waiting'); const textSpan = adBtnContent.querySelector('span'); if(textSpan) textSpan.textContent = t.watchAd; if (cnt >= MAX_ADS_PER_DAY) msg.textContent = t.adLimitReached; else msg.textContent = ''; }
 
 const taskNotification = document.getElementById('taskNotification');
 const taskNotificationText = document.getElementById('taskNotificationText');
-function showTaskNotification(message) {
-    taskNotificationText.innerHTML = message;
-    taskNotification.classList.remove('notification-hide'); taskNotification.classList.add('notification-show');
-    setTimeout(() => { taskNotification.classList.remove('notification-show'); taskNotification.classList.add('notification-hide'); }, 3000);
-}
+function showTaskNotification(message) { taskNotificationText.innerHTML = message; taskNotification.classList.remove('notification-hide'); taskNotification.classList.add('notification-show'); setTimeout(() => { taskNotification.classList.remove('notification-show'); taskNotification.classList.add('notification-hide'); }, 3000); }
 
 const joinBtn = document.getElementById('joinBtn');
 if (joinBtn) {
@@ -1184,46 +872,105 @@ if (joinBtn) {
         joinBtn.disabled = true; joinBtn.classList.add('waiting'); 
         joinBtn.innerHTML = `<i data-lucide="loader" style="width:20px;height:20px;"></i> ${t.wait.replace('{s}', '3')}`;
         lucide.createIcons();
-        setTimeout(() => {
-            bal += TASK_REWARD; 
-            safeSet(BAL_KEY, bal); localStorage.setItem(JOIN_COMMUNITY_KEY, '1'); update();
-            showTaskNotification(t.taskSuccess(`<b>${TASK_REWARD} TON</b>`));
-        }, 3000); 
+        setTimeout(() => { bal += TASK_REWARD; safeSet(BAL_KEY, bal); localStorage.setItem(JOIN_COMMUNITY_KEY, '1'); update(); showTaskNotification(t.taskSuccess(`<b>${TASK_REWARD} TON</b>`)); }, 3000); 
     };
 }
 
-// YENİLƏNMİŞ SƏLİS SƏHİFƏ KEÇİDİ FUNKSİYASI
 function showPage(id, btn){
   if (btn.classList.contains('active')) return; 
-  
   const activePage = document.querySelector('.page.active');
-  
-  if (activePage) {
-      activePage.classList.remove('active');
-      activePage.classList.add('fading-out');
-      
-      setTimeout(() => {
-          activePage.classList.remove('fading-out');
-          activateNewPage(id, btn);
-      }, 250); 
-  } else {
-      activateNewPage(id, btn);
-  }
+  if (activePage) { activePage.classList.remove('active'); activePage.classList.add('fading-out'); setTimeout(() => { activePage.classList.remove('fading-out'); activateNewPage(id, btn); }, 250); } 
+  else { activateNewPage(id, btn); }
 }
 
 function activateNewPage(id, btn) {
   document.getElementById(id).classList.add('active');
   document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  
   if (id === 'adsPage') { restoreAdBtnState(); } 
   else if (id === 'tasksPage') { updateTaskButtons(); } 
-  else {
-    let rewardMsgElement = document.getElementById('rewardMsg');
-    if (rewardMsgElement) rewardMsgElement.classList.remove('show');
-  }
+  else { let rewardMsgElement = document.getElementById('rewardMsg'); if (rewardMsgElement) rewardMsgElement.classList.remove('show'); }
 }
 
+// Wallet Action Tabs Logic
+const btnDepositTab = document.getElementById('btnDepositTab');
+const btnWithdrawTab = document.getElementById('btnWithdrawTab');
+const depositSection = document.getElementById('depositSection');
+const withdrawSection = document.getElementById('withdrawSection');
+
+btnDepositTab.onclick = () => {
+    btnDepositTab.classList.add('active'); btnWithdrawTab.classList.remove('active');
+    depositSection.style.display = 'block'; withdrawSection.style.display = 'none';
+};
+btnWithdrawTab.onclick = () => {
+    btnWithdrawTab.classList.add('active'); btnDepositTab.classList.remove('active');
+    withdrawSection.style.display = 'block'; depositSection.style.display = 'none';
+};
+
+// --- YATIRIM (DEPOSIT) ƏMƏLİYYATI ---
+document.getElementById('confirmDepositBtn').onclick = async () => {
+    const t = TRANSLATIONS[currentLang];
+    const depAlert = document.getElementById('depositAlert');
+    depAlert.style.display = 'none';
+
+    if (!tonConnectUI.connected) {
+        depAlert.textContent = t.connectWalletFirst;
+        depAlert.className = 'alert error'; depAlert.style.display = 'block';
+        return;
+    }
+
+    const amt = parseFloat(document.getElementById('depositAmount').value);
+    if (isNaN(amt) || amt < 0.01) {
+        depAlert.textContent = t.minDepositText;
+        depAlert.className = 'alert error'; depAlert.style.display = 'block';
+        return;
+    }
+
+    try {
+        // UID-ni memo (comment) kimi yaratmaq
+        const tonweb = new window.TonWeb();
+        const cell = new tonweb.boc.Cell();
+        cell.bits.writeUint(0, 32); // standart text memo 
+        cell.bits.writeString(userRefId.toString());
+        const bocBytes = await cell.toBoc();
+        const payloadStr = tonweb.utils.bytesToBase64(bocBytes);
+
+        const transaction = {
+            validUntil: Math.floor(Date.now() / 1000) + 360,
+            messages: [
+                {
+                    address: "UQD6Rkm2TKORzsoxVgdolbXHn50tnH6-saJa8Z2FARAxhHYl",
+                    amount: Math.floor(amt * 1000000000).toString(), // nanoTON
+                    payload: payloadStr
+                }
+            ]
+        };
+
+        await tonConnectUI.sendTransaction(transaction);
+        
+        // Əməliyyat təsdiqlənən kimi balansa əlavə edilir
+        bal += amt;
+        safeSet(BAL_KEY, bal);
+        update();
+        
+        depAlert.textContent = t.depositSuccess;
+        depAlert.className = 'alert success'; depAlert.style.display = 'block';
+        document.getElementById('depositAmount').value = '';
+
+        // Keçmişə əlavə
+        const historyItem = { method: 'deposit', amount: amt, status: 'completed', date: Date.now() };
+        withdrawHistory.push(historyItem);
+        safeSet(HISTORY_KEY, withdrawHistory);
+        renderHistory();
+
+    } catch (e) {
+        console.error(e);
+        depAlert.textContent = t.txFailed;
+        depAlert.className = 'alert error'; depAlert.style.display = 'block';
+    }
+};
+
+// --- ÇIXARIŞ (WITHDRAW) ƏMƏLİYYATI ---
 const methods = document.querySelectorAll('.method');
 const form = document.getElementById('form'); const details = document.getElementById('details');
 const amount = document.getElementById('amount'); const alertBox = document.getElementById('alert');
@@ -1237,37 +984,23 @@ methods.forEach(m=>{
     type=m.dataset.type;
     document.getElementById('methodsContainer').style.display='none'; 
     form.style.display='block';
-    
     const t = TRANSLATIONS[currentLang];
     details.placeholder = t.placeholderDetails_ton;
     amount.placeholder = t.placeholderAmount;
-    
-    // Cüzdan artıq qoşulubsa avtomatik doldursun
-    if (tonConnectUI.wallet && tonConnectUI.wallet.account && tonConnectUI.wallet.account.address) {
-        details.value = tonConnectUI.wallet.account.address;
-    } else {
-        details.value = ''; 
-    }
-    
+    if (tonConnectUI.wallet && tonConnectUI.wallet.account && tonConnectUI.wallet.account.address) { details.value = tonConnectUI.wallet.account.address; } 
+    else { details.value = ''; }
     amount.value=''; alertBox.style.display='none'; feeCalcBox.style.display='none';
   };
 });
 
-document.getElementById('backBtn').onclick=()=>{
-  form.style.display='none'; document.getElementById('methodsContainer').style.display='block'; alertBox.style.display='none'; type='';
-};
+document.getElementById('backBtn').onclick=()=>{ form.style.display='none'; document.getElementById('methodsContainer').style.display='block'; alertBox.style.display='none'; type=''; };
 
 function calculateFee() {
     const amt = parseFloat(amount.value);
     if (!isNaN(amt) && amt > 0) {
-        const fee = amt * FEE_PERCENT;
-        const receive = amt - fee;
-        feeAmountSpan.textContent = fee.toFixed(3);
-        receiveAmountSpan.textContent = receive.toFixed(3);
-        feeCalcBox.style.display = 'block';
-    } else {
-        feeCalcBox.style.display = 'none';
-    }
+        const fee = amt * FEE_PERCENT; const receive = amt - fee;
+        feeAmountSpan.textContent = fee.toFixed(3); receiveAmountSpan.textContent = receive.toFixed(3); feeCalcBox.style.display = 'block';
+    } else { feeCalcBox.style.display = 'none'; }
 }
 amount.addEventListener('input', calculateFee);
 
@@ -1283,16 +1016,13 @@ document.getElementById('withdrawBtn').onclick=()=>{
   if(amt < MIN_WITHDRAW - EPSILON){ showErr(t.minAmount); return; }
   if(amt > bal + EPSILON){ showErr(t.balanceError); return; }
   
-  bal = Math.max(0, bal - amt); 
-  safeSet(BAL_KEY,bal); update();
+  bal = Math.max(0, bal - amt); safeSet(BAL_KEY,bal); update();
   
   const historyItem = { method: type, amount: amt, status: 'pending', date: Date.now() };
   withdrawHistory.push(historyItem); safeSet(HISTORY_KEY, withdrawHistory); renderHistory(); 
 
   alertBox.textContent=t.withdrawSuccess; alertBox.className='alert success'; alertBox.style.display='block';
-  setTimeout(()=>{
-    form.style.display='none'; document.getElementById('methodsContainer').style.display='block'; alertBox.style.display='none'; type='';
-  }, 2000);
+  setTimeout(()=>{ form.style.display='none'; document.getElementById('methodsContainer').style.display='block'; alertBox.style.display='none'; type=''; }, 2000);
 };
 
 function showErr(msg){ alertBox.textContent=msg; alertBox.className='alert error'; alertBox.style.display='block'; }
@@ -1304,47 +1034,20 @@ restoreAdBtnState();
 function runLoadingScreen() {
     const container = document.getElementById('loadingScreen');
     if(!container) return;
-    
     const coinSrc = "https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg";
-    
     function createCoin(isInitial) {
-        const coin = document.createElement('img');
-        coin.src = coinSrc;
-        coin.className = 'falling-coin';
-        
+        const coin = document.createElement('img'); coin.src = coinSrc; coin.className = 'falling-coin';
         coin.style.left = (Math.random() * 100) + 'vw';
-        
-        const size = Math.random() * 25 + 15;
-        coin.style.width = size + 'px';
-        coin.style.height = size + 'px';
-        
-        const duration = Math.random() * 2 + 1.5;
-        coin.style.animationDuration = duration + 's';
-        
+        const size = Math.random() * 25 + 15; coin.style.width = size + 'px'; coin.style.height = size + 'px';
+        const duration = Math.random() * 2 + 1.5; coin.style.animationDuration = duration + 's';
         coin.style.opacity = (Math.random() * 0.5 + 0.3).toString();
-
-        if (isInitial) {
-            coin.style.animationDelay = '-' + (Math.random() * duration) + 's';
-        }
-
+        if (isInitial) { coin.style.animationDelay = '-' + (Math.random() * duration) + 's'; }
         container.appendChild(coin);
-        
         setTimeout(() => { if(coin.parentNode) coin.remove(); }, duration * 1000);
     }
-
-    for(let i=0; i<20; i++) {
-        createCoin(true);
-    }
-
-    const coinInterval = setInterval(() => {
-        createCoin(false);
-    }, 150);
-
-    setTimeout(()=>{
-        clearInterval(coinInterval);
-        container.style.opacity="0"; 
-        setTimeout(()=>container.style.display="none", 600);
-    }, 3000);
+    for(let i=0; i<20; i++) { createCoin(true); }
+    const coinInterval = setInterval(() => { createCoin(false); }, 150);
+    setTimeout(()=>{ clearInterval(coinInterval); container.style.opacity="0"; setTimeout(()=>container.style.display="none", 600); }, 3000);
 }
 runLoadingScreen();
 
