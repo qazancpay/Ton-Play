@@ -69,7 +69,7 @@ body.dark-theme {
 }
 
 /* --- ÜMUMİ STİLLƏR --- */
-*{box-sizing:border-box;margin:0;padding:0;}
+*{box-sizing:border-box;margin:0;padding:0; outline: none; -webkit-tap-highlight-color: transparent;}
 body{
   font-family:'Inter',sans-serif;
   background:linear-gradient(135deg,var(--bg-start),var(--bg-end));
@@ -78,25 +78,24 @@ body{
   min-height:var(--tg-viewport-stable-height, 100vh);
   user-select:none;
   -webkit-user-select:none;
-  -webkit-tap-highlight-color:transparent;
   transition: background-color 0.5s ease, color 0.5s ease; 
   padding-bottom: 90px; 
 }
 
 .container{max-width:480px;margin:auto;padding:40px 20px 20px; position: relative;} 
 
-/* YENİLƏNMİŞ SƏLİS SƏHİFƏ KEÇİDLƏRİ ÜÇÜN CSS */
-.page { display: none; }
-.page.active { display: block; animation: smoothFadeIn .4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.page.fading-out { animation: smoothFadeOut .3s cubic-bezier(0.16, 1, 0.3, 1) forwards; display: block; position: absolute; width: calc(100% - 40px); top: 40px; }
+/* YENİLƏNMİŞ ÇOX YUMŞAQ SƏHİFƏ KEÇİDLƏRİ ÜÇÜN CSS */
+.page { display: none; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; }
+.page.active { display: block; opacity: 1; animation: smoothFadeIn .4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+.page.fading-out { animation: smoothFadeOut .3s cubic-bezier(0.25, 1, 0.5, 1) forwards; display: block; position: absolute; width: calc(100% - 40px); top: 40px; }
 
 @keyframes smoothFadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: scale(0.98) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 @keyframes smoothFadeOut {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(-10px); }
+  from { opacity: 1; transform: scale(1) translateY(0); }
+  to { opacity: 0; transform: scale(0.98) translateY(-10px); }
 }
 
 /* KART DİZAYNLARI */
@@ -154,8 +153,8 @@ body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card, 
 .vip-features { list-style: none; padding: 0; margin-bottom: 25px; }
 .vip-features li { font-size: 15px; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
 .vip-features li i { color: #22C55E; width: 20px; height: 20px; }
-.vip-btn { width: 100%; padding: 18px; font-size: 16px; font-weight: 800; border: none; border-radius: 20px; cursor: pointer; color: white; background: linear-gradient(135deg, #F59E0B, #D97706); box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3); transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;}
-.vip-btn:active:not(:disabled) { transform: scale(0.98); }
+.vip-btn { width: 100%; padding: 18px; font-size: 16px; font-weight: 800; border: none; border-radius: 20px; cursor: pointer; color: white; background: linear-gradient(135deg, #F59E0B, #D97706); box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3); transition: transform 0.2s, box-shadow 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;}
+.vip-btn:active:not(:disabled) { transform: scale(0.98); box-shadow: none;}
 .vip-btn.active-vip { background: var(--input-bg); color: #22C55E; cursor: not-allowed; box-shadow: none; border: 1.5px solid #22C55E; }
 #marketAlert { margin-bottom: 20px; display: none; }
 
@@ -182,6 +181,7 @@ body.dark-theme .reward-msg {background: #FFFFFF; color: #0F172A; box-shadow: 0 
 .menu{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);width:92%;max-width:440px; display:flex;justify-content:space-between;background:var(--menu-bg);padding:8px; border-radius:32px;box-shadow:0 20px 40px rgba(0,0,0,.06);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);z-index: 999;border: 1.5px solid var(--card-border);}
 body.dark-theme .menu {box-shadow:0 20px 40px rgba(0,0,0,.5);}
 .menu button{flex:1;margin:0 2px; padding: 10px 0;border:none;border-radius:24px;background:transparent;color:var(--text-muted);cursor: pointer;transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1);display: flex;flex-direction: column;align-items: center;justify-content: center;height: 55px;}
+.menu button:focus, .menu button:active { outline: none; -webkit-tap-highlight-color: transparent; }
 .menu button .nav-icon { width: 20px; height: 20px; margin-bottom: 4px; transition: 0.3s; stroke-width: 2px; }
 .menu button .nav-text { font-size: 10px; font-weight: 700; transition: 0.3s;}
 .menu button.active{background:var(--input-bg);color: var(--accent);cursor: default; pointer-events: none; border: 1px solid var(--card-border);}
@@ -288,8 +288,8 @@ body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shad
 <body id="body">
 
 <script>
-// --- RESET MƏNTİQİ (Yeni istifadəçilər və köhnələrin təmizlənməsi üçün V3) ---
-const APP_VERSION = 'v3_vip_market'; 
+// --- RESET MƏNTİQİ (V4 - Moskva Vaxtı İlə) ---
+const APP_VERSION = 'v4_moscow_vip_update'; 
 if (localStorage.getItem('app_version') !== APP_VERSION) {
     localStorage.clear();
     localStorage.setItem('app_version', APP_VERSION);
@@ -313,7 +313,6 @@ if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData
     }
 }
 
-// RANDOM UID YARADILMASI (Hər kəsdə fərqli, məsələn: UID-4182)
 const UNIQUE_PAY_ID_KEY = `pay_uid_${userRefId}`;
 let payUid = localStorage.getItem(UNIQUE_PAY_ID_KEY);
 if (!payUid) {
@@ -494,7 +493,7 @@ if(savedTheme === 'dark') {
               <div class="method" data-type="ton">
                   <img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" alt="TON" class="method-logo" draggable="false">
                   <span class="method-text">TON Coin</span>
-                  <span class="min-withdraw-label" data-translate-key="minTonLabel">Min: 3 TON</span>
+                  <span class="min-withdraw-label" data-translate-key="minTonLabel">Min: {min} TON</span>
               </div>
             </div>
         </div>
@@ -508,7 +507,7 @@ if(savedTheme === 'dark') {
           <h3 style="margin-bottom: 18px; font-weight: 800; color: var(--text-dark); font-size: 18px;" data-translate-key="withdrawTonTitle">Withdraw TON</h3>
           
           <input id="details" class="input-field" placeholder="Your TON Wallet Address" type="text">
-          <input id="amount" class="input-field" type="number" step="0.1" placeholder="Amount (Min 3 TON)">
+          <input id="amount" class="input-field" type="number" step="0.1" placeholder="Amount (Min {min} TON)">
           
           <div id="feeCalcBox" class="fee-calc-box">
               <span style="color:var(--text-muted); font-weight:500;" data-translate-key="feeText">Network Fee (5%):</span> <span id="feeAmount">0.00</span> TON<br>
@@ -678,22 +677,18 @@ if (tgUser) {
 }
 const userRefLink = `https://t.me/tonplayrbot?startapp=${userRefId}`;
 
-// TƏMƏL DƏYƏRLƏR VƏ VIP DƏYƏRLƏRİ
 const MAX_ADS_PER_DAY = 50;
 const TASK_REWARD = 0.05;
-const MIN_WITHDRAW = 3;
 const FEE_PERCENT = 0.05;
 
 const BAL_KEY = `bal_ton_${userRefId}`;
 const COUNT_KEY = `cnt_ton_${userRefId}`;
-const RESET_KEY = `resetTime_ton_${userRefId}`;
 const TOTAL_ADS_KEY = `total_ads_ton_${userRefId}`;
 const HAS_DEPOSITED_KEY = `has_dep_ton_${userRefId}`;
 const JOIN_COMMUNITY_KEY = `joined_ton_community_${userRefId}`;
 const REWARD_MSG_KEY = `rewardMsgExpire_ton_${userRefId}`;
 const HISTORY_KEY = `withdraw_history_ton_${userRefId}`;
 
-// VIP KEYS
 const VIP_LEVEL_KEY = `vip_level_${userRefId}`;
 const VIP_EXPIRY_KEY = `vip_expiry_${userRefId}`;
 
@@ -701,7 +696,6 @@ let bal = parseFloat(safeGet(BAL_KEY, 0.000));
 let cnt = parseInt(safeGet(COUNT_KEY, 0));
 let totalAdsWatched = parseInt(safeGet(TOTAL_ADS_KEY, 0));
 let hasDeposited = safeGet(HAS_DEPOSITED_KEY, false);
-let resetTime = safeGet(RESET_KEY, null);
 
 let currentVipLevel = safeGet(VIP_LEVEL_KEY, 0);
 let vipExpiry = safeGet(VIP_EXPIRY_KEY, 0);
@@ -710,7 +704,7 @@ let withdrawHistory = safeGet(HISTORY_KEY, []);
 
 let currentLang = localStorage.getItem(LANG_KEY);
 if (!currentLang || !['en', 'tr', 'ru'].includes(currentLang)) {
-    currentLang = 'en';
+    currentLang = 'en'; // Default set to English based on explicit request history
     localStorage.setItem(LANG_KEY, currentLang);
 }
 document.getElementById('langSelect').value = currentLang;
@@ -719,30 +713,29 @@ const TRANSLATIONS = {
     'en': {
         yourBalance: 'Your Balance', dailyAdsHeader: 'Daily Ads', adReward: 'Earn <b>{amt} TON</b> for each ad', watched: 'Watched', maximum: 'Maximum', maxCount: '50', progressText: 'Progress:', watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!', rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ Wait {s}s', joinCommunityTitle: 'Join Community', joinCommunityDesc: 'Join our official community channel and earn!', joinBtnText: 'Join Channel', completed: 'Completed',
         depositTitleTab: 'Deposit', withdrawTitleTab: 'Withdrawal', depositInfo: 'Add TON directly from your connected wallet.', depositActionBtn: 'Deposit TON', placeholderDepositAmount: 'Amount (Min 0.01 TON)', minDepositText: 'Minimum deposit is 0.01 TON', depositSuccess: '✅ Deposit transaction sent! Balance updated.', connectWalletFirst: 'Please connect wallet first.', txFailed: 'Transaction failed or cancelled.',
-        withdrawTitle: 'Withdrawal', selectMethod: 'Select withdrawal method', minTonLabel: 'Min: 3 TON', back: 'Back', withdrawTonTitle: 'Withdraw TON', withdraw: 'Withdraw', feeText: 'Network Fee (5%):', receiveText: 'You will receive:', methodError: 'Select a method', detailsError: 'Enter valid TON address', amountError: 'Enter correct amount', minAmount: 'Minimum withdrawal is 3 TON', balanceError: 'Insufficient balance', withdrawSuccess: '✅ Withdrawal requested! It will be processed soon.', withdrawDepositCondition: 'You must watch 1000 ads to withdraw after a deposit! (Watched: {count}/1000)',
-        home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile', placeholderDetails_ton: 'Your TON Wallet Address', placeholderAmount: 'Amount (Min 3 TON)', taskSuccess: (r) => `✅ Task Completed! ${r} added.`, guestUser: 'User', theme: 'Theme', language: 'Language', withdrawHistory: 'Transaction History', pending: 'Pending', emptyHistory: 'History is empty', shareBtn: 'Invite Friends', shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Close',
+        withdrawTitle: 'Withdrawal', selectMethod: 'Select withdrawal method', minTonLabel: 'Min: {min} TON', back: 'Back', withdrawTonTitle: 'Withdraw TON', withdraw: 'Withdraw', feeText: 'Network Fee (5%):', receiveText: 'You will receive:', methodError: 'Select a method', detailsError: 'Enter valid TON address', amountError: 'Enter correct amount', minAmount: 'Minimum withdrawal is {min} TON', balanceError: 'Insufficient balance', withdrawSuccess: '✅ Withdrawal requested! It will be processed soon.', withdrawDepositCondition: 'You must watch 1000 ads to withdraw after a deposit! (Watched: {count}/1000)',
+        home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile', placeholderDetails_ton: 'Your TON Wallet Address', placeholderAmount: 'Amount (Min {min} TON)', taskSuccess: (r) => `✅ Task Completed! ${r} added.`, guestUser: 'User', theme: 'Theme', language: 'Language', withdrawHistory: 'Transaction History', pending: 'Pending', emptyHistory: 'History is empty', shareBtn: 'Invite Friends', shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Close',
         shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nWatch daily ads and start earning 💰\nTON coins effortlessly. No complex steps just watch, complete, and grow your balance!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\nTurn বজ্র free time into profit 🔥 👇 Join now and start earning!\n\n🔗 Link: {LINK}", promoteBtn: 'Promote', promoteTitle: '🚀 Advertise on Ton Play Bot!', promoteText: "Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable advertising options<br><br>💎 Advertising Packages (in TON Coin):<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>📩 Contact us now to get started<br><br>🚀 Take your project to the next level with Ton Play!", contactBtn: 'Contact', depositText: 'Deposit',
         market: 'Market', vipReward1: '0.02 TON per Ad', vipDays1: 'Active for 21 Days', vipReward2: '0.05 TON per Ad', vipDays2: 'Active for 23 Days', vipReward3: '0.1 TON per Ad', vipDays3: 'Active for 25 Days', vipBenefit: 'Boosted Earnings', buyVipBtn: 'Buy VIP', activeVip: 'Active', vipActiveError: 'You already have an active VIP level!', vipSuccess: '✅ VIP purchased successfully! Your earnings are boosted.'
     },
     'tr': {
         yourBalance: 'Bakiyeniz', dailyAdsHeader: 'Günlük Reklamlar', adReward: 'Her reklam için <b>{amt} TON</b> kazanın', watched: 'İzlenen', maximum: 'Maksimum', maxCount: '50', progressText: 'İlerleme:', watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!', rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin', joinCommunityTitle: 'Topluluğa Katıl', joinCommunityDesc: 'Resmi topluluk kanalımıza katılın ve kazanın!', joinBtnText: 'Kanala Katıl', completed: 'Tamamlandı',
         depositTitleTab: 'Yatırım', withdrawTitleTab: 'Çekim', depositInfo: 'Bağlı cüzdanınızdan doğrudan TON ekleyin.', depositActionBtn: 'TON Yatır', placeholderDepositAmount: 'Miktar (Min 0.01 TON)', minDepositText: 'Minimum yatırım 0.01 TON', depositSuccess: '✅ Yatırım gönderildi! Bakiye güncellendi.', connectWalletFirst: 'Lütfen önce cüzdanı bağlayın.', txFailed: 'İşlem başarısız veya iptal edildi.',
-        withdrawTitle: 'Para Çekme', selectMethod: 'Çekim yöntemi seçin', minTonLabel: 'Min: 3 TON', back: 'Geri', withdrawTonTitle: 'TON Çek', withdraw: 'Çekim Yap', feeText: 'Ağ Ücreti (5%):', receiveText: 'Alacağınız:', methodError: 'Yöntem seçin', detailsError: 'Geçerli TON adresi girin', amountError: 'Miktarı doğru girin', minAmount: 'Minimum çekim 3 TON', balanceError: 'Yetersiz bakiye', withdrawSuccess: '✅ Çekim talebi alındı! Yakında işlenecektir.', withdrawDepositCondition: 'Yatırım yaptıktan sonra çekim yapmak için 1000 reklam izlemelisiniz! (İzlenen: {count}/1000)',
-        home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil', placeholderDetails_ton: 'TON Cüzdan Adresiniz', placeholderAmount: 'Miktar (Min 3 TON)', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} eklendi.`, guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil', withdrawHistory: 'İşlem Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş', shareBtn: 'Arkadaşlarını Davet Et', shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Kapat',
+        withdrawTitle: 'Para Çekme', selectMethod: 'Çekim yöntemi seçin', minTonLabel: 'Min: {min} TON', back: 'Geri', withdrawTonTitle: 'TON Çek', withdraw: 'Çekim Yap', feeText: 'Ağ Ücreti (5%):', receiveText: 'Alacağınız:', methodError: 'Yöntem seçin', detailsError: 'Geçerli TON adresi girin', amountError: 'Miktarı doğru girin', minAmount: 'Minimum çekim {min} TON', balanceError: 'Yetersiz bakiye', withdrawSuccess: '✅ Çekim talebi alındı! Yakında işlenecektir.', withdrawDepositCondition: 'Yatırım yaptıktan sonra çekim yapmak için 1000 reklam izlemelisiniz! (İzlenen: {count}/1000)',
+        home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil', placeholderDetails_ton: 'TON Cüzdan Adresiniz', placeholderAmount: 'Miktar (Min {min} TON)', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} eklendi.`, guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil', withdrawHistory: 'İşlem Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş', shareBtn: 'Arkadaşlarını Davet Et', shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Kapat',
         shareMsg: "🚀 TonPlay ile basit, hızlı, gerçek ödüller kazanın!\n\nGünlük reklamları izleyin ve zahmetsizce 💰 TON coin kazanmaya başlayın. Karmaşık adımlar yok, sadece izleyin, tamamlayın ve bakiyenizi büyütün!\n\n✨ Kolay ve kullanıcı dostu sistem\n🎯 Günlük kazanma fırsatları\n💎 Gerçek ödüller, gerçek sonuçlar\n\nBoş zamanınızı kazanca dönüştürün 🔥 👇 Şimdi katılın ve kazanmaya başlayın!\n\n🔗 Link: {LINK}", promoteBtn: 'Reklam Ver', promoteTitle: "🚀 Ton Play Bot'ta Reklam Verin!", promoteText: "Projenizi, kanalınızı veya botunuzu büyütmek mi istiyorsunuz?<br>Doğru yerdesiniz! 🎯<br><br>🎯 Geniş bir kitleye ulaşın<br>📈 Büyümenizi hızlandırın<br>💸 Etkili ve uygun fiyatlı reklam seçenekleri<br><br>💎 Reklam Paketleri (TON Coin ile):<br>• 1 Hafta — 3 TON<br>• 1 Ay — 12 TON<br>• 3 Ay — 33 TON<br>• 6 Ay — 62 TON<br><br>📩 Başlamak için hemen iletişime geçin<br><br>🚀 Projenizi Ton Play ile bir sonraki seviyeye taşıyın!", contactBtn: 'İletişim', depositText: 'Yatırım',
         market: 'Market', vipReward1: 'Reklam başı 0.02 TON', vipDays1: '21 Gün Aktif', vipReward2: 'Reklam başı 0.05 TON', vipDays2: '23 Gün Aktif', vipReward3: 'Reklam başı 0.1 TON', vipDays3: '25 Gün Aktif', vipBenefit: 'Artırılmış Kazanç', buyVipBtn: 'VIP Al', activeVip: 'Aktif', vipActiveError: 'Zaten aktif bir VIP seviyeniz var!', vipSuccess: '✅ VIP başarıyla alındı! Kazançlarınız artırıldı.'
     },
     'ru': { 
         yourBalance: 'Ваш Баланс', dailyAdsHeader: 'Ежедневная Реклама', adReward: 'Зарабатывайте <b>{amt} TON</b> за рекламу', watched: 'Просмотрено', maximum: 'Максимум', maxCount: '50', progressText: 'Прогресс:', watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут лимит!', rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ Ожидайте {s}с', joinCommunityTitle: 'Присоединиться к сообществу', joinCommunityDesc: 'Вступайте в наше официальное сообщество и зарабатывайте!', joinBtnText: 'Подписаться', completed: 'Выполнено',
         depositTitleTab: 'Депозит', withdrawTitleTab: 'Вывод', depositInfo: 'Пополняйте баланс напрямую с подключенного кошелька.', depositActionBtn: 'Пополнить TON', placeholderDepositAmount: 'Сумма (Мин 0.01 TON)', minDepositText: 'Минимальный депозит 0.01 TON', depositSuccess: '✅ Транзакция отправлена! Баланс обновлен.', connectWalletFirst: 'Пожалуйста, подключите кошелек.', txFailed: 'Транзакция не удалась или отменена.',
-        withdrawTitle: 'Вывод Средств', selectMethod: 'Выберите способ вывода', minTonLabel: 'Мин: 3 TON', back: 'Назад', withdrawTonTitle: 'Вывести TON', withdraw: 'Вывести', feeText: 'Комиссия сети (5%):', receiveText: 'Вы получите:', methodError: 'Выберите способ', detailsError: 'Введите верный TON адрес', amountError: 'Введите правильную сумму', minAmount: 'Минимальный вывод 3 TON', balanceError: 'Недостаточно средств', withdrawSuccess: '✅ Заявка отправлена! Будет обработана скоро.', withdrawDepositCondition: 'Для вывода после депозита нужно посмотреть 1000 реклам! (Просмотрено: {count}/1000)',
-        home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль', placeholderDetails_ton: 'Ваш TON Адрес', placeholderAmount: 'Сумма (Мин 3 TON)', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено.`, guestUser: 'Пользователь', theme: 'Тема', language: 'Язык', withdrawHistory: 'История транзакций', pending: 'В ожидании', emptyHistory: 'История пуста', shareBtn: 'Пригласить Друзей', shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Закрыть',
+        withdrawTitle: 'Вывод Средств', selectMethod: 'Выберите способ вывода', minTonLabel: 'Мин: {min} TON', back: 'Назад', withdrawTonTitle: 'Вывести TON', withdraw: 'Вывести', feeText: 'Комиссия сети (5%):', receiveText: 'Вы получите:', methodError: 'Выберите способ', detailsError: 'Введите верный TON адрес', amountError: 'Введите правильную сумму', minAmount: 'Минимальный вывод {min} TON', balanceError: 'Недостаточно средств', withdrawSuccess: '✅ Заявка отправлена! Будет обработана скоро.', withdrawDepositCondition: 'Для вывода после депозита нужно посмотреть 1000 реклам! (Просмотрено: {count}/1000)',
+        home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль', placeholderDetails_ton: 'Ваш TON Адрес', placeholderAmount: 'Сумма (Мин {min} TON)', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено.`, guestUser: 'Пользователь', theme: 'Тема', language: 'Язык', withdrawHistory: 'История транзакций', pending: 'В ожидании', emptyHistory: 'История пуста', shareBtn: 'Пригласить Друзей', shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Закрыть',
         shareMsg: "🚀 Зарабатывайте с TonPlay: просто, быстро, реальные награды!\n\nСмотрите ежедневную рекламу и начните легко зарабатывать 💰 TON. Никаких сложных шагов — просто смотрите, выполняйте и увеличивайте свой баланс!\n\n✨ Удобная система\n🎯 Ежедневные возможности\n💎 Реальные награды\n\nПревратите свободное время в прибыль 🔥 👇 Присоединяйтесь и начните зарабатывать!\n\n🔗 Ссылка: {LINK}", promoteBtn: 'Реклама', promoteTitle: '🚀 Разместите рекламу в Ton Play Bot!', promoteText: "Хотите развить свой проект, канал или бота?<br>Вы в правильном месте! 🎯<br><br>🎯 Охватите широкую аудиторию<br>📈 Быстро ускорьте свой рост<br>💸 Эффективные и доступные варианты рекламы<br><br>💎 Рекламные пакеты (в TON Coin):<br>• 1 Неделя — 3 TON<br>• 1 Месяц — 12 TON<br>• 3 Месяца — 33 TON<br>• 6 Месяцев — 62 TON<br><br>📩 Свяжитесь с нами прямо сейчас, чтобы начать<br><br>🚀 Выведите свой проект на новый уровень с Ton Play!", contactBtn: 'Связаться', depositText: 'Депозит',
         market: 'Маркет', vipReward1: '0.02 TON за рекламу', vipDays1: 'Активен 21 день', vipReward2: '0.05 TON за рекламу', vipDays2: 'Активен 23 дня', vipReward3: '0.1 TON за рекламу', vipDays3: 'Активен 25 дней', vipBenefit: 'Увеличенный доход', buyVipBtn: 'Купить VIP', activeVip: 'Активен', vipActiveError: 'У вас уже есть активный VIP!', vipSuccess: '✅ VIP успешно куплен! Ваш заработок увеличен.'
     }
 };
 
-// HELPER: Auto-hiding Alerts
 let alertTimeouts = {};
 function showAlertAutoHiding(element, message, type) {
     element.textContent = message;
@@ -754,22 +747,27 @@ function showAlertAutoHiding(element, message, type) {
     alertTimeouts[element.id] = setTimeout(() => {
         element.style.display = 'none';
         delete alertTimeouts[element.id];
-    }, 4000); // Alert itəcək 4 saniyəyə
+    }, 4000); 
 }
 
 let rewardMsgTimeout = null; 
 let isAdRunning = false; 
 
-function getNextResetTime() {
-    const now = new Date();
-    let resetUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0));
-    if(now.getTime() >= resetUTC.getTime()){ resetUTC.setUTCDate(resetUTC.getUTCDate() + 1); }
-    return resetUTC.getTime();
+// MOSKVA VAXTI İLƏ RESET SİSTEMİ (Xarici API olmadan)
+function getCurrentMoscowDateString() {
+    return new Date().toLocaleDateString("en-US", { timeZone: "Europe/Moscow" });
 }
 
-if(!resetTime || Date.now() >= resetTime){ cnt=0; resetTime=getNextResetTime(); safeSet(RESET_KEY,resetTime); safeSet(COUNT_KEY,cnt); }
+// VIP MƏNTİQİ VƏ GİZLİ MİNİMUM ÇIXARIŞ
+function getMinWithdrawal() {
+    if (Date.now() < vipExpiry) {
+        if (currentVipLevel === 1) return 20;
+        if (currentVipLevel === 2) return 50;
+        if (currentVipLevel === 3) return 90;
+    }
+    return 3; // VIP olmayanlar və ya VIP vaxtı bitənlər üçün 3 TON
+}
 
-// VIP MƏNTİQİ
 function getCurrentReward() {
     if (Date.now() < vipExpiry) {
         if (currentVipLevel === 1) return 0.02;
@@ -790,6 +788,16 @@ function updateDynamicTexts() {
     const adRewardTextEl = document.getElementById('adRewardText');
     if(adRewardTextEl) {
         adRewardTextEl.innerHTML = t.adReward.replace('{amt}', getCurrentReward().toString());
+    }
+    
+    // Minimum limit məlumatlarını VIP səviyyəsinə görə gizlicə yenilə
+    const currentMinWithdraw = getMinWithdrawal();
+    document.querySelectorAll('.min-withdraw-label').forEach(el => {
+        el.innerHTML = t.minTonLabel.replace('{min}', currentMinWithdraw);
+    });
+    const amountInput = document.getElementById('amount');
+    if(amountInput) {
+        amountInput.placeholder = t.placeholderAmount.replace('{min}', currentMinWithdraw);
     }
 }
 
@@ -812,6 +820,7 @@ function updateVipUI() {
         }
     });
     lucide.createIcons();
+    updateDynamicTexts();
 }
 
 function loadProfilePic() {
@@ -854,7 +863,14 @@ function fallbackCopyTextToClipboard(text, t) {
 function formatTon(val) { return parseFloat(val).toFixed(3); }
 
 function update(){
-  if(Date.now() >= resetTime){ cnt = 0; resetTime = getNextResetTime(); safeSet(RESET_KEY, resetTime); }
+  // Moskva vaxtı ilə reset yoxlanışı
+  const currentMoscowDate = getCurrentMoscowDateString();
+  let savedDate = safeGet('moscow_reset_date_' + userRefId, null);
+  if (savedDate !== currentMoscowDate) {
+      cnt = 0;
+      safeSet('moscow_reset_date_' + userRefId, currentMoscowDate);
+  }
+
   const formattedBal = formatTon(bal);
   document.getElementById('balance').textContent = formattedBal;
   document.getElementById('balance2').textContent = formattedBal;
@@ -864,7 +880,9 @@ function update(){
   document.getElementById('progress').style.width=(cnt/MAX_ADS_PER_DAY*100)+'%';
   const progressTextSpan = document.getElementById('progressTextSpan');
   if(progressTextSpan) progressTextSpan.textContent = `${cnt}/${MAX_ADS_PER_DAY}`;
+  
   safeSet(BAL_KEY, bal); safeSet(COUNT_KEY, cnt); 
+  
   checkAndDisplayRewardMsg(); updateTaskButtons(); updateDynamicTexts(); updateVipUI();
 }
 
@@ -1065,7 +1083,6 @@ function activateNewPage(id, btn) {
   else { let rewardMsgElement = document.getElementById('rewardMsg'); if (rewardMsgElement) rewardMsgElement.classList.remove('show'); }
 }
 
-// Wallet Action Tabs Logic
 const btnDepositTab = document.getElementById('btnDepositTab');
 const btnWithdrawTab = document.getElementById('btnWithdrawTab');
 const depositSection = document.getElementById('depositSection');
@@ -1080,7 +1097,6 @@ btnWithdrawTab.onclick = () => {
     withdrawSection.style.display = 'block'; depositSection.style.display = 'none';
 };
 
-// --- VIP SATIN ALMA ƏMƏLİYYATI ---
 async function buyVip(level, price, days) {
     const t = TRANSLATIONS[currentLang];
     const alertBox = document.getElementById('marketAlert');
@@ -1091,7 +1107,6 @@ async function buyVip(level, price, days) {
         return;
     }
 
-    // YENİLİk: Cüzdan bağlı deyilsə, birbaşa bağlama pəncərəsini açırıq
     if (!tonConnectUI.connected) {
         try {
             tonConnectUI.openModal();
@@ -1106,7 +1121,7 @@ async function buyVip(level, price, days) {
         const tonweb = new window.TonWeb();
         const cell = new tonweb.boc.Cell();
         cell.bits.writeUint(0, 32); 
-        cell.bits.writeString(payUid); // Yaradılmış UID Göndərilir
+        cell.bits.writeString(payUid); 
         const bocBytes = await cell.toBoc();
         const payloadStr = tonweb.utils.bytesToBase64(bocBytes);
 
@@ -1114,7 +1129,7 @@ async function buyVip(level, price, days) {
             validUntil: Math.floor(Date.now() / 1000) + 360,
             messages: [
                 {
-                    address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", // Yeni Admin Cüzdanı
+                    address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", 
                     amount: Math.floor(price * 1000000000).toString(),
                     payload: payloadStr
                 }
@@ -1141,13 +1156,11 @@ async function buyVip(level, price, days) {
     }
 }
 
-// --- YATIRIM (DEPOSIT) ƏMƏLİYYATI ---
 document.getElementById('confirmDepositBtn').onclick = async () => {
     const t = TRANSLATIONS[currentLang];
     const depAlert = document.getElementById('depositAlert');
     depAlert.style.display = 'none';
 
-    // YENİLİk: Cüzdan bağlı deyilsə, birbaşa bağlama pəncərəsini açırıq
     if (!tonConnectUI.connected) {
         try {
             tonConnectUI.openModal();
@@ -1176,7 +1189,7 @@ document.getElementById('confirmDepositBtn').onclick = async () => {
             validUntil: Math.floor(Date.now() / 1000) + 360,
             messages: [
                 {
-                    address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", // Yeni Admin Cüzdanı
+                    address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", 
                     amount: Math.floor(amt * 1000000000).toString(),
                     payload: payloadStr
                 }
@@ -1205,7 +1218,6 @@ document.getElementById('confirmDepositBtn').onclick = async () => {
     }
 };
 
-// --- ÇIXARIŞ (WITHDRAW) ƏMƏLİYYATI ---
 const methods = document.querySelectorAll('.method');
 const form = document.getElementById('form'); const details = document.getElementById('details');
 const amount = document.getElementById('amount'); const alertBox = document.getElementById('alert');
@@ -1221,7 +1233,11 @@ methods.forEach(m=>{
     form.style.display='block';
     const t = TRANSLATIONS[currentLang];
     details.placeholder = t.placeholderDetails_ton;
-    amount.placeholder = t.placeholderAmount;
+    
+    // GİZLİ MİNİMUM YOXLANILMASI
+    const currentMinWithdraw = getMinWithdrawal();
+    amount.placeholder = t.placeholderAmount.replace('{min}', currentMinWithdraw);
+    
     if (tonConnectUI.wallet && tonConnectUI.wallet.account && tonConnectUI.wallet.account.address) { details.value = tonConnectUI.wallet.account.address; } 
     else { details.value = ''; }
     amount.value=''; alertBox.style.display='none'; feeCalcBox.style.display='none';
@@ -1252,8 +1268,10 @@ document.getElementById('withdrawBtn').onclick=()=>{
       return;
   }
 
+  // GİZLİ LİMİT YOXLAMASI
+  const currentMinWithdraw = getMinWithdrawal();
   const EPSILON = 0.0001; 
-  if(amt < MIN_WITHDRAW - EPSILON){ showAlertAutoHiding(alertBox, t.minAmount, 'error'); return; }
+  if(amt < currentMinWithdraw - EPSILON){ showAlertAutoHiding(alertBox, t.minAmount.replace('{min}', currentMinWithdraw), 'error'); return; }
   if(amt > bal + EPSILON){ showAlertAutoHiding(alertBox, t.balanceError, 'error'); return; }
   
   bal = Math.max(0, bal - amt); safeSet(BAL_KEY,bal); update();
