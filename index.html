@@ -97,16 +97,14 @@ body{
   from { opacity: 1; transform: scale(1) translateY(0); }
   to { opacity: 0; transform: scale(0.96) translateY(-5px); }
 }
-@keyframes spin { 100% { transform: rotate(360deg); } }
-.spin { animation: spin 2s linear infinite; }
 
 /* KART DİZAYNLARI */
-.balance-card, .profile-card, .vip-card, .mining-card{
+.balance-card, .ad-card, .profile-card, .vip-card{
   background:var(--card-bg); border-radius:28px; padding:30px 20px; margin-bottom:20px;
   box-shadow:0 8px 30px rgba(0, 152, 234, 0.05); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
   text-align:center; border:1.5px solid var(--card-border); transition: background-color 0.4s, border-color 0.4s, box-shadow 0.4s;
 }
-body.dark-theme .balance-card, .dark-theme .profile-card, .dark-theme .vip-card, .dark-theme .mining-card {
+body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card, .dark-theme .vip-card {
   box-shadow:0 8px 30px rgba(0,0,0,0.4), 0 0 15px rgba(56, 189, 248, 0.05);
 }
 
@@ -114,18 +112,6 @@ body.dark-theme .balance-card, .dark-theme .profile-card, .dark-theme .vip-card,
 .balance-card .amount-wrap { display: flex; align-items: center; justify-content: center; gap: 8px; }
 .balance-card .amount{font-size:42px;font-weight:900;color:var(--text-dark); letter-spacing: -0.5px;}
 .balance-card .currency{font-size:24px;font-weight:800;color:var(--accent); letter-spacing: 0.5px;}
-
-/* MINING CARD */
-.mining-card h2 { font-size: 22px; font-weight: 900; color: var(--text-dark); margin-bottom: 5px; }
-.mining-card p { font-size: 14px; font-weight: 600; color: var(--text-muted); margin-bottom: 25px; }
-.mining-circle-wrap { position: relative; width: 180px; height: 180px; margin: 0 auto 25px auto; display: flex; align-items: center; justify-content: center; background: var(--progress-bg); border-radius: 50%; }
-.mining-circle-inner { width: 154px; height: 154px; border-radius: 50%; background: var(--card-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.mining-amount { font-size: 28px; font-weight: 900; color: var(--text-dark); line-height: 1.1; margin-top: 5px;}
-.mining-currency { font-size: 13px; font-weight: 800; color: var(--accent); }
-.mining-timer { font-size: 14px; font-weight: 800; color: var(--text-muted); margin-top: 8px; background: var(--input-bg); padding: 4px 12px; border-radius: 12px; border: 1px solid var(--card-border);}
-.mining-progress-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg); z-index: 1; }
-.mining-progress-circle { fill: none; stroke: url(#miningGradient); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 516; stroke-dashoffset: 516; transition: stroke-dashoffset 1s linear; }
-body.dark-theme .mining-circle-inner { box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
 
 /* Wallet Action Tabs */
 .wallet-actions { display: flex; gap: 10px; margin-bottom: 25px; background: var(--input-bg); padding: 6px; border-radius: 20px; border: 1.5px solid var(--card-border); }
@@ -140,16 +126,31 @@ body.dark-theme .mining-circle-inner { box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
 .method-text { font-size: 17px; letter-spacing: 0.2px;}
 .min-withdraw-label {position: absolute;top: 12px;right: 12px;font-size: 11px;font-weight: 800;color: var(--accent);background: var(--progress-bg);padding: 5px 10px;border-radius: 10px;}
 
-/* GÖREVLƏR VƏ REKLAM TASKI */
+/* MINING KART DİZAYNI */
+.mining-circle-wrap { position: relative; width: 180px; height: 180px; margin: 0 auto 25px; display: flex; justify-content: center; align-items: center; }
+.mining-progress-ring { transform: rotate(-90deg); width: 180px; height: 180px; }
+.mining-progress-ring circle { fill: transparent; stroke-width: 12; stroke-linecap: round; }
+.ring-bg { stroke: var(--progress-bg); }
+.ring-fill { stroke: var(--accent); stroke-dasharray: 502; stroke-dashoffset: 502; transition: stroke-dashoffset 1s linear; }
+.mining-status-content { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; }
+.mining-status-content i { width: 36px; height: 36px; color: var(--accent); margin-bottom: 8px; transition: 0.3s; }
+.mining-timer { font-size: 26px; font-weight: 900; color: var(--text-dark); font-variant-numeric: tabular-nums; letter-spacing: 1px;}
+.mining-amount { font-size: 14px; font-weight: 800; color: var(--accent); margin-top: 4px; background: var(--progress-bg); padding: 4px 12px; border-radius: 12px;}
+.mining-stats { display: flex; gap: 15px; margin-bottom: 25px; }
+.mining-stat-box { flex: 1; background: var(--input-bg); border-radius: 20px; padding: 15px 12px; border: 1.5px solid var(--card-border); display: flex; flex-direction: column; gap: 6px; }
+.mining-stat-box span { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.mining-stat-box strong { font-size: 17px; font-weight: 900; color: var(--text-dark); }
+.mining-active-anim { animation: pulseIconGlow 2s infinite alternate ease-in-out; }
+@keyframes pulseIconGlow { 0% { filter: drop-shadow(0 0 5px rgba(0, 152, 234, 0.3)); transform: scale(1); } 100% { filter: drop-shadow(0 0 20px rgba(0, 152, 234, 0.8)); transform: scale(1.08); } }
+
+/* GÖREVLƏR */
 .task-list { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
 .task-item { background: var(--card-bg); border: 1.5px solid var(--card-border); border-radius: 24px; padding: 25px 20px; position: relative; text-align: left; box-shadow: 0 6px 20px rgba(0,0,0,0.02); transition: background-color 0.4s, border-color 0.4s;}
-.task-item.premium-task { border-color: var(--accent); background: linear-gradient(180deg, var(--card-bg) 0%, var(--progress-bg) 300%); }
 
 .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .task-title { font-size: 17px; font-weight: 800; display: flex; align-items: center; gap: 12px; color: var(--text-dark); }
 .task-icon { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 14px; color: white; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); box-shadow: 0 4px 15px var(--btn-shadow);}
 .task-reward-badge { background: var(--progress-bg); color: var(--accent); padding: 6px 14px; border-radius: 12px; font-weight: 800; font-size: 14px; border: 1px solid var(--card-border);}
-.task-reward-badge.highlight { background: var(--accent); color: white; border: none; box-shadow: 0 4px 10px var(--btn-shadow);}
 .task-desc { font-size: 14px; color: var(--text-muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
 .task-btn { width: 100%; padding: 16px; font-size: 16px; font-weight: 800; border: none; border-radius: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s;}
 .task-btn:active:not(:disabled) {transform: scale(0.96);}
@@ -171,17 +172,22 @@ body.dark-theme .mining-circle-inner { box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
 .vip-btn.active-vip { background: var(--input-bg); color: #22C55E; cursor: not-allowed; box-shadow: none; border: 1.5px solid #22C55E; }
 #marketAlert { margin-bottom: 20px; display: none; }
 
-.stats{display:flex;justify-content:space-between;margin-bottom:15px; gap: 12px;}
-.stat{background:var(--input-bg);border-radius:18px;padding:12px; flex: 1; border: 1.5px solid var(--card-border); text-align: center;}
-.stat span{display:block;font-size:20px;font-weight:900;color:var(--text-dark); margin-bottom: 2px;}
+.stats{display:flex;justify-content:space-between;margin-top:5px; gap: 12px;}
+.stat{background:var(--input-bg);border-radius:14px;padding:12px; flex: 1; border: 1.5px solid var(--card-border); text-align: center;}
+.stat span{display:block;font-size:16px;font-weight:900;color:var(--text-dark); margin-bottom: 2px;}
 .stat label{font-size:11px;color:var(--text-muted);font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
 
-.progress{height:12px;background:var(--input-bg);border-radius:12px;overflow:hidden;margin-bottom:20px; border: 1.5px solid var(--card-border);}
+.progress{height:12px;background:var(--input-bg);border-radius:12px;overflow:hidden;margin-top:10px; margin-bottom:10px; border: 1.5px solid var(--card-border);}
 .progress-fill{height:100%;background:linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end));width:0%;transition:width .8s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 12px;} 
 
-#msg {margin-top: 15px; font-size: 14px;font-weight: 700; padding: 0;color: #EF4444;}
-#adRewardNotificationContainer { position: relative; height: 0; overflow: visible; width: 100%; display: flex; justify-content: center;}
-.reward-msg {position: absolute;top: -30px; left: 50%;transform: translateX(-50%) translateY(20px); background: var(--text-dark); color: var(--card-bg);padding: 10px 20px;border-radius: 100px;box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);font-weight: 800;font-size: 13px;opacity: 0;z-index: 100; white-space: nowrap;transition: opacity 0.3s ease-out, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid rgba(255,255,255,0.1);}
+.ad-btn{width:100%;padding:18px;font-size:16px;font-weight:800;border:none;border-radius:20px;color:var(--text-light);cursor:pointer;background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));box-shadow:0 8px 25px var(--btn-shadow);position: relative; overflow: hidden; display:flex; align-items:center; justify-content:center; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s, background 0.3s;}
+.ad-btn:active:not(:disabled) {transform: scale(0.96);}
+.ad-btn.waiting { background: var(--progress-bg) !important; color: var(--accent) !important; cursor: not-allowed; box-shadow: none !important; border: 1.5px solid var(--card-border) !important; }
+.ad-btn-content { position: relative; z-index: 2; display: flex; align-items:center; gap: 10px;}
+
+#msg {margin-top: 10px; font-size: 13px;font-weight: 700; padding: 0;color: #EF4444;}
+#adRewardNotificationContainer { position: relative; height: 0; overflow: visible; }
+.reward-msg {position: absolute;top: -15px; left: 50%;transform: translateX(-50%) translateY(-100%); background: var(--text-dark); color: var(--card-bg);padding: 12px 24px;border-radius: 100px;box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);font-weight: 800;font-size: 14px;opacity: 0;z-index: 100; white-space: nowrap;transition: opacity 0.3s ease-out, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid rgba(255,255,255,0.1);}
 body.dark-theme .reward-msg {background: #FFFFFF; color: #0F172A; box-shadow: 0 10px 25px rgba(255,255,255,0.1);}
 .reward-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
@@ -235,7 +241,6 @@ body.dark-theme .lang-select { background-image: url("data:image/svg+xml;charset
 
 .submit-btn {width:100%;padding:18px;margin-top:20px;border:none;border-radius:20px;background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));color:var(--text-light);font-weight:800;font-size: 16px;cursor:pointer; box-shadow: 0 8px 25px var(--btn-shadow); display:flex; align-items:center; justify-content:center; gap:10px; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);}
 .submit-btn:active {transform: scale(0.96);}
-.submit-btn.waiting { background: var(--progress-bg) !important; color: var(--accent) !important; cursor: not-allowed; box-shadow: none !important; border: 1.5px solid var(--card-border); }
 
 .fee-calc-box { font-size: 13px; font-weight: 600; color: var(--text-muted); margin: 5px 0 15px; text-align: left; padding: 16px; background: var(--input-bg); border-radius: 16px; border: 1.5px solid var(--card-border); display: none;}
 .fee-calc-box span { color: var(--text-dark); font-weight: 800; }
@@ -271,11 +276,11 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 .loader-fill { position: absolute; top:0; left:0; height:100%; width:0%; border-radius:10px; background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); animation: fillAnim 3s linear forwards; }
 @keyframes fillAnim{0%{width:0%;} 100%{width:100%;}}
 
-/* Tam mərkəzləşdirilmiş və görünən bildiriş dizaynı */
-#taskNotification {position: fixed;top: 80px;left: 50%;transform: translate(-50%, -150px); background: var(--text-dark);color: var(--card-bg);padding: 16px 24px;border-radius: 100px;box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);font-weight: 700;font-size: 14px;opacity: 0;z-index: 10000;transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1); text-align: center;border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px; white-space: nowrap; will-change: transform, opacity;}
-body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shadow: 0 15px 30px rgba(255, 255, 255, 0.25);}
+/* BİLDİRİŞ DÜZƏLİŞİ - ARTIQ EKRANIN İÇİNDƏ TAM GÖRÜNƏCƏK */
+#taskNotification {position: fixed;top: 40px;left: 50%;transform: translate(-50%, -150%); background: var(--text-dark);color: var(--card-bg);padding: 16px 24px;border-radius: 100px;box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);font-weight: 700;font-size: 14px;opacity: 0;z-index: 10000;transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1); text-align: center;border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px; white-space: nowrap; will-change: transform, opacity;}
+body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shadow: 0 15px 30px rgba(255, 255, 255, 0.15);}
 .notification-show {opacity: 1 !important;transform: translate(-50%, 0) !important; }
-.notification-hide {opacity: 0;transform: translate(-50%, -150px); }
+.notification-hide {opacity: 0;transform: translate(-50%, -150%); }
 
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 9999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; will-change: opacity; }
 .modal-overlay.show { display: flex; opacity: 1; }
@@ -300,8 +305,8 @@ body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shad
 <body id="body">
 
 <script>
-// --- ANTI-CHEAT & RESET LOGIC ---
-const APP_VERSION = 'v7_mining_integrated'; 
+// --- RESET MƏNTİQİ (V7 - ANTI-CHEAT TIME & MINING) ---
+const APP_VERSION = 'v7_mining_update'; 
 if (localStorage.getItem('app_version') !== APP_VERSION) {
     localStorage.clear();
     localStorage.setItem('app_version', APP_VERSION);
@@ -340,6 +345,43 @@ if(savedTheme === 'dark') {
 } else {
     document.getElementById('body').classList.remove('dark-theme');
 }
+
+// --- ANTI-CHEAT SERVER TIME SYNC ---
+let usePerformanceTime = false;
+let baseServerTime = 0;
+let basePerformanceTime = 0;
+
+async function syncServerTime() {
+    try {
+        const res = await fetch('https://worldtimeapi.org/api/timezone/Europe/Moscow', { cache: 'no-store' });
+        if (res.ok) {
+            const data = await res.json();
+            baseServerTime = new Date(data.datetime).getTime();
+            basePerformanceTime = performance.now();
+            usePerformanceTime = true;
+            return;
+        }
+    } catch(e) {}
+    
+    try {
+        const res2 = await fetch('https://timeapi.io/api/Time/current/zone?timeZone=Europe/Moscow', { cache: 'no-store' });
+        if (res2.ok) {
+            const data2 = await res2.json();
+            baseServerTime = new Date(data2.dateTime).getTime();
+            basePerformanceTime = performance.now();
+            usePerformanceTime = true;
+            return;
+        }
+    } catch(e2) {}
+    console.warn("Time sync failed, falling back to local time.");
+}
+
+function getTrueTime() {
+    if (usePerformanceTime) {
+        return baseServerTime + (performance.now() - basePerformanceTime);
+    }
+    return Date.now(); // Fallback əgər API işləməsə
+}
 </script>
 
 <div id="loadingScreen" oncontextmenu="return false;">
@@ -357,7 +399,7 @@ if(savedTheme === 'dark') {
 
 <div class="container">
   
-  <div id="homePage" class="page active">
+  <div id="adsPage" class="page active">
     <div class="balance-card">
       <h3 data-translate-key="yourBalance">Your Balance</h3>
       <div class="amount-wrap">
@@ -366,30 +408,37 @@ if(savedTheme === 'dark') {
       </div>
     </div>
     
-    <div class="mining-card">
-        <h2>⛏️ TON Mining</h2>
-        <p id="miningDescText">Free: 0.01 TON / 8 Hours</p>
+    <div class="ad-card" id="miningCard">
+        <h2 data-translate-key="miningTitle" style="margin-bottom: 25px; font-weight: 900; font-size: 22px;">TON Mining</h2>
         
         <div class="mining-circle-wrap">
-            <svg class="mining-progress-svg" viewBox="0 0 180 180">
-                <defs>
-                    <linearGradient id="miningGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#00A3FF" />
-                        <stop offset="100%" stop-color="#0077FF" />
-                    </linearGradient>
-                </defs>
-                <circle class="mining-progress-circle" id="miningProgressCircle" cx="90" cy="90" r="82"></circle>
+            <svg class="mining-progress-ring">
+                <circle class="ring-bg" cx="90" cy="90" r="80"></circle>
+                <circle class="ring-fill" id="miningRing" cx="90" cy="90" r="80"></circle>
             </svg>
-            <div class="mining-circle-inner">
-                <div class="mining-amount" id="miningAmount">0.0000</div>
-                <div class="mining-currency">TON</div>
-                <div class="mining-timer" id="miningTimer">08:00:00</div>
+            <div class="mining-status-content">
+                <i data-lucide="cpu" id="miningIcon"></i>
+                <div id="miningTimer" class="mining-timer">08:00:00</div>
+                <div id="miningAmountText" class="mining-amount">+0.01 TON</div>
             </div>
         </div>
 
-        <button id="miningBtn" class="submit-btn" onclick="startMining()">
-            <i data-lucide="pickaxe"></i>
-            <span data-translate-key="startMining">Start Mining</span>
+        <div class="mining-stats">
+            <div class="mining-stat-box">
+                <span data-translate-key="dailyProfit">Daily</span>
+                <strong id="dailyMiningProfit">0.03 TON</strong>
+            </div>
+            <div class="mining-stat-box">
+                <span data-translate-key="cycleReward">Per 8h</span>
+                <strong id="cycleMiningReward">0.01 TON</strong>
+            </div>
+        </div>
+
+        <button id="miningBtn" class="ad-btn" onclick="handleMiningAction()">
+            <span class="ad-btn-content">
+                <i data-lucide="pickaxe" style="width:20px;height:20px;"></i>
+                <span id="miningBtnText" data-translate-key="startMining">Start Mining</span>
+            </span>
         </button>
     </div>
   </div>
@@ -411,9 +460,9 @@ if(savedTheme === 'dark') {
             <div class="vip-price">15 TON</div>
         </div>
         <ul class="vip-features">
-            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipReward1">1 TON / Day Mining</span></li>
+            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipReward1">Daily 1 TON</span></li>
             <li><i data-lucide="check-circle"></i> <span data-translate-key="vipDays1">Active for 21 Days</span></li>
-            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipBenefit">Boosted Earnings</span></li>
+            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipBenefit">Boosted Mining Speed</span></li>
         </ul>
         <button id="vip1Btn" class="vip-btn" onclick="buyVip(1, 15, 21)"><i data-lucide="shopping-cart"></i> <span data-translate-key="buyVipBtn">Buy VIP</span></button>
     </div>
@@ -424,9 +473,9 @@ if(savedTheme === 'dark') {
             <div class="vip-price">40 TON</div>
         </div>
         <ul class="vip-features">
-            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipReward2">2.5 TON / Day Mining</span></li>
+            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipReward2">Daily 2.5 TON</span></li>
             <li><i data-lucide="check-circle"></i> <span data-translate-key="vipDays2">Active for 23 Days</span></li>
-            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipBenefit">Boosted Earnings</span></li>
+            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipBenefit">Boosted Mining Speed</span></li>
         </ul>
         <button id="vip2Btn" class="vip-btn" onclick="buyVip(2, 40, 23)"><i data-lucide="shopping-cart"></i> <span data-translate-key="buyVipBtn">Buy VIP</span></button>
     </div>
@@ -437,9 +486,9 @@ if(savedTheme === 'dark') {
             <div class="vip-price">75 TON</div>
         </div>
         <ul class="vip-features">
-            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipReward3">5 TON / Day Mining</span></li>
+            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipReward3">Daily 5 TON</span></li>
             <li><i data-lucide="check-circle"></i> <span data-translate-key="vipDays3">Active for 25 Days</span></li>
-            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipBenefit">Boosted Earnings</span></li>
+            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipBenefit">Boosted Mining Speed</span></li>
         </ul>
         <button id="vip3Btn" class="vip-btn" onclick="buyVip(3, 75, 25)"><i data-lucide="shopping-cart"></i> <span data-translate-key="buyVipBtn">Buy VIP</span></button>
     </div>
@@ -456,30 +505,29 @@ if(savedTheme === 'dark') {
 
     <div class="task-list">
         
-        <div class="task-item premium-task">
+        <div class="task-item">
+            <div id="adRewardNotificationContainer"></div> 
             <div class="task-header">
                 <div class="task-title">
-                    <div class="task-icon"><i data-lucide="play-circle" style="width:20px;height:20px;"></i></div>
+                    <div class="task-icon" style="background: linear-gradient(135deg, #10B981, #059669);"><i data-lucide="play-circle" style="width:20px;height:20px;"></i></div>
                     <span data-translate-key="dailyAdsHeader">Daily Ads</span>
                 </div>
-                <div class="task-reward-badge highlight">+0.0010 TON</div>
+                <div class="task-reward-badge">+0.001 TON</div>
             </div>
-            <div class="task-desc" data-translate-key="adRewardDesc">Earn 0.0010 TON for each watched ad!</div>
-            
-            <div class="stats">
-                <div class="stat"><span id="adsCount">0</span><label data-translate-key="watched">Watched</label></div>
-                <div class="stat"><span data-translate-key="maxCount">50</span><label data-translate-key="maximum">Maximum</label></div>
+            <div class="task-desc">
+                <div class="stats" style="margin-top:0;">
+                    <div class="stat" style="padding:8px;"><span id="adsCount" style="font-size:14px;">0</span><label data-translate-key="watched">Watched</label></div>
+                    <div class="stat" style="padding:8px;"><span data-translate-key="maxCount" style="font-size:14px;">50</span><label data-translate-key="maximum">Max</label></div>
+                </div>
+                <div class="progress" style="margin-top: 15px;"><div class="progress-fill" id="progress"></div></div>
             </div>
-            <div class="progress"><div class="progress-fill" id="progress"></div></div>
-            
-            <button id="adBtn" class="task-btn action">
+            <button id="adBtn" class="task-btn action" style="background: linear-gradient(135deg, #10B981, #059669); box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);">
                 <span class="ad-btn-content">
-                    <i data-lucide="play-circle" style="width: 20px; height: 20px;"></i>
+                    <i data-lucide="play" style="width:20px;height:20px;"></i>
                     <span data-translate-key="watchAd">Watch Ad</span>
                 </span>
             </button>
-            <div id="msg"></div>
-            <div id="adRewardNotificationContainer"></div> 
+            <div id="msg" style="text-align: center;"></div>
         </div>
 
         <div class="task-item">
@@ -496,7 +544,6 @@ if(savedTheme === 'dark') {
                 <span data-translate-key="joinBtnText">Join Channel</span>
             </button>
         </div>
-
     </div>
   </div>
   
@@ -618,7 +665,7 @@ if(savedTheme === 'dark') {
 </div>
 
 <div class="menu">
-  <button onclick="showPage('homePage',this)" class="active" data-page-id="homePage">
+  <button onclick="showPage('adsPage',this)" class="active" data-page-id="adsPage">
     <i data-lucide="house" class="nav-icon"></i> <span class="nav-text" data-translate-key="home">Home</span>
   </button>
   <button onclick="showPage('marketPage',this)" data-page-id="marketPage">
@@ -662,7 +709,6 @@ if(savedTheme === 'dark') {
 <script>
 lucide.createIcons();
 
-// --- TON CONNECT ---
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: 'https://qazancpay.github.io/Ton-Play/tonconnect-manifest.json',
     buttonRootId: 'ton-connect-btn'
@@ -722,10 +768,9 @@ if (tgUser) {
 }
 const userRefLink = `https://t.me/tonplayrbot?startapp=${userRefId}`;
 
-// --- APP CONSTANTS ---
 const MAX_ADS_PER_DAY = 50;
+const AD_REWARD = 0.0010; // Sabitləşdirildi
 const TASK_REWARD = 0.05;
-const AD_REWARD_AMOUNT = 0.0010;
 const FEE_PERCENT = 0.05;
 
 const BAL_KEY = `bal_ton_${userRefId}`;
@@ -749,60 +794,6 @@ let vipExpiry = safeGet(VIP_EXPIRY_KEY, 0);
 
 let withdrawHistory = safeGet(HISTORY_KEY, []);
 
-// --- MINING SYSTEM ---
-const MINING_START_KEY = `mining_start_${userRefId}`;
-const IS_MINING_KEY = `is_mining_${userRefId}`;
-const IS_CLAIMABLE_KEY = `is_claimable_${userRefId}`;
-const MINING_DURATION = 8 * 60 * 60 * 1000; // 8 Hours in ms
-
-let miningStartTime = safeGet(MINING_START_KEY, 0);
-let isMining = safeGet(IS_MINING_KEY, false);
-let isClaimable = safeGet(IS_CLAIMABLE_KEY, false);
-
-// ANTI-CHEAT TIME SYNC
-let timeOffset = 0;
-let isTimeSynced = false;
-
-async function syncServerTime() {
-    try {
-        const response = await fetch('https://worldtimeapi.org/api/timezone/Etc/UTC', { cache: 'no-store' });
-        if (response.ok) {
-            const data = await response.json();
-            const serverTime = data.unixtime * 1000;
-            timeOffset = Date.now() - serverTime;
-            isTimeSynced = true;
-            return;
-        }
-    } catch (e) {
-        console.warn("Time API 1 failed");
-    }
-    try {
-        const response2 = await fetch('https://timeapi.io/api/Time/current/zone?timeZone=UTC', { cache: 'no-store' });
-        if (response2.ok) {
-            const data2 = await response2.json();
-            const serverTime = new Date(data2.dateTime).getTime();
-            timeOffset = Date.now() - serverTime;
-            isTimeSynced = true;
-        }
-    } catch (e) {
-        console.error("Time API 2 failed. Using offline fallback.");
-    }
-}
-
-function getRealTime() {
-    return isTimeSynced ? Date.now() - timeOffset : Date.now();
-}
-
-function getMiningReward() {
-    if (Date.now() < vipExpiry) {
-        if (currentVipLevel === 1) return 0.333333; // 1 TON/Day
-        if (currentVipLevel === 2) return 0.833333; // 2.5 TON/Day
-        if (currentVipLevel === 3) return 1.666666; // 5 TON/Day
-    }
-    return 0.01; // Free: 0.03 TON/Day -> 0.01 per 8h
-}
-
-// MULTI-LANG
 let currentLang = localStorage.getItem(LANG_KEY);
 if (!currentLang || !['en', 'tr', 'ru'].includes(currentLang)) {
     currentLang = 'en'; 
@@ -812,34 +803,31 @@ document.getElementById('langSelect').value = currentLang;
 
 const TRANSLATIONS = {
     'en': {
-        yourBalance: 'Your Balance', dailyAdsHeader: 'Daily Ads', adRewardDesc: 'Earn <b>0.0010 TON</b> for each watched ad!', watched: 'Watched', maximum: 'Maximum', maxCount: '50', watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!', rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ Wait {s}s', joinCommunityTitle: 'Join Community', joinCommunityDesc: 'Join our official community channel and earn!', joinBtnText: 'Join Channel', completed: 'Completed',
-        startMining: 'Start Mining', claimMining: 'Claim Reward', miningActive: 'Mining Active...',
-        miningDescFree: 'Free: 0.01 TON / 8 Hours', miningDescVip1: 'VIP 1: 0.3333 TON / 8 Hours', miningDescVip2: 'VIP 2: 0.8333 TON / 8 Hours', miningDescVip3: 'VIP 3: 1.6666 TON / 8 Hours',
+        yourBalance: 'Your Balance', miningTitle: 'TON Mining', dailyProfit: 'Daily Profit', cycleReward: 'Per 8 Hours', startMining: 'Start Mining', miningInProgress: 'Mining...', claimMining: 'Claim TON',
+        dailyAdsHeader: 'Daily Ads', watched: 'Watched', maximum: 'Max', maxCount: '50', progressText: 'Progress:', watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!', rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ Wait {s}s', joinCommunityTitle: 'Join Community', joinCommunityDesc: 'Join our official community channel and earn!', joinBtnText: 'Join Channel', completed: 'Completed',
         depositTitleTab: 'Deposit', withdrawTitleTab: 'Withdrawal', depositInfo: 'Add TON directly from your connected wallet.', depositActionBtn: 'Deposit TON', placeholderDepositAmount: 'Amount (Min 0.01 TON)', minDepositText: 'Minimum deposit is 0.01 TON', depositSuccess: '✅ Deposit transaction sent! Balance updated.', connectWalletFirst: 'Please connect wallet first.', txFailed: 'Transaction failed or cancelled.',
         withdrawTitle: 'Withdrawal', selectMethod: 'Select withdrawal method', minTonLabel: 'Min: {min} TON', back: 'Back', withdrawTonTitle: 'Withdraw TON', withdraw: 'Withdraw', feeText: 'Network Fee (5%):', receiveText: 'You will receive:', methodError: 'Select a method', detailsError: 'Enter valid TON address', amountError: 'Enter correct amount', minAmount: 'Minimum withdrawal is {min} TON', balanceError: 'Insufficient balance', withdrawSuccess: '✅ Withdrawal requested! It will be processed soon.', withdrawDepositCondition: 'You must watch 1000 ads to withdraw after a deposit! (Watched: {count}/1000)',
         home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile', placeholderDetails_ton: 'Your TON Wallet Address', placeholderAmount: 'Amount (Min {min} TON)', taskSuccess: (r) => `✅ Task Completed! ${r} added.`, guestUser: 'User', theme: 'Theme', language: 'Language', withdrawHistory: 'Transaction History', pending: 'Pending', emptyHistory: 'History is empty', shareBtn: 'Invite Friends', shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Close',
-        shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nWatch daily ads and start earning 💰\nTON coins effortlessly. No complex steps just watch, complete, and grow your balance!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\nTurn বজ্র free time into profit 🔥 👇 Join now and start earning!\n\n🔗 Link: {LINK}", promoteBtn: 'Promote', promoteTitle: '🚀 Advertise on Ton Play Bot!', promoteText: "Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable advertising options<br><br>💎 Advertising Packages (in TON Coin):<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>📩 Contact us now to get started<br><br>🚀 Take your project to the next level with Ton Play!", contactBtn: 'Contact', depositText: 'Deposit',
-        market: 'Market', vipReward1: '1 TON / Day Mining', vipDays1: 'Active for 21 Days', vipReward2: '2.5 TON / Day Mining', vipDays2: 'Active for 23 Days', vipReward3: '5 TON / Day Mining', vipDays3: 'Active for 25 Days', vipBenefit: 'Boosted Earnings', buyVipBtn: 'Buy VIP', activeVip: 'Active', vipActiveError: 'You already have an active VIP level!', vipSuccess: '✅ VIP purchased successfully! Your mining is boosted.'
+        shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nMine TON coins effortlessly. No complex steps just watch, complete, and grow your balance!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\n👇 Join now and start earning!\n\n🔗 Link: {LINK}", promoteBtn: 'Promote', promoteTitle: '🚀 Advertise on Ton Play Bot!', promoteText: "Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable advertising options<br><br>💎 Advertising Packages (in TON Coin):<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>📩 Contact us now to get started<br><br>🚀 Take your project to the next level with Ton Play!", contactBtn: 'Contact', depositText: 'Deposit',
+        market: 'Market', vipReward1: 'Daily 1 TON', vipDays1: 'Active for 21 Days', vipReward2: 'Daily 2.5 TON', vipDays2: 'Active for 23 Days', vipReward3: 'Daily 5 TON', vipDays3: 'Active for 25 Days', vipBenefit: 'Boosted Mining Speed', buyVipBtn: 'Buy VIP', activeVip: 'Active', vipActiveError: 'You already have an active VIP level!', vipSuccess: '✅ VIP purchased successfully! Your mining is boosted.'
     },
     'tr': {
-        yourBalance: 'Bakiyeniz', dailyAdsHeader: 'Günlük Reklamlar', adRewardDesc: 'İzlenen her reklam için <b>0.0010 TON</b> kazanın!', watched: 'İzlenen', maximum: 'Maksimum', maxCount: '50', watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!', rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin', joinCommunityTitle: 'Topluluğa Katıl', joinCommunityDesc: 'Resmi topluluk kanalımıza katılın ve kazanın!', joinBtnText: 'Kanala Katıl', completed: 'Tamamlandı',
-        startMining: 'Madenciliği Başlat', claimMining: 'Ödülü Topla', miningActive: 'Madencilik Aktif...',
-        miningDescFree: 'Ücretsiz: 0.01 TON / 8 Saat', miningDescVip1: 'VIP 1: 0.3333 TON / 8 Saat', miningDescVip2: 'VIP 2: 0.8333 TON / 8 Saat', miningDescVip3: 'VIP 3: 1.6666 TON / 8 Saat',
+        yourBalance: 'Bakiyeniz', miningTitle: 'TON Kazım', dailyProfit: 'Günlük', cycleReward: 'Her 8 Saatte', startMining: 'Kazıma Başla', miningInProgress: 'Kazılıyor...', claimMining: 'TON Topla',
+        dailyAdsHeader: 'Günlük Reklamlar', watched: 'İzlenen', maximum: 'Maks', maxCount: '50', progressText: 'İlerleme:', watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!', rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin', joinCommunityTitle: 'Topluluğa Katıl', joinCommunityDesc: 'Resmi topluluk kanalımıza katılın ve kazanın!', joinBtnText: 'Kanala Katıl', completed: 'Tamamlandı',
         depositTitleTab: 'Yatırım', withdrawTitleTab: 'Çekim', depositInfo: 'Bağlı cüzdanınızdan doğrudan TON ekleyin.', depositActionBtn: 'TON Yatır', placeholderDepositAmount: 'Miktar (Min 0.01 TON)', minDepositText: 'Minimum yatırım 0.01 TON', depositSuccess: '✅ Yatırım gönderildi! Bakiye güncellendi.', connectWalletFirst: 'Lütfen önce cüzdanı bağlayın.', txFailed: 'İşlem başarısız veya iptal edildi.',
         withdrawTitle: 'Para Çekme', selectMethod: 'Çekim yöntemi seçin', minTonLabel: 'Min: {min} TON', back: 'Geri', withdrawTonTitle: 'TON Çek', withdraw: 'Çekim Yap', feeText: 'Ağ Ücreti (5%):', receiveText: 'Alacağınız:', methodError: 'Yöntem seçin', detailsError: 'Geçerli TON adresi girin', amountError: 'Miktarı doğru girin', minAmount: 'Minimum çekim {min} TON', balanceError: 'Yetersiz bakiye', withdrawSuccess: '✅ Çekim talebi alındı! Yakında işlenecektir.', withdrawDepositCondition: 'Yatırım yaptıktan sonra çekim yapmak için 1000 reklam izlemelisiniz! (İzlenen: {count}/1000)',
         home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil', placeholderDetails_ton: 'TON Cüzdan Adresiniz', placeholderAmount: 'Miktar (Min {min} TON)', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} eklendi.`, guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil', withdrawHistory: 'İşlem Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş', shareBtn: 'Arkadaşlarını Davet Et', shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Kapat',
-        shareMsg: "🚀 TonPlay ile basit, hızlı, gerçek ödüller kazanın!\n\nGünlük reklamları izleyin ve zahmetsizce 💰 TON coin kazanmaya başlayın. Karmaşık adımlar yok, sadece izleyin, tamamlayın ve bakiyenizi büyütün!\n\n✨ Kolay ve kullanıcı dostu sistem\n🎯 Günlük kazanma fırsatları\n💎 Gerçek ödüller, gerçek sonuçlar\n\nBoş zamanınızı kazanca dönüştürün 🔥 👇 Şimdi katılın ve kazanmaya başlayın!\n\n🔗 Link: {LINK}", promoteBtn: 'Reklam Ver', promoteTitle: "🚀 Ton Play Bot'ta Reklam Verin!", promoteText: "Projenizi, kanalınızı veya botunuzu büyütmek mi istiyorsunuz?<br>Doğru yerdesiniz! 🎯<br><br>🎯 Geniş bir kitleye ulaşın<br>📈 Büyümenizi hızlandırın<br>💸 Etkili ve uygun fiyatlı reklam seçenekleri<br><br>💎 Reklam Paketleri (TON Coin ile):<br>• 1 Hafta — 3 TON<br>• 1 Ay — 12 TON<br>• 3 Ay — 33 TON<br>• 6 Ay — 62 TON<br><br>📩 Başlamak için hemen iletişime geçin<br><br>🚀 Projenizi Ton Play ile bir sonraki seviyeye taşıyın!", contactBtn: 'İletişim', depositText: 'Yatırım',
-        market: 'Market', vipReward1: 'Günlük 1 TON Madencilik', vipDays1: '21 Gün Aktif', vipReward2: 'Günlük 2.5 TON Madencilik', vipDays2: '23 Gün Aktif', vipReward3: 'Günlük 5 TON Madencilik', vipDays3: '25 Gün Aktif', vipBenefit: 'Artırılmış Kazanç', buyVipBtn: 'VIP Al', activeVip: 'Aktif', vipActiveError: 'Zaten aktif bir VIP seviyeniz var!', vipSuccess: '✅ VIP başarıyla alındı! Madenciliğiniz hızlandı.'
+        shareMsg: "🚀 TonPlay ile basit, hızlı, gerçek ödüller kazanın!\n\nZahmetsizce 💰 TON coin kazanmaya başlayın. Karmaşık adımlar yok, izleyin, tamamlayın ve bakiyenizi büyütün!\n\n✨ Kolay ve kullanıcı dostu sistem\n🎯 Günlük kazanma fırsatları\n💎 Gerçek ödüller, gerçek sonuçlar\n\n👇 Şimdi katılın ve kazanmaya başlayın!\n\n🔗 Link: {LINK}", promoteBtn: 'Reklam Ver', promoteTitle: "🚀 Ton Play Bot'ta Reklam Verin!", promoteText: "Projenizi, kanalınızı veya botunuzu büyütmek mi istiyorsunuz?<br>Doğru yerdesiniz! 🎯<br><br>🎯 Geniş bir kitleye ulaşın<br>📈 Büyümenizi hızlandırın<br>💸 Etkili ve uygun fiyatlı reklam seçenekleri<br><br>💎 Reklam Paketleri (TON Coin ile):<br>• 1 Hafta — 3 TON<br>• 1 Ay — 12 TON<br>• 3 Ay — 33 TON<br>• 6 Ay — 62 TON<br><br>📩 Başlamak için hemen iletişime geçin<br><br>🚀 Projenizi Ton Play ile bir sonraki seviyeye taşıyın!", contactBtn: 'İletişim', depositText: 'Yatırım',
+        market: 'Market', vipReward1: 'Günlük 1 TON', vipDays1: '21 Gün Aktif', vipReward2: 'Günlük 2.5 TON', vipDays2: '23 Gün Aktif', vipReward3: 'Günlük 5 TON', vipDays3: '25 Gün Aktif', vipBenefit: 'Artırılmış Kazım Hızı', buyVipBtn: 'VIP Al', activeVip: 'Aktif', vipActiveError: 'Zaten aktif bir VIP seviyeniz var!', vipSuccess: '✅ VIP başarıyla alındı! Kazım hızınız artırıldı.'
     },
     'ru': { 
-        yourBalance: 'Ваш Баланс', dailyAdsHeader: 'Ежедневная Реклама', adRewardDesc: 'Получайте <b>0.0010 TON</b> за каждую рекламу!', watched: 'Просмотрено', maximum: 'Максимум', maxCount: '50', watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут лимит!', rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ Ожидайте {s}с', joinCommunityTitle: 'Присоединиться к сообществу', joinCommunityDesc: 'Вступайте в наше официальное сообщество и зарабатывайте!', joinBtnText: 'Подписаться', completed: 'Выполнено',
-        startMining: 'Начать майнинг', claimMining: 'Собрать награду', miningActive: 'Майнинг активен...',
-        miningDescFree: 'Бесплатно: 0.01 TON / 8 часов', miningDescVip1: 'VIP 1: 0.3333 TON / 8 часов', miningDescVip2: 'VIP 2: 0.8333 TON / 8 часов', miningDescVip3: 'VIP 3: 1.6666 TON / 8 часов',
+        yourBalance: 'Ваш Баланс', miningTitle: 'Майнинг TON', dailyProfit: 'В день', cycleReward: 'За 8 часов', startMining: 'Начать майнинг', miningInProgress: 'Майнинг...', claimMining: 'Собрать TON',
+        dailyAdsHeader: 'Ежедневная Реклама', watched: 'Просмотрено', maximum: 'Макс', maxCount: '50', progressText: 'Прогресс:', watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут лимит!', rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ Ожидайте {s}с', joinCommunityTitle: 'Присоединиться к сообществу', joinCommunityDesc: 'Вступайте в наше официальное сообщество и зарабатывайте!', joinBtnText: 'Подписаться', completed: 'Выполнено',
         depositTitleTab: 'Депозит', withdrawTitleTab: 'Вывод', depositInfo: 'Пополняйте баланс напрямую с подключенного кошелька.', depositActionBtn: 'Пополнить TON', placeholderDepositAmount: 'Сумма (Мин 0.01 TON)', minDepositText: 'Минимальный депозит 0.01 TON', depositSuccess: '✅ Транзакция отправлена! Баланс обновлен.', connectWalletFirst: 'Пожалуйста, подключите кошелек.', txFailed: 'Транзакция не удалась или отменена.',
         withdrawTitle: 'Вывод Средств', selectMethod: 'Выберите способ вывода', minTonLabel: 'Мин: {min} TON', back: 'Назад', withdrawTonTitle: 'Вывести TON', withdraw: 'Вывести', feeText: 'Комиссия сети (5%):', receiveText: 'Вы получите:', methodError: 'Выберите способ', detailsError: 'Введите верный TON адрес', amountError: 'Введите правильную сумму', minAmount: 'Минимальный вывод {min} TON', balanceError: 'Недостаточно средств', withdrawSuccess: '✅ Заявка отправлена! Будет обработана скоро.', withdrawDepositCondition: 'Для вывода после депозита нужно посмотреть 1000 реклам! (Просмотрено: {count}/1000)',
         home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль', placeholderDetails_ton: 'Ваш TON Адрес', placeholderAmount: 'Сумма (Мин {min} TON)', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено.`, guestUser: 'Пользователь', theme: 'Тема', language: 'Язык', withdrawHistory: 'История транзакций', pending: 'В ожидании', emptyHistory: 'История пуста', shareBtn: 'Пригласить Друзей', shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Закрыть',
-        shareMsg: "🚀 Зарабатывайте с TonPlay: просто, быстро, реальные награды!\n\nСмотрите ежедневную рекламу и начните легко зарабатывать 💰 TON. Никаких сложных шагов — просто смотрите, выполняйте и увеличивайте свой баланс!\n\n✨ Удобная система\n🎯 Ежедневные возможности\n💎 Реальные награды\n\nПревратите свободное время в прибыль 🔥 👇 Присоединяйтесь и начните зарабатывать!\n\n🔗 Ссылка: {LINK}", promoteBtn: 'Реклама', promoteTitle: '🚀 Разместите рекламу в Ton Play Bot!', promoteText: "Хотите развить свой проект, канал или бота?<br>Вы в правильном месте! 🎯<br><br>🎯 Охватите широкую аудиторию<br>📈 Быстро ускорьте свой рост<br>💸 Эффективные и доступные варианты рекламы<br><br>💎 Рекламные пакеты (в TON Coin):<br>• 1 Неделя — 3 TON<br>• 1 Месяц — 12 TON<br>• 3 Месяца — 33 TON<br>• 6 Месяцев — 62 TON<br><br>📩 Свяжитесь с нами прямо сейчас, чтобы начать<br><br>🚀 Выведите свой проект на новый уровень с Ton Play!", contactBtn: 'Связаться', depositText: 'Депозит',
-        market: 'Маркет', vipReward1: '1 TON / день Майнинг', vipDays1: 'Активен 21 день', vipReward2: '2.5 TON / день Майнинг', vipDays2: 'Активен 23 дня', vipReward3: '5 TON / день Майнинг', vipDays3: 'Активен 25 дней', vipBenefit: 'Ускоренный доход', buyVipBtn: 'Купить VIP', activeVip: 'Активен', vipActiveError: 'У вас уже есть активный VIP!', vipSuccess: '✅ VIP успешно куплен! Ваш майнинг ускорен.'
+        shareMsg: "🚀 Зарабатывайте с TonPlay: просто, быстро, реальные награды!\n\nНачните легко зарабатывать 💰 TON. Никаких сложных шагов — просто смотрите, выполняйте и увеличивайте свой баланс!\n\n✨ Удобная система\n🎯 Ежедневные возможности\n💎 Реальные награды\n\n👇 Присоединяйтесь и начните зарабатывать!\n\n🔗 Ссылка: {LINK}", promoteBtn: 'Реклама', promoteTitle: '🚀 Разместите рекламу в Ton Play Bot!', promoteText: "Хотите развить свой проект, канал или бота?<br>Вы в правильном месте! 🎯<br><br>🎯 Охватите широкую аудиторию<br>📈 Быстро ускорьте свой рост<br>💸 Эффективные и доступные варианты рекламы<br><br>💎 Рекламные пакеты (в TON Coin):<br>• 1 Неделя — 3 TON<br>• 1 Месяц — 12 TON<br>• 3 Месяца — 33 TON<br>• 6 Месяцев — 62 TON<br><br>📩 Свяжитесь с нами прямо сейчас, чтобы начать<br><br>🚀 Выведите свой проект на новый уровень с Ton Play!", contactBtn: 'Связаться', depositText: 'Депозит',
+        market: 'Маркет', vipReward1: 'В день 1 TON', vipDays1: 'Активен 21 день', vipReward2: 'В день 2.5 TON', vipDays2: 'Активен 23 дня', vipReward3: 'В день 5 TON', vipDays3: 'Активен 25 дней', vipBenefit: 'Ускоренный майнинг', buyVipBtn: 'Купить VIP', activeVip: 'Активен', vipActiveError: 'У вас уже есть активный VIP!', vipSuccess: '✅ VIP успешно куплен! Ваш майнинг ускорен.'
     }
 };
 
@@ -848,61 +836,154 @@ function showAlertAutoHiding(element, message, type) {
     element.textContent = message;
     element.className = 'alert ' + type;
     element.style.display = 'block';
+    
     if (alertTimeouts[element.id]) { clearTimeout(alertTimeouts[element.id]); }
+    
     alertTimeouts[element.id] = setTimeout(() => {
         element.style.display = 'none';
         delete alertTimeouts[element.id];
     }, 4000); 
 }
 
+let rewardMsgTimeout = null; 
 let isAdRunning = false; 
 let isCheckingTime = false;
 
-// API TIME CHECK FOR AD RESETS
+// --- API VAXT YOXLAMASI REKLAMLAR ÜÇÜN ---
 async function checkDailyReset() {
     if (isCheckingTime) return;
     isCheckingTime = true;
-    let realDate = null;
+    
+    // getTrueTime() tərəfindən idarə olunur. Əgər gün dəyişibsə reklamları sıfırla.
+    const trueDateStr = new Date(getTrueTime()).toISOString().split('T')[0];
 
-    try {
-        const response = await fetch('https://worldtimeapi.org/api/timezone/Europe/Moscow', { cache: 'no-store' });
-        if (response.ok) {
-            const data = await response.json();
-            realDate = data.datetime.split('T')[0]; 
-        }
-    } catch (e) {
-        console.warn("Time API 1 failed");
+    const savedDate = safeGet('moscow_reset_date_' + userRefId, null);
+    if (savedDate !== trueDateStr) {
+        cnt = 0; 
+        safeSet('moscow_reset_date_' + userRefId, trueDateStr);
+        safeSet(COUNT_KEY, cnt);
     }
 
-    if (!realDate) {
-        try {
-            const response2 = await fetch('https://timeapi.io/api/Time/current/zone?timeZone=Europe/Moscow', { cache: 'no-store' });
-            if (response2.ok) {
-                const data2 = await response2.json();
-                realDate = `${data2.year}-${String(data2.month).padStart(2, '0')}-${String(data2.day).padStart(2, '0')}`;
-            }
-        } catch (e) { }
-    }
-
-    if (realDate) {
-        const savedDate = safeGet('moscow_reset_date_' + userRefId, null);
-        if (savedDate !== realDate) {
-            cnt = 0; 
-            safeSet('moscow_reset_date_' + userRefId, realDate);
-            safeSet(COUNT_KEY, cnt);
-        }
-    }
     isCheckingTime = false;
     updateUI();
 }
 
 function getMinWithdrawal() {
-    if (Date.now() < vipExpiry) {
+    if (getTrueTime() < vipExpiry) {
         if (currentVipLevel === 1) return 20;
         if (currentVipLevel === 2) return 50;
         if (currentVipLevel === 3) return 90;
     }
     return 3; 
+}
+
+// --- MINING MƏNTİQİ ---
+const MINING_START_KEY = `mining_start_${userRefId}`;
+const MINING_END_KEY = `mining_end_${userRefId}`;
+const CYCLE_MS = 8 * 60 * 60 * 1000; 
+let miningInterval;
+
+function getDailyMiningReward() {
+    if (getTrueTime() < vipExpiry) {
+        if (currentVipLevel === 1) return 1.0;
+        if (currentVipLevel === 2) return 2.5;
+        if (currentVipLevel === 3) return 5.0;
+    } else {
+        if (currentVipLevel !== 0) {
+            currentVipLevel = 0; vipExpiry = 0;
+            safeSet(VIP_LEVEL_KEY, 0); safeSet(VIP_EXPIRY_KEY, 0);
+            updateVipUI();
+        }
+    }
+    return 0.03; // Free tier
+}
+
+function getMiningReward() {
+    // 8 saat = Gündəliyin 1/3-i
+    return getDailyMiningReward() / 3;
+}
+
+function updateMiningUI() {
+    const now = getTrueTime();
+    const start = safeGet(MINING_START_KEY, 0);
+    const end = safeGet(MINING_END_KEY, 0);
+    const t = TRANSLATIONS[currentLang];
+    
+    const btnText = document.getElementById('miningBtnText');
+    const timerEl = document.getElementById('miningTimer');
+    const ring = document.getElementById('miningRing');
+    const icon = document.getElementById('miningIcon');
+    const miningBtn = document.getElementById('miningBtn');
+
+    document.getElementById('dailyMiningProfit').textContent = getDailyMiningReward().toFixed(3) + ' TON';
+    document.getElementById('cycleMiningReward').textContent = getMiningReward().toFixed(3) + ' TON';
+    document.getElementById('miningAmountText').textContent = '+' + getMiningReward().toFixed(3) + ' TON';
+
+    if (start > 0 && end > 0) {
+        if (now >= end) {
+            // Tamamlandı, Topla
+            timerEl.textContent = "00:00:00";
+            btnText.textContent = t.claimMining;
+            ring.style.strokeDashoffset = 0; 
+            icon.classList.remove('mining-active-anim');
+            miningBtn.className = 'ad-btn';
+            miningBtn.style.background = 'linear-gradient(135deg, #10B981, #059669)'; // Yaşıl rəng (Hazır)
+        } else {
+            // Davam edir
+            const remaining = end - now;
+            const elapsed = now - start;
+            const total = end - start;
+
+            const h = Math.floor(remaining / 3600000);
+            const m = Math.floor((remaining % 3600000) / 60000);
+            const s = Math.floor((remaining % 60000) / 1000);
+            timerEl.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+            // Ring progress (502 = tam dairə uzunluğu)
+            const percent = Math.min(1, elapsed / total);
+            ring.style.strokeDashoffset = 502 - (502 * percent);
+
+            btnText.textContent = t.miningInProgress;
+            icon.classList.add('mining-active-anim');
+            miningBtn.className = 'ad-btn waiting';
+            miningBtn.style.background = '';
+        }
+    } else {
+        // Başlamayıb
+        timerEl.textContent = "08:00:00";
+        btnText.textContent = t.startMining;
+        ring.style.strokeDashoffset = 502;
+        icon.classList.remove('mining-active-anim');
+        miningBtn.className = 'ad-btn';
+        miningBtn.style.background = '';
+    }
+}
+
+function handleMiningAction() {
+    const now = getTrueTime();
+    const start = safeGet(MINING_START_KEY, 0);
+    const end = safeGet(MINING_END_KEY, 0);
+    const t = TRANSLATIONS[currentLang];
+
+    if (start > 0 && end > 0) {
+        if (now >= end) {
+            // Topla
+            const reward = getMiningReward();
+            bal += reward;
+            safeSet(BAL_KEY, bal);
+            safeSet(MINING_START_KEY, 0);
+            safeSet(MINING_END_KEY, 0);
+            showTaskNotification(t.rewardAddedConfirmed(`<b>${reward.toFixed(3)} TON</b>`));
+            updateUI();
+            updateMiningUI();
+        }
+        // Əgər davam edirsə, basanda heçnə olmur.
+    } else {
+        // Başlat
+        safeSet(MINING_START_KEY, now);
+        safeSet(MINING_END_KEY, now + CYCLE_MS);
+        updateMiningUI();
+    }
 }
 
 function updateDynamicTexts() {
@@ -920,13 +1001,8 @@ function updateDynamicTexts() {
 
 function updateVipUI() {
     const t = TRANSLATIONS[currentLang];
-    const isActive = Date.now() < vipExpiry;
+    const isActive = getTrueTime() < vipExpiry;
     
-    if(!isActive && currentVipLevel !== 0) {
-        currentVipLevel = 0; vipExpiry = 0;
-        safeSet(VIP_LEVEL_KEY, 0); safeSet(VIP_EXPIRY_KEY, 0);
-    }
-
     [1, 2, 3].forEach((level) => {
         const btn = document.getElementById(`vip${level}Btn`);
         if (!btn) return;
@@ -941,20 +1017,9 @@ function updateVipUI() {
             btn.disabled = false;
         }
     });
-
-    const descEl = document.getElementById('miningDescText');
-    if (descEl) {
-        if(isActive) {
-            if(currentVipLevel === 1) descEl.textContent = t.miningDescVip1;
-            if(currentVipLevel === 2) descEl.textContent = t.miningDescVip2;
-            if(currentVipLevel === 3) descEl.textContent = t.miningDescVip3;
-        } else {
-            descEl.textContent = t.miningDescFree;
-        }
-    }
-
     lucide.createIcons();
     updateDynamicTexts();
+    updateMiningUI();
 }
 
 function loadProfilePic() {
@@ -994,7 +1059,7 @@ function fallbackCopyTextToClipboard(text, t) {
     document.body.removeChild(textArea);
 }
 
-function formatTon(val) { return parseFloat(val).toFixed(4); }
+function formatTon(val) { return parseFloat(val).toFixed(3); }
 
 function updateUI() {
   const formattedBal = formatTon(bal);
@@ -1002,12 +1067,16 @@ function updateUI() {
   document.getElementById('balance2').textContent = formattedBal;
   document.getElementById('balance3').textContent = formattedBal;
   document.getElementById('balance4').textContent = formattedBal;
-  document.getElementById('adsCount').textContent=cnt;
-  document.getElementById('progress').style.width=(cnt/MAX_ADS_PER_DAY*100)+'%';
+  
+  // Tasks səhifəsindəki reklam statistikası
+  const adsCountEl = document.getElementById('adsCount');
+  if(adsCountEl) adsCountEl.textContent=cnt;
+  const progressEl = document.getElementById('progress');
+  if(progressEl) progressEl.style.width=(cnt/MAX_ADS_PER_DAY*100)+'%';
   
   safeSet(BAL_KEY, bal); safeSet(COUNT_KEY, cnt); 
   
-  checkAndDisplayRewardMsg(); updateTaskButtons(); updateDynamicTexts(); updateVipUI();
+  updateTaskButtons(); updateDynamicTexts(); updateVipUI(); updateMiningUI();
 }
 
 function renderHistory() {
@@ -1086,105 +1155,80 @@ function applyTranslations(lang) {
     document.querySelectorAll('[data-translate-key]').forEach(el => {
         applyTranslationToElement(el, el.getAttribute('data-translate-key'), lang);
     });
-    updateTaskButtons(); loadProfile(); renderHistory(); updateDynamicTexts(); updateVipUI(); updateMiningUI();
-    
-    const adBtnWatchSpan = adBtnContent.querySelector('span');
+    updateTaskButtons(); loadProfile(); renderHistory(); updateDynamicTexts(); updateVipUI();
+    const adBtnWatchSpan = document.querySelector('.ad-btn-content span[data-translate-key="watchAd"]');
     if(adBtnWatchSpan) { if (adBtn.classList.contains('waiting')) { adBtnWatchSpan.textContent = t.watching; } else { adBtnWatchSpan.textContent = t.watchAd; } }
 }
 
 function setLang(lang) { currentLang = lang; localStorage.setItem(LANG_KEY, lang); applyTranslations(lang); calculateFee(); }
 
-const adBtn=document.getElementById('adBtn'), msg=document.getElementById('msg');
-const adBtnContent = document.querySelector('.ad-btn-content');
-
-let rewardMsgTimeout = null;
-function displayRewardMsg(messageHTML) {
-    if (rewardMsgTimeout) { clearTimeout(rewardMsgTimeout); rewardMsgTimeout = null; }
-    const container = document.getElementById('adRewardNotificationContainer');
-    if (!container) return; 
-    let rewardMsgElement = document.getElementById('rewardMsg');
-    if (rewardMsgElement) { rewardMsgElement.innerHTML = messageHTML; } 
-    else { rewardMsgElement = document.createElement('div'); rewardMsgElement.className = 'reward-msg'; rewardMsgElement.id = 'rewardMsg'; rewardMsgElement.innerHTML = messageHTML; container.appendChild(rewardMsgElement); }
-    rewardMsgElement.classList.remove('show');
-    safeSet(REWARD_MSG_KEY, { html: messageHTML, expire: Date.now() + 2500 }); 
-    setTimeout(() => { rewardMsgElement.classList.add('show'); }, 50);
-    rewardMsgTimeout = setTimeout(() => {
-        if (rewardMsgElement) { rewardMsgElement.classList.remove('show'); setTimeout(() => { if(rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 300); }
-        safeRemove(REWARD_MSG_KEY); rewardMsgTimeout = null;
-    }, 2500);
-}
-
-function checkAndDisplayRewardMsg() {
-    const container = document.getElementById('adRewardNotificationContainer');
-    if (!container) return;
-    const currentPage = document.querySelector('.page.active');
-    if (!currentPage || currentPage.id !== 'tasksPage') { let rewardMsgElement = document.getElementById('rewardMsg'); if (rewardMsgElement) rewardMsgElement.classList.remove('show'); return; }
-    const savedMsg = safeGet(REWARD_MSG_KEY, null);
-    let rewardMsgElement = document.getElementById('rewardMsg');
-    if (savedMsg) {
-        const remainingTime = savedMsg.expire - Date.now();
-        if (remainingTime > 0) {
-            if (!rewardMsgElement) { rewardMsgElement = document.createElement('div'); rewardMsgElement.className = 'reward-msg'; rewardMsgElement.id = 'rewardMsg'; container.appendChild(rewardMsgElement); }
-            rewardMsgElement.innerHTML = savedMsg.html; rewardMsgElement.classList.remove('show');
-            if (rewardMsgTimeout) clearTimeout(rewardMsgTimeout);
-            setTimeout(() => { rewardMsgElement.classList.add('show'); }, 50);
-            rewardMsgTimeout = setTimeout(() => { if (rewardMsgElement) { rewardMsgElement.classList.remove('show'); setTimeout(() => { if(rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 300); } safeRemove(REWARD_MSG_KEY); rewardMsgTimeout = null; }, remainingTime);
-        } else { safeRemove(REWARD_MSG_KEY); if (rewardMsgElement && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }
-    } else { if (rewardMsgElement && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }
-}
+const adBtn = document.getElementById('adBtn');
+const msg = document.getElementById('msg');
 
 function restoreAdBtnState() {
     const t = TRANSLATIONS[currentLang];
-    const textSpan = adBtnContent.querySelector('span');
+    const textSpan = adBtn.querySelector('.ad-btn-content span[data-translate-key="watchAd"]');
     if (isAdRunning) { adBtn.classList.add('waiting'); adBtn.disabled = true; if(textSpan) textSpan.textContent = t.watching; return; }
-    if (cnt >= MAX_ADS_PER_DAY) { adBtn.classList.remove('waiting'); adBtn.disabled = true; if(textSpan) textSpan.textContent = t.watchAd; msg.textContent = t.adLimitReached; checkAndDisplayRewardMsg(); return; }
-    adBtn.classList.remove('waiting'); adBtn.disabled = false; if(textSpan) textSpan.textContent = t.watchAd; msg.textContent = ''; checkAndDisplayRewardMsg();
+    if (cnt >= MAX_ADS_PER_DAY) { adBtn.classList.remove('waiting'); adBtn.disabled = true; if(textSpan) textSpan.textContent = t.watchAd; msg.textContent = t.adLimitReached; return; }
+    adBtn.classList.remove('waiting'); adBtn.disabled = false; if(textSpan) textSpan.textContent = t.watchAd; msg.textContent = '';
 }
 
-adBtn.onclick = () => {
-    const t = TRANSLATIONS[currentLang];
-    
-    if (cnt >= MAX_ADS_PER_DAY) { msg.textContent = t.adLimitReached; return; }
-    if (isAdRunning || adBtn.classList.contains('waiting')) return;
-    
-    isAdRunning = true; 
-    adBtn.disabled = true; 
-    adBtn.classList.add('waiting');
-    const textSpan = adBtnContent.querySelector('span');
-    if(textSpan) textSpan.textContent = t.watching; 
-    msg.textContent = '';
-    
-    if (rewardMsgTimeout) { clearTimeout(rewardMsgTimeout); rewardMsgTimeout = null; }
-    safeRemove(REWARD_MSG_KEY);
-    let rewardMsgElement = document.getElementById('rewardMsg');
-    if (rewardMsgElement) { rewardMsgElement.classList.remove('show'); setTimeout(() => { const container = document.getElementById('adRewardNotificationContainer'); if(container && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 200); }
-    
-    checkDailyReset();
+if(adBtn) {
+    adBtn.onclick = () => {
+        const t = TRANSLATIONS[currentLang];
+        
+        if (cnt >= MAX_ADS_PER_DAY) { msg.textContent = t.adLimitReached; return; }
+        if (isAdRunning || adBtn.classList.contains('waiting')) return;
+        
+        isAdRunning = true; 
+        adBtn.disabled = true; 
+        adBtn.classList.add('waiting');
+        const textSpan = adBtn.querySelector('.ad-btn-content span[data-translate-key="watchAd"]');
+        if(textSpan) textSpan.textContent = t.watching; 
+        msg.textContent = '';
+        
+        checkDailyReset();
 
-    try {
-        if (!adManager && window.Adsgram) { adManager = window.Adsgram.init({ blockId: "int-28300" }); }
-        if (adManager) { 
-            adManager.show().then((result) => { giveAdReward(t); }).catch((error) => { console.error("Adsgram error", error); resetAdBtnState(t); }); 
-        } 
-        else { console.error("Adsgram init fail"); resetAdBtnState(t); }
-    } catch(e) { console.error("Ad error", e); resetAdBtnState(t); } 
-};
+        try {
+            if (!adManager && window.Adsgram) { adManager = window.Adsgram.init({ blockId: "int-28300" }); }
+            if (adManager) { 
+                adManager.show().then((result) => { giveAdReward(t); }).catch((error) => { console.error("Adsgram error", error); resetAdBtnState(t); }); 
+            } 
+            else { console.error("Adsgram init fail"); resetAdBtnState(t); }
+        } catch(e) { console.error("Ad error", e); resetAdBtnState(t); } 
+    };
+}
 
 function giveAdReward(t) { 
-    bal += AD_REWARD_AMOUNT; 
+    bal += AD_REWARD; 
     cnt++; 
     totalAdsWatched++;
     safeSet(TOTAL_ADS_KEY, totalAdsWatched);
     updateUI(); 
-    displayRewardMsg(t.rewardAddedConfirmed(`<b>${AD_REWARD_AMOUNT} TON</b>`)); 
+    showTaskNotification(t.rewardAddedConfirmed(`<b>${AD_REWARD.toFixed(4)} TON</b>`)); 
     resetAdBtnState(t); 
 }
 
-function resetAdBtnState(t) { isAdRunning = false; adBtn.disabled = false; adBtn.classList.remove('waiting'); const textSpan = adBtnContent.querySelector('span'); if(textSpan) textSpan.textContent = t.watchAd; if (cnt >= MAX_ADS_PER_DAY) msg.textContent = t.adLimitReached; else msg.textContent = ''; }
+function resetAdBtnState(t) { 
+    isAdRunning = false; 
+    adBtn.disabled = false; 
+    adBtn.classList.remove('waiting'); 
+    const textSpan = adBtn.querySelector('.ad-btn-content span[data-translate-key="watchAd"]'); 
+    if(textSpan) textSpan.textContent = t.watchAd; 
+    if (cnt >= MAX_ADS_PER_DAY) msg.textContent = t.adLimitReached; else msg.textContent = ''; 
+}
 
 const taskNotification = document.getElementById('taskNotification');
 const taskNotificationText = document.getElementById('taskNotificationText');
-function showTaskNotification(message) { taskNotificationText.innerHTML = message; taskNotification.classList.remove('notification-hide'); taskNotification.classList.add('notification-show'); setTimeout(() => { taskNotification.classList.remove('notification-show'); taskNotification.classList.add('notification-hide'); }, 3000); }
+function showTaskNotification(message) { 
+    taskNotificationText.innerHTML = message; 
+    taskNotification.classList.remove('notification-hide'); 
+    taskNotification.classList.add('notification-show'); 
+    setTimeout(() => { 
+        taskNotification.classList.remove('notification-show'); 
+        taskNotification.classList.add('notification-hide'); 
+    }, 3000); 
+}
 
 const joinBtn = document.getElementById('joinBtn');
 if (joinBtn) {
@@ -1193,7 +1237,7 @@ if (joinBtn) {
         const t = TRANSLATIONS[currentLang];
         window.open('https://t.me/tonplay_app', '_blank'); 
         joinBtn.disabled = true; joinBtn.classList.add('waiting'); 
-        joinBtn.innerHTML = `<i data-lucide="loader" class="spin" style="width:20px;height:20px;"></i> ${t.wait.replace('{s}', '3')}`;
+        joinBtn.innerHTML = `<i data-lucide="loader" style="width:20px;height:20px;"></i> ${t.wait.replace('{s}', '3')}`;
         lucide.createIcons();
         setTimeout(() => { bal += TASK_REWARD; safeSet(BAL_KEY, bal); localStorage.setItem(JOIN_COMMUNITY_KEY, '1'); updateUI(); showTaskNotification(t.taskSuccess(`<b>${TASK_REWARD} TON</b>`)); }, 3000); 
     };
@@ -1214,122 +1258,9 @@ function activateNewPage(id, btn) {
   document.getElementById(id).classList.add('active');
   document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  if (id === 'tasksPage') { restoreAdBtnState(); updateTaskButtons(); } 
-  else { let rewardMsgElement = document.getElementById('rewardMsg'); if (rewardMsgElement) rewardMsgElement.classList.remove('show'); }
+  if (id === 'tasksPage') { updateTaskButtons(); restoreAdBtnState(); } 
 }
 
-// --- MINING LOGIC ---
-function updateMiningUI() {
-    const realTime = getRealTime();
-    const elapsed = realTime - miningStartTime;
-    const t = TRANSLATIONS[currentLang];
-    
-    const btn = document.getElementById('miningBtn');
-    const timerEl = document.getElementById('miningTimer');
-    const amountEl = document.getElementById('miningAmount');
-    const circle = document.getElementById('miningProgressCircle');
-    if(!btn || !circle) return;
-
-    const rate8h = getMiningReward();
-
-    if (!isMining && !isClaimable) {
-        amountEl.textContent = '0.0000';
-        timerEl.textContent = '08:00:00';
-        circle.style.strokeDashoffset = 516;
-        btn.className = 'submit-btn';
-        btn.innerHTML = `<i data-lucide="pickaxe"></i> <span>${t.startMining}</span>`;
-        btn.onclick = startMining;
-    } else if (isMining) {
-        if (elapsed >= MINING_DURATION) {
-            isMining = false;
-            isClaimable = true;
-            safeSet(IS_MINING_KEY, false);
-            safeSet(IS_CLAIMABLE_KEY, true);
-            updateMiningUI();
-            return;
-        }
-        
-        let progress = elapsed / MINING_DURATION;
-        let currentEarned = progress * rate8h;
-        amountEl.textContent = currentEarned.toFixed(4);
-
-        let rem = MINING_DURATION - elapsed;
-        let h = Math.floor(rem / 3600000);
-        let m = Math.floor((rem % 3600000) / 60000);
-        let s = Math.floor((rem % 60000) / 1000);
-        timerEl.textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-
-        circle.style.strokeDashoffset = 516 - (516 * progress);
-        btn.className = 'submit-btn waiting';
-        btn.innerHTML = `<i data-lucide="loader" class="spin"></i> <span>${t.miningActive}</span>`;
-        btn.onclick = null;
-    } else if (isClaimable) {
-        amountEl.textContent = rate8h.toFixed(4);
-        timerEl.textContent = '00:00:00';
-        circle.style.strokeDashoffset = 0;
-        btn.className = 'submit-btn';
-        btn.style.background = 'linear-gradient(135deg, #22C55E, #16A34A)';
-        btn.innerHTML = `<i data-lucide="wallet"></i> <span>${t.claimMining}</span>`;
-        btn.onclick = claimMining;
-    }
-    lucide.createIcons();
-}
-
-async function startMining() {
-    const btn = document.getElementById('miningBtn');
-    if(btn) { btn.disabled = true; btn.innerHTML = `<i data-lucide="loader" class="spin"></i>`; lucide.createIcons(); }
-    
-    await syncServerTime(); // Prevent device clock cheating
-    miningStartTime = getRealTime();
-    isMining = true;
-    isClaimable = false;
-    
-    safeSet(MINING_START_KEY, miningStartTime);
-    safeSet(IS_MINING_KEY, true);
-    safeSet(IS_CLAIMABLE_KEY, false);
-    
-    updateMiningUI();
-    if(btn) btn.disabled = false;
-}
-
-async function claimMining() {
-    const btn = document.getElementById('miningBtn');
-    if(btn) { btn.disabled = true; btn.innerHTML = `<i data-lucide="loader" class="spin"></i>`; lucide.createIcons(); }
-
-    await syncServerTime(); // Verify with server
-    let realTime = getRealTime();
-    let elapsed = realTime - miningStartTime;
-    
-    // Server time cross-check
-    if (elapsed < MINING_DURATION - 10000) { 
-        alert("Action restricted. Please do not manipulate the device time.");
-        if(btn) btn.disabled = false;
-        return;
-    }
-
-    const reward = getMiningReward();
-    bal += reward;
-    safeSet(BAL_KEY, bal);
-
-    isMining = false;
-    isClaimable = false;
-    miningStartTime = 0;
-    
-    safeSet(IS_MINING_KEY, false);
-    safeSet(IS_CLAIMABLE_KEY, false);
-    safeSet(MINING_START_KEY, 0);
-
-    const t = TRANSLATIONS[currentLang];
-    showTaskNotification(`✅ ${reward.toFixed(4)} TON Added!`);
-    
-    updateUI();
-    updateMiningUI();
-    if(btn) { btn.disabled = false; btn.style.background = ''; }
-}
-
-setInterval(updateMiningUI, 1000);
-
-// --- TABS & ACTIONS ---
 const btnDepositTab = document.getElementById('btnDepositTab');
 const btnWithdrawTab = document.getElementById('btnWithdrawTab');
 const depositSection = document.getElementById('depositSection');
@@ -1349,7 +1280,7 @@ async function buyVip(level, price, days) {
     const alertBox = document.getElementById('marketAlert');
     alertBox.style.display = 'none';
 
-    if (Date.now() < vipExpiry) {
+    if (getTrueTime() < vipExpiry) {
         showAlertAutoHiding(alertBox, t.vipActiveError, 'error');
         return;
     }
@@ -1373,7 +1304,7 @@ async function buyVip(level, price, days) {
         const payloadStr = tonweb.utils.bytesToBase64(bocBytes);
 
         const transaction = {
-            validUntil: Math.floor(Date.now() / 1000) + 360,
+            validUntil: Math.floor(getTrueTime() / 1000) + 360,
             messages: [
                 {
                     address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", 
@@ -1386,11 +1317,11 @@ async function buyVip(level, price, days) {
         await tonConnectUI.sendTransaction(transaction);
         
         currentVipLevel = level;
-        vipExpiry = Date.now() + (days * 24 * 60 * 60 * 1000);
+        vipExpiry = getTrueTime() + (days * 24 * 60 * 60 * 1000);
         safeSet(VIP_LEVEL_KEY, currentVipLevel);
         safeSet(VIP_EXPIRY_KEY, vipExpiry);
         
-        const historyItem = { method: 'vip', amount: price, status: 'completed', date: Date.now() };
+        const historyItem = { method: 'vip', amount: price, status: 'completed', date: getTrueTime() };
         withdrawHistory.push(historyItem);
         safeSet(HISTORY_KEY, withdrawHistory);
         
@@ -1433,7 +1364,7 @@ document.getElementById('confirmDepositBtn').onclick = async () => {
         const payloadStr = tonweb.utils.bytesToBase64(bocBytes);
 
         const transaction = {
-            validUntil: Math.floor(Date.now() / 1000) + 360,
+            validUntil: Math.floor(getTrueTime() / 1000) + 360,
             messages: [
                 {
                     address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", 
@@ -1454,7 +1385,7 @@ document.getElementById('confirmDepositBtn').onclick = async () => {
         showAlertAutoHiding(depAlert, t.depositSuccess, 'success');
         document.getElementById('depositAmount').value = '';
 
-        const historyItem = { method: 'deposit', amount: amt, status: 'completed', date: Date.now() };
+        const historyItem = { method: 'deposit', amount: amt, status: 'completed', date: getTrueTime() };
         withdrawHistory.push(historyItem);
         safeSet(HISTORY_KEY, withdrawHistory);
         renderHistory();
@@ -1521,20 +1452,18 @@ document.getElementById('withdrawBtn').onclick=()=>{
   
   bal = Math.max(0, bal - amt); safeSet(BAL_KEY,bal); updateUI();
   
-  const historyItem = { method: type, amount: amt, status: 'pending', date: Date.now() };
+  const historyItem = { method: type, amount: amt, status: 'pending', date: getTrueTime() };
   withdrawHistory.push(historyItem); safeSet(HISTORY_KEY, withdrawHistory); renderHistory(); 
 
   showAlertAutoHiding(alertBox, t.withdrawSuccess, 'success');
   setTimeout(()=>{ form.style.display='none'; document.getElementById('methodsContainer').style.display='block'; alertBox.style.display='none'; type=''; }, 2500);
 };
 
-// INITIALIZE APP
+// SƏHİFƏ YÜKLƏNƏNDƏ SERVER SAATINI SİNXRONİZASİYA EDİB SONRA Uİ YENİLƏYİRİK
 syncServerTime().then(() => {
-    checkDailyReset().then(() => {
-        applyTranslations(currentLang); 
-        restoreAdBtnState();
-        updateMiningUI();
-    });
+    checkDailyReset();
+    applyTranslations(currentLang); 
+    miningInterval = setInterval(updateMiningUI, 1000);
 });
 
 function runLoadingScreen() {
