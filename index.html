@@ -25,7 +25,7 @@ if (window.Telegram && window.Telegram.WebApp) {
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
 <style>
-/* --- PREMIUM FINTECH RƏNG DƏYİŞƏNLƏRİ (VARS) --- */
+/* --- PREMIUM FINTECH VARIABLES --- */
 :root {
   --bg-start: #E8F0F8; 
   --bg-end: #D6E4F0;   
@@ -49,7 +49,7 @@ if (window.Telegram && window.Telegram.WebApp) {
   --notification-text: #FFFFFF; 
 }
 
-/* DEEP FINTECH DARK TEMA */
+/* DEEP FINTECH DARK THEME */
 body.dark-theme {
   --bg-start: #080F1D;
   --bg-end: #04080F;   
@@ -68,7 +68,7 @@ body.dark-theme {
   --notification-bg: #00A8FF; 
 }
 
-/* --- ÜMUMİ STİLLƏR --- */
+/* --- GENERAL STYLES --- */
 *{box-sizing:border-box;margin:0;padding:0; outline: none; -webkit-tap-highlight-color: transparent !important;}
 body{
   font-family:'Inter',sans-serif;
@@ -84,7 +84,7 @@ body{
 
 .container{max-width:480px;margin:auto;padding:40px 20px 20px; position: relative;} 
 
-/* MÜKƏMMƏLLƏŞDİRİLMİŞ SÜRƏTLİ VƏ AXICI SƏHİFƏ KEÇİDLƏRİ */
+/* SMOOTH PAGE TRANSITIONS */
 .page { display: none; opacity: 0; transition: opacity 0.2s ease, transform 0.2s ease; }
 .page.active { display: block; opacity: 1; animation: smoothFadeIn .25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .page.fading-out { animation: smoothFadeOut .15s cubic-bezier(0.16, 1, 0.3, 1) forwards; display: block; position: absolute; width: calc(100% - 40px); top: 40px; }
@@ -98,13 +98,13 @@ body{
   to { opacity: 0; transform: scale(0.96) translateY(-5px); }
 }
 
-/* KART DİZAYNLARI */
-.balance-card, .ad-card, .profile-card, .vip-card{
+/* CARDS */
+.balance-card, .profile-card, .vip-card, .mining-card {
   background:var(--card-bg); border-radius:28px; padding:30px 20px; margin-bottom:20px;
   box-shadow:0 8px 30px rgba(0, 152, 234, 0.05); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
   text-align:center; border:1.5px solid var(--card-border); transition: background-color 0.4s, border-color 0.4s, box-shadow 0.4s;
 }
-body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card, .dark-theme .vip-card {
+body.dark-theme .balance-card, body.dark-theme .profile-card, body.dark-theme .vip-card, body.dark-theme .mining-card {
   box-shadow:0 8px 30px rgba(0,0,0,0.4), 0 0 15px rgba(56, 189, 248, 0.05);
 }
 
@@ -112,6 +112,30 @@ body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card, 
 .balance-card .amount-wrap { display: flex; align-items: center; justify-content: center; gap: 8px; }
 .balance-card .amount{font-size:42px;font-weight:900;color:var(--text-dark); letter-spacing: -0.5px;}
 .balance-card .currency{font-size:24px;font-weight:800;color:var(--accent); letter-spacing: 0.5px;}
+
+/* MINING SYSTEM STYLES */
+.mining-card { padding: 40px 20px; }
+.mining-circle { width: 220px; height: 220px; border-radius: 50%; margin: 0 auto 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--input-bg); border: 8px solid var(--progress-bg); position: relative; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: inset 0 4px 15px rgba(0,0,0,0.05);}
+.mining-circle.active { border-color: var(--accent); box-shadow: 0 0 40px rgba(0, 152, 234, 0.3), inset 0 4px 15px rgba(0,0,0,0.05); animation: pulseMining 2.5s infinite; }
+@keyframes pulseMining { 0% { box-shadow: 0 0 20px rgba(0, 152, 234, 0.2), inset 0 4px 15px rgba(0,0,0,0.05); } 50% { box-shadow: 0 0 50px rgba(0, 152, 234, 0.5), inset 0 4px 15px rgba(0,0,0,0.05); } 100% { box-shadow: 0 0 20px rgba(0, 152, 234, 0.2), inset 0 4px 15px rgba(0,0,0,0.05); } }
+.mining-amount { font-size: 32px; font-weight: 900; color: var(--text-dark); margin-bottom: 2px; letter-spacing: -0.5px; font-variant-numeric: tabular-nums;}
+.mining-currency { font-size: 14px; font-weight: 800; color: var(--accent); margin-bottom: 15px; }
+.mining-timer { font-size: 16px; font-weight: 800; color: var(--text-muted); background: var(--card-bg); padding: 8px 18px; border-radius: 20px; border: 1.5px solid var(--card-border); font-variant-numeric: tabular-nums; display: flex; align-items: center; gap: 6px;}
+
+/* TASKS & COMPACT ADS */
+.task-list { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+.task-item { background: var(--card-bg); border: 1.5px solid var(--card-border); border-radius: 24px; padding: 25px 20px; position: relative; text-align: left; box-shadow: 0 6px 20px rgba(0,0,0,0.02); transition: background-color 0.4s, border-color 0.4s;}
+.task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.task-title { font-size: 17px; font-weight: 800; display: flex; align-items: center; gap: 12px; color: var(--text-dark); }
+.task-icon { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 14px; color: white; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); box-shadow: 0 4px 15px var(--btn-shadow);}
+.task-reward-badge { background: var(--progress-bg); color: var(--accent); padding: 6px 14px; border-radius: 12px; font-weight: 800; font-size: 14px; border: 1px solid var(--card-border);}
+.task-desc { font-size: 14px; color: var(--text-muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
+.task-btn { width: 100%; padding: 16px; font-size: 16px; font-weight: 800; border: none; border-radius: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s;}
+.task-btn:active:not(:disabled) {transform: scale(0.96);}
+.task-btn.action { background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); color: white; box-shadow: 0 8px 20px var(--btn-shadow); }
+.task-btn.claim { background: linear-gradient(135deg, #22C55E, #16A34A); color: white; box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3); }
+.task-btn.completed { background: var(--input-bg); color: var(--accent); cursor: not-allowed; box-shadow: none; border: 1px solid var(--card-border); }
+.task-btn.waiting { background: var(--progress-bg) !important; color: var(--accent) !important; cursor: wait !important; box-shadow: none !important;}
 
 /* Wallet Action Tabs */
 .wallet-actions { display: flex; gap: 10px; margin-bottom: 25px; background: var(--input-bg); padding: 6px; border-radius: 20px; border: 1.5px solid var(--card-border); }
@@ -125,25 +149,6 @@ body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card, 
 .method-logo{width: 60px; height: 60px; margin-bottom: 15px;border-radius: 50%; object-fit: cover; background-color: #fff; border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.08); pointer-events: none; -webkit-user-drag: none;}
 .method-text { font-size: 17px; letter-spacing: 0.2px;}
 .min-withdraw-label {position: absolute;top: 12px;right: 12px;font-size: 11px;font-weight: 800;color: var(--accent);background: var(--progress-bg);padding: 5px 10px;border-radius: 10px;}
-
-.ad-card{margin-bottom:15px; padding: 25px;}
-.ad-card h2{font-size:20px;color:var(--text-dark);margin-bottom:6px; font-weight: 900;}
-.ad-card p{margin:4px 0;color:var(--text-muted);font-size:15px; font-weight: 600;}
-
-/* GÖREVLƏR */
-.task-list { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
-.task-item { background: var(--card-bg); border: 1.5px solid var(--card-border); border-radius: 24px; padding: 25px 20px; position: relative; text-align: left; box-shadow: 0 6px 20px rgba(0,0,0,0.02); transition: background-color 0.4s, border-color 0.4s;}
-
-.task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-.task-title { font-size: 17px; font-weight: 800; display: flex; align-items: center; gap: 12px; color: var(--text-dark); }
-.task-icon { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 14px; color: white; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); box-shadow: 0 4px 15px var(--btn-shadow);}
-.task-reward-badge { background: var(--progress-bg); color: var(--accent); padding: 6px 14px; border-radius: 12px; font-weight: 800; font-size: 14px; border: 1px solid var(--card-border);}
-.task-desc { font-size: 14px; color: var(--text-muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
-.task-btn { width: 100%; padding: 16px; font-size: 16px; font-weight: 800; border: none; border-radius: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s;}
-.task-btn:active:not(:disabled) {transform: scale(0.96);}
-.task-btn.action { background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); color: white; box-shadow: 0 8px 20px var(--btn-shadow); }
-.task-btn.completed { background: var(--input-bg); color: var(--accent); cursor: not-allowed; box-shadow: none; border: 1px solid var(--card-border); }
-.task-btn.waiting { background: var(--progress-bg) !important; color: var(--accent) !important; cursor: wait !important; box-shadow: none !important;}
 
 /* VIP MARKET CARDS */
 .vip-card { padding: 25px 20px; text-align: left; }
@@ -159,26 +164,7 @@ body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card, 
 .vip-btn.active-vip { background: var(--input-bg); color: #22C55E; cursor: not-allowed; box-shadow: none; border: 1.5px solid #22C55E; }
 #marketAlert { margin-bottom: 20px; display: none; }
 
-.stats{display:flex;justify-content:space-between;margin-top:25px; gap: 12px;}
-.stat{background:var(--input-bg);border-radius:18px;padding:16px; flex: 1; border: 1.5px solid var(--card-border);}
-.stat span{display:block;font-size:22px;font-weight:900;color:var(--text-dark); margin-bottom: 2px;}
-.stat label{font-size:12px;color:var(--text-muted);font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
-
-.progress{height:12px;background:var(--input-bg);border-radius:12px;overflow:hidden;margin-top:25px; border: 1.5px solid var(--card-border);}
-.progress-fill{height:100%;background:linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end));width:0%;transition:width .8s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 12px;} 
-
-.ad-btn{width:100%;margin-top:25px;padding:18px;font-size:16px;font-weight:800;border:none;border-radius:20px;color:var(--text-light);cursor:pointer;background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));box-shadow:0 8px 25px var(--btn-shadow);position: relative; overflow: hidden; display:flex; align-items:center; justify-content:center; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s;}
-.ad-btn:active:not(:disabled) {transform: scale(0.96);}
-.ad-btn.waiting { background: var(--progress-bg) !important; color: var(--accent) !important; cursor: not-allowed; box-shadow: none !important; border: 1.5px solid var(--card-border) !important; }
-.ad-btn-content { position: relative; z-index: 2; display: flex; align-items:center; gap: 10px;}
-
-#msg {margin-top: 15px; font-size: 14px;font-weight: 700; padding: 0;color: #EF4444;}
-#adRewardNotificationContainer { position: relative; height: 0; overflow: visible; }
-.reward-msg {position: absolute;top: -15px; left: 50%;transform: translateX(-50%) translateY(-100%); background: var(--text-dark); color: var(--card-bg);padding: 12px 24px;border-radius: 100px;box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);font-weight: 800;font-size: 14px;opacity: 0;z-index: 100; white-space: nowrap;transition: opacity 0.3s ease-out, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid rgba(255,255,255,0.1);}
-body.dark-theme .reward-msg {background: #FFFFFF; color: #0F172A; box-shadow: 0 10px 25px rgba(255,255,255,0.1);}
-.reward-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-/* FLOATING MENU - TƏMİZLƏNMİŞ VƏ DAHA SÜRƏTLİ */
+/* FLOATING MENU */
 .menu { position:fixed; bottom:30px; left:50%; transform:translateX(-50%); width:92%; max-width:440px; display:flex; justify-content:space-between; background:var(--menu-bg); padding:8px; border-radius:32px; box-shadow:0 20px 40px rgba(0,0,0,.06); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); z-index: 999; border: 1.5px solid var(--card-border); }
 body.dark-theme .menu { box-shadow:0 20px 40px rgba(0,0,0,.5); }
 .menu button { flex:1; margin:0 4px; padding: 10px 0; border:none; border-radius:24px; background:transparent; color:var(--text-muted); cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60px; position: relative; overflow: hidden; }
@@ -189,7 +175,7 @@ body.dark-theme .menu { box-shadow:0 20px 40px rgba(0,0,0,.5); }
 .menu button.active .nav-icon { stroke-width: 2.5px; transform: scale(1.15) translateY(-2px); } 
 .menu button.active .nav-text { transform: scale(1.05) translateY(1px); } 
 
-/* --- PROFIL SƏHİFƏSİ --- */
+/* PROFILE PAGE */
 .profile-header { display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 30px;}
 .profile-avatar { width: 96px; height: 96px; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; margin-bottom: 15px; box-shadow: 0 10px 25px var(--btn-shadow); position: relative; border: 4px solid var(--card-bg);}
 .profile-avatar .default-icon { width: 40px; height: 40px; stroke-width: 2px;}
@@ -227,7 +213,8 @@ body.dark-theme .lang-select { background-image: url("data:image/svg+xml;charset
 .input-field::placeholder { color: var(--text-muted); opacity: 0.8; font-weight: 500;}
 
 .submit-btn {width:100%;padding:18px;margin-top:20px;border:none;border-radius:20px;background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));color:var(--text-light);font-weight:800;font-size: 16px;cursor:pointer; box-shadow: 0 8px 25px var(--btn-shadow); display:flex; align-items:center; justify-content:center; gap:10px; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);}
-.submit-btn:active {transform: scale(0.96);}
+.submit-btn:active:not(:disabled) {transform: scale(0.96);}
+.submit-btn.waiting { background: var(--progress-bg) !important; color: var(--accent) !important; cursor: not-allowed; box-shadow: none !important; border: 1.5px solid var(--card-border) !important; }
 
 .fee-calc-box { font-size: 13px; font-weight: 600; color: var(--text-muted); margin: 5px 0 15px; text-align: left; padding: 16px; background: var(--input-bg); border-radius: 16px; border: 1.5px solid var(--card-border); display: none;}
 .fee-calc-box span { color: var(--text-dark); font-weight: 800; }
@@ -254,18 +241,18 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 .history-empty { text-align: center; font-size: 14px; color: var(--text-muted); padding: 30px 20px; font-weight: 600; background: var(--input-bg); border-radius: 18px; border: 1px dashed var(--card-border);}
 
 #loadingScreen { position: fixed; top: 0; left: 0; width: 100%; height: var(--tg-viewport-stable-height, 100vh); background: var(--bg-start); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 99999; transition: opacity 0.6s ease-out; user-select: none; overflow: hidden; }
-.falling-coin { position: absolute; top: -50px; border-radius: 50%; pointer-events: none; animation: fall linear forwards; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); z-index: 1; }
-@keyframes fall { 0% { transform: translateY(-50px) rotate(0deg); } 100% { transform: translateY(120vh) rotate(360deg); } }
 .loader-logo { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 30px; animation: pulseLogo 2s infinite alternate cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none; user-select: none; box-shadow: 0 10px 30px rgba(0, 152, 234, 0.3); z-index: 2;}
 @keyframes pulseLogo { 0% { transform: scale(1) translateY(0); box-shadow: 0 10px 30px rgba(0, 152, 234, 0.3); } 100% { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 40px rgba(0, 152, 234, 0.6); } }
 .loader-title { font-size: 24px; font-weight: 900; color: var(--text-dark); margin-bottom: 40px; letter-spacing: 2px; z-index: 2;}
 .loader-bar-wrap { position: relative; width: 200px; height: 6px; background: var(--card-border); border-radius: 10px; overflow: hidden; z-index: 2;}
 .loader-fill { position: absolute; top:0; left:0; height:100%; width:0%; border-radius:10px; background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); animation: fillAnim 3s linear forwards; }
 @keyframes fillAnim{0%{width:0%;} 100%{width:100%;}}
+
 #taskNotification {position: fixed;top: 25px;left: 50%;transform: translate(-50%, -100px); background: var(--text-dark);color: var(--card-bg);padding: 16px 24px;border-radius: 100px;box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);font-weight: 700;font-size: 14px;opacity: 0;z-index: 10000;transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1); text-align: center;border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px; white-space: nowrap; will-change: transform, opacity;}
 body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shadow: 0 15px 30px rgba(255, 255, 255, 0.15);}
 .notification-show {opacity: 1 !important;transform: translate(-50%, 0) !important; }
 .notification-hide {opacity: 0;transform: translate(-50%, -100px); }
+
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 9999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; will-change: opacity; }
 .modal-overlay.show { display: flex; opacity: 1; }
 .share-modal { background: var(--card-bg); width: 90%; max-width: 360px; border-radius: 32px; padding: 35px 25px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); border: 1.5px solid var(--card-border); transform: scale(0.95) translateY(20px); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity; text-align: center; }
@@ -289,55 +276,29 @@ body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shad
 <body id="body">
 
 <script>
-// --- RESET MƏNTİQİ (V6 - ANTI-CHEAT SERVER TIME) ---
-const APP_VERSION = 'v6_anti_cheat_fixed'; 
-if (localStorage.getItem('app_version') !== APP_VERSION) {
-    localStorage.clear();
-    localStorage.setItem('app_version', APP_VERSION);
-}
-// -------------------------------------------------------------
-
+// --- CORE SETUP ---
 function safeGet(k,d=0){try{return JSON.parse(localStorage.getItem(k))??d;}catch{return d;}}
 function safeSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 
-let tgUser = null;
-let userRefId = null;
-
+let tgUser = null; let userRefId = null;
 if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
     tgUser = window.Telegram.WebApp.initDataUnsafe.user;
     userRefId = tgUser.id.toString();
 } else {
-    userRefId = localStorage.getItem('guest_ref_id');
-    if (!userRefId) {
-        userRefId = Math.floor(1000000000 + Math.random() * 9000000000).toString();
-        localStorage.setItem('guest_ref_id', userRefId);
-    }
+    userRefId = localStorage.getItem('guest_ref_id') || Math.floor(1000000000 + Math.random() * 9000000000).toString();
+    localStorage.setItem('guest_ref_id', userRefId);
 }
+let payUid = localStorage.getItem(`pay_uid_${userRefId}`) || ('UID-' + Math.floor(1000 + Math.random() * 9000));
+localStorage.setItem(`pay_uid_${userRefId}`, payUid);
 
-const UNIQUE_PAY_ID_KEY = `pay_uid_${userRefId}`;
-let payUid = localStorage.getItem(UNIQUE_PAY_ID_KEY);
-if (!payUid) {
-    payUid = 'UID-' + Math.floor(1000 + Math.random() * 9000); 
-    localStorage.setItem(UNIQUE_PAY_ID_KEY, payUid);
-}
-
-const THEME_KEY = 'theme_' + userRefId;
-const LANG_KEY = 'lang_' + userRefId;
-
-const savedTheme = safeGet(THEME_KEY, 'light'); 
-if(savedTheme === 'dark') {
-    document.getElementById('body').classList.add('dark-theme');
-} else {
-    document.getElementById('body').classList.remove('dark-theme');
-}
+const THEME_KEY = 'theme_' + userRefId; const LANG_KEY = 'lang_' + userRefId;
+if(safeGet(THEME_KEY, 'light') === 'dark') document.getElementById('body').classList.add('dark-theme');
 </script>
 
 <div id="loadingScreen" oncontextmenu="return false;">
   <img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" class="loader-logo" draggable="false" alt="TON">
   <div class="loader-title">TON PLAY</div>
-  <div class="loader-bar-wrap">
-    <div class="loader-fill"></div>
-  </div>
+  <div class="loader-bar-wrap"><div class="loader-fill"></div></div>
 </div>
 
 <div id="taskNotification" class="notification-hide">
@@ -347,7 +308,7 @@ if(savedTheme === 'dark') {
 
 <div class="container">
   
-  <div id="adsPage" class="page active">
+  <div id="homePage" class="page active">
     <div class="balance-card">
       <h3 data-translate-key="yourBalance">Your Balance</h3>
       <div class="amount-wrap">
@@ -356,25 +317,20 @@ if(savedTheme === 'dark') {
       </div>
     </div>
     
-    <div id="adRewardNotificationContainer"></div> 
-    <div class="ad-card"> 
-      <h2 data-translate-key="dailyAdsHeader">Daily Ads</h2>
-      <p id="adRewardText"></p>
-      
-      <div class="stats">
-        <div class="stat"><span id="adsCount">0</span><label data-translate-key="watched">Watched</label></div>
-        <div class="stat"><span data-translate-key="maxCount">50</span><label data-translate-key="maximum">Maximum</label></div>
-      </div>
-      <div class="progress"><div class="progress-fill" id="progress"></div></div>
-      <p style="margin-top:12px; font-weight:700; color: var(--text-dark); font-size: 14px;" data-translate-key="progressText">Progress: <span id="progressTextSpan">0/50</span></p>
-      
-      <button id="adBtn" class="ad-btn">
-        <span class="ad-btn-content">
-          <i data-lucide="play-circle" style="width: 20px; height: 20px;"></i>
-          <span data-translate-key="watchAd">Watch Ad</span>
-        </span>
-      </button>
-      <div id="msg"></div> 
+    <div class="mining-card">
+        <h2 style="font-size: 20px; font-weight: 900; margin-bottom: 25px; color: var(--text-dark);" data-translate-key="miningTitle">Cloud Mining</h2>
+        <div class="mining-circle" id="miningCircle">
+            <div class="mining-amount" id="miningAmountDisplay">0.000000</div>
+            <div class="mining-currency">TON</div>
+            <div class="mining-timer">
+                <i data-lucide="clock" style="width: 16px; height: 16px;"></i> 
+                <span id="miningTimerDisplay">08:00:00</span>
+            </div>
+        </div>
+        <button id="miningBtn" class="submit-btn" onclick="handleMiningAction()">
+            <i data-lucide="pickaxe"></i>
+            <span data-translate-key="startMining">Start Mining</span>
+        </button>
     </div>
   </div>
 
@@ -395,7 +351,7 @@ if(savedTheme === 'dark') {
             <div class="vip-price">15 TON</div>
         </div>
         <ul class="vip-features">
-            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipReward1">0.02 TON per Ad</span></li>
+            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipReward1">1 TON / Day Mining</span></li>
             <li><i data-lucide="check-circle"></i> <span data-translate-key="vipDays1">Active for 21 Days</span></li>
             <li><i data-lucide="check-circle"></i> <span data-translate-key="vipBenefit">Boosted Earnings</span></li>
         </ul>
@@ -408,7 +364,7 @@ if(savedTheme === 'dark') {
             <div class="vip-price">40 TON</div>
         </div>
         <ul class="vip-features">
-            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipReward2">0.05 TON per Ad</span></li>
+            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipReward2">2.5 TON / Day Mining</span></li>
             <li><i data-lucide="check-circle"></i> <span data-translate-key="vipDays2">Active for 23 Days</span></li>
             <li><i data-lucide="check-circle"></i> <span data-translate-key="vipBenefit">Boosted Earnings</span></li>
         </ul>
@@ -421,7 +377,7 @@ if(savedTheme === 'dark') {
             <div class="vip-price">75 TON</div>
         </div>
         <ul class="vip-features">
-            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipReward3">0.1 TON per Ad</span></li>
+            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipReward3">5 TON / Day Mining</span></li>
             <li><i data-lucide="check-circle"></i> <span data-translate-key="vipDays3">Active for 25 Days</span></li>
             <li><i data-lucide="check-circle"></i> <span data-translate-key="vipBenefit">Boosted Earnings</span></li>
         </ul>
@@ -442,10 +398,29 @@ if(savedTheme === 'dark') {
         <div class="task-item">
             <div class="task-header">
                 <div class="task-title">
+                    <div class="task-icon" style="background: linear-gradient(135deg, #F59E0B, #D97706);"><i data-lucide="play-circle" style="width:20px;height:20px;"></i></div>
+                    <span data-translate-key="dailyAdsHeader">Daily Ads</span>
+                </div>
+                <div class="task-reward-badge">0.002 TON</div>
+            </div>
+            <div class="task-desc">
+                <span data-translate-key="watchAdsTaskDesc">Watch a short ad to earn extra TON.</span><br>
+                <span style="font-weight: 800; color: var(--text-dark); margin-top: 5px; display: inline-block;" data-translate-key="progressText">Progress:</span> <span id="progressTextSpan" style="font-weight: 800; color: var(--accent);">0/50</span>
+            </div>
+            <button id="adBtn" class="task-btn action">
+                <i data-lucide="video" style="width:20px;height:20px;"></i>
+                <span data-translate-key="watchAd">Watch Ad</span>
+            </button>
+            <div id="msg" style="margin-top: 10px; font-size: 13px; font-weight: 700; color: #EF4444; text-align: center;"></div> 
+        </div>
+
+        <div class="task-item">
+            <div class="task-header">
+                <div class="task-title">
                     <div class="task-icon"><i data-lucide="users" style="width:20px;height:20px;"></i></div>
                     <span data-translate-key="joinCommunityTitle">Join Community</span>
                 </div>
-                <div class="task-reward-badge" id="taskJoinRewardBadge">0.05 TON</div>
+                <div class="task-reward-badge">0.05 TON</div>
             </div>
             <div class="task-desc" data-translate-key="joinCommunityDesc">Join our official community channel and earn!</div>
             <button id="joinBtn" class="task-btn action">
@@ -476,11 +451,7 @@ if(savedTheme === 'dark') {
         <div id="depositFormWrap" style="display:block;">
             <p style="text-align:center; color:var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 15px;" data-translate-key="depositInfo">Add TON directly from your connected wallet.</p>
             <input id="depositAmount" class="input-field" type="number" step="0.01" placeholder="Amount (Min 0.01 TON)">
-            
-            <button id="confirmDepositBtn" class="submit-btn">
-                <i data-lucide="arrow-down-circle"></i>
-                <span data-translate-key="depositActionBtn">Deposit TON</span>
-            </button>
+            <button id="confirmDepositBtn" class="submit-btn"><i data-lucide="arrow-down-circle"></i> <span data-translate-key="depositActionBtn">Deposit TON</span></button>
             <div id="depositAlert" class="alert"></div>
         </div>
     </div>
@@ -489,7 +460,6 @@ if(savedTheme === 'dark') {
         <div id="methodsContainer">
             <h2 style="text-align:center;margin-bottom:8px;color:var(--text-dark);font-weight:800; font-size:20px;" data-translate-key="withdrawTitle">Withdrawal</h2>
             <p style="text-align:center; color:var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 25px;" data-translate-key="selectMethod">Select withdrawal method</p>
-            
             <div class="method-list" id="methods">
               <div class="method" data-type="ton">
                   <img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" alt="TON" class="method-logo" draggable="false">
@@ -500,25 +470,15 @@ if(savedTheme === 'dark') {
         </div>
 
         <div id="form">
-          <button id="backBtn" style="background:var(--input-bg); border:1.5px solid var(--card-border); color:var(--text-dark); font-weight:700; font-size:14px; border-radius: 16px; padding: 12px 20px; width: max-content; margin: 0 0 25px 0; box-shadow: none;">
-            <i data-lucide="arrow-left" style="width:18px;height:18px;"></i>
-            <span data-translate-key="back">Back</span>
-          </button>
-          
+          <button id="backBtn" style="background:var(--input-bg); border:1.5px solid var(--card-border); color:var(--text-dark); font-weight:700; font-size:14px; border-radius: 16px; padding: 12px 20px; width: max-content; margin: 0 0 25px 0; box-shadow: none;"><i data-lucide="arrow-left" style="width:18px;height:18px;"></i> <span data-translate-key="back">Back</span></button>
           <h3 style="margin-bottom: 18px; font-weight: 800; color: var(--text-dark); font-size: 18px;" data-translate-key="withdrawTonTitle">Withdraw TON</h3>
-          
           <input id="details" class="input-field" placeholder="Your TON Wallet Address" type="text">
           <input id="amount" class="input-field" type="number" step="0.1" placeholder="Amount (Min {min} TON)">
-          
           <div id="feeCalcBox" class="fee-calc-box">
               <span style="color:var(--text-muted); font-weight:500;" data-translate-key="feeText">Network Fee (5%):</span> <span id="feeAmount">0.00</span> TON<br>
               <span style="color:var(--text-muted); font-weight:500;" data-translate-key="receiveText">You will receive:</span> <span id="receiveAmount">0.00</span> TON
           </div>
-
-          <button id="withdrawBtn" class="submit-btn">
-            <i data-lucide="arrow-up-circle"></i>
-            <span data-translate-key="withdraw">Withdraw</span>
-          </button>
+          <button id="withdrawBtn" class="submit-btn"><i data-lucide="arrow-up-circle"></i> <span data-translate-key="withdraw">Withdraw</span></button>
           <div id="alert" class="alert"></div>
         </div>
     </div>
@@ -532,29 +492,17 @@ if(savedTheme === 'dark') {
   <div id="profilePage" class="page">
     <div class="profile-card" id="profileMainView">
         <div class="profile-header">
-            <div class="profile-avatar">
-                <i data-lucide="user" class="default-icon"></i>
-                <img id="profileImage" src="" alt="Profile" draggable="false">
-            </div>
+            <div class="profile-avatar"><i data-lucide="user" class="default-icon"></i><img id="profileImage" src="" alt="Profile" draggable="false"></div>
             <div class="profile-name" id="displayUsername" data-translate-key="guestUser">User</div>
             <div class="profile-id">ID: <span id="displayUserId" style="font-weight: 700;"></span></div>
         </div>
-
         <div class="settings-list">
             <div class="setting-item">
-                <div class="setting-info">
-                    <span class="setting-icon"><i data-lucide="moon"></i></span>
-                    <span data-translate-key="theme">Theme</span>
-                </div>
-                <div class="toggle-switch" onclick="toggleTheme()">
-                    <div class="toggle-thumb" id="themeThumb"><i data-lucide="moon"></i></div>
-                </div>
+                <div class="setting-info"><span class="setting-icon"><i data-lucide="moon"></i></span><span data-translate-key="theme">Theme</span></div>
+                <div class="toggle-switch" onclick="toggleTheme()"><div class="toggle-thumb" id="themeThumb"><i data-lucide="moon"></i></div></div>
             </div>
             <div class="setting-item">
-                <div class="setting-info">
-                    <span class="setting-icon"><i data-lucide="globe"></i></span>
-                    <span data-translate-key="language">Language</span>
-                </div>
+                <div class="setting-info"><span class="setting-icon"><i data-lucide="globe"></i></span><span data-translate-key="language">Language</span></div>
                 <select class="lang-select" id="langSelect" onchange="setLang(this.value)">
                     <option value="en">EN</option>
                     <option value="tr">TR</option>
@@ -562,33 +510,18 @@ if(savedTheme === 'dark') {
                 </select>
             </div>
         </div>
-
-        <button class="profile-btn btn-share" onclick="openShareModal()">
-            <i data-lucide="user-plus"></i> <span data-translate-key="shareBtn">Invite Friends</span>
-        </button>
-        <button class="profile-btn btn-promote" onclick="openPromoteModal()">
-            <i data-lucide="megaphone"></i> <span data-translate-key="promoteBtn">Promote</span>
-        </button>
+        <button class="profile-btn btn-share" onclick="openShareModal()"><i data-lucide="user-plus"></i> <span data-translate-key="shareBtn">Invite Friends</span></button>
+        <button class="profile-btn btn-promote" onclick="openPromoteModal()"><i data-lucide="megaphone"></i> <span data-translate-key="promoteBtn">Promote</span></button>
     </div>
   </div>
 </div>
 
 <div class="menu">
-  <button onclick="showPage('adsPage',this)" class="active" data-page-id="adsPage">
-    <i data-lucide="house" class="nav-icon"></i> <span class="nav-text" data-translate-key="home">Home</span>
-  </button>
-  <button onclick="showPage('marketPage',this)" data-page-id="marketPage">
-    <i data-lucide="shopping-cart" class="nav-icon"></i> <span class="nav-text" data-translate-key="market">Market</span>
-  </button>
-  <button onclick="showPage('tasksPage',this)" data-page-id="tasksPage">
-    <i data-lucide="layout-list" class="nav-icon"></i> <span class="nav-text" data-translate-key="tasks">Tasks</span>
-  </button>
-  <button onclick="showPage('walletPage',this)" data-page-id="walletPage">
-    <i data-lucide="wallet" class="nav-icon"></i> <span class="nav-text" data-translate-key="wallet">Wallet</span>
-  </button>
-  <button onclick="showPage('profilePage',this)" data-page-id="profilePage">
-    <i data-lucide="user" class="nav-icon"></i> <span class="nav-text" data-translate-key="profile">Profile</span>
-  </button>
+  <button onclick="showPage('homePage',this)" class="active" data-page-id="homePage"><i data-lucide="house" class="nav-icon"></i> <span class="nav-text" data-translate-key="home">Home</span></button>
+  <button onclick="showPage('marketPage',this)" data-page-id="marketPage"><i data-lucide="shopping-cart" class="nav-icon"></i> <span class="nav-text" data-translate-key="market">Market</span></button>
+  <button onclick="showPage('tasksPage',this)" data-page-id="tasksPage"><i data-lucide="layout-list" class="nav-icon"></i> <span class="nav-text" data-translate-key="tasks">Tasks</span></button>
+  <button onclick="showPage('walletPage',this)" data-page-id="walletPage"><i data-lucide="wallet" class="nav-icon"></i> <span class="nav-text" data-translate-key="wallet">Wallet</span></button>
+  <button onclick="showPage('profilePage',this)" data-page-id="profilePage"><i data-lucide="user" class="nav-icon"></i> <span class="nav-text" data-translate-key="profile">Profile</span></button>
 </div>
 
 <div class="modal-overlay" id="shareModalOverlay">
@@ -604,12 +537,12 @@ if(savedTheme === 'dark') {
 <div class="modal-overlay" id="promoteModalOverlay">
     <div class="promote-modal">
         <button class="close-modal-icon" onclick="closePromoteModal()"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
-        <div class="share-modal-title" style="text-align: center;" data-translate-key="promoteTitle">🚀 Advertise on Ton Play Bot!</div>
+        <div class="share-modal-title" style="text-align: center;" data-translate-key="promoteTitle">🚀 Advertise on Ton Play!</div>
         <div class="promote-content" data-translate-key="promoteText">
             Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>
             🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable advertising options<br><br>
-            💎 Advertising Packages (in TON Coin):<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>
-            📩 Contact us now to get started<br><br>🚀 Take your project to the next level with Ton Play!
+            💎 Advertising Packages:<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>
+            📩 Contact us now to get started
         </div>
         <button class="share-btn-action tg" onclick="window.open('https://t.me/ton_playsupport', '_blank')"><i data-lucide="message-square" style="width:18px; height:18px;"></i> <span data-translate-key="contactBtn">Contact</span></button>
     </div>
@@ -618,265 +551,212 @@ if(savedTheme === 'dark') {
 <script>
 lucide.createIcons();
 
-// --- TON CONNECT INICIALİZASİYASI ---
-const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-    manifestUrl: 'https://qazancpay.github.io/Ton-Play/tonconnect-manifest.json',
-    buttonRootId: 'ton-connect-btn'
-});
+const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({ manifestUrl: 'https://qazancpay.github.io/Ton-Play/tonconnect-manifest.json', buttonRootId: 'ton-connect-btn' });
+tonConnectUI.onStatusChange(w => { const d = document.getElementById('details'); if (w && w.account && w.account.address) d.value = w.account.address; else d.value = ''; });
 
-tonConnectUI.onStatusChange(wallet => {
-    const detailsInput = document.getElementById('details');
-    if (wallet && wallet.account && wallet.account.address) {
-        detailsInput.value = wallet.account.address;
-    } else {
-        detailsInput.value = ''; 
-    }
-});
+let adManager = null; if (window.Adsgram) { adManager = window.Adsgram.init({ blockId: "int-28300" }); }
 
-let adManager = null;
-if (window.Adsgram) { adManager = window.Adsgram.init({ blockId: "int-28300" }); }
-
-function safeRemove(k){try{localStorage.removeItem(k);}catch(e){}}
-
-const body = document.getElementById('body');
-const themeThumb = document.getElementById('themeThumb');
-
+const body = document.getElementById('body'); const themeThumb = document.getElementById('themeThumb');
 function applyTheme(isDark) {
-    if (isDark) {
-        body.classList.add('dark-theme');
-        if(themeThumb) themeThumb.innerHTML = '<i data-lucide="moon" style="width:12px;height:12px;"></i>'; 
-        safeSet(THEME_KEY, 'dark');
-        try {
-            if(window.Telegram?.WebApp?.setHeaderColor) window.Telegram.WebApp.setHeaderColor('#080F1D');
-            if(window.Telegram?.WebApp?.setBackgroundColor) window.Telegram.WebApp.setBackgroundColor('#080F1D');
-        } catch(e){}
-    } else {
-        body.classList.remove('dark-theme');
-        if(themeThumb) themeThumb.innerHTML = '<i data-lucide="sun" style="width:12px;height:12px;"></i>'; 
-        safeSet(THEME_KEY, 'light');
-        try {
-            if(window.Telegram?.WebApp?.setHeaderColor) window.Telegram.WebApp.setHeaderColor('#E8F0F8');
-            if(window.Telegram?.WebApp?.setBackgroundColor) window.Telegram.WebApp.setBackgroundColor('#E8F0F8');
-        } catch(e){}
-    }
+    if (isDark) { body.classList.add('dark-theme'); if(themeThumb) themeThumb.innerHTML = '<i data-lucide="moon" style="width:12px;height:12px;"></i>'; safeSet(THEME_KEY, 'dark'); try{Telegram.WebApp.setHeaderColor('#080F1D'); Telegram.WebApp.setBackgroundColor('#080F1D');}catch(e){} } 
+    else { body.classList.remove('dark-theme'); if(themeThumb) themeThumb.innerHTML = '<i data-lucide="sun" style="width:12px;height:12px;"></i>'; safeSet(THEME_KEY, 'light'); try{Telegram.WebApp.setHeaderColor('#E8F0F8'); Telegram.WebApp.setBackgroundColor('#E8F0F8');}catch(e){} }
     lucide.createIcons(); 
 }
-function toggleTheme() {
-    const isDark = body.classList.contains('dark-theme');
-    applyTheme(!isDark);
-}
+function toggleTheme() { applyTheme(!body.classList.contains('dark-theme')); }
 applyTheme(safeGet(THEME_KEY, 'light') === 'dark');
 
-const USERNAME_KEY = `user_profile_name_${userRefId}`;
-const PROFILE_PIC_KEY = `user_profile_pic_${userRefId}`;
-
-if (tgUser) {
-    let fullName = tgUser.first_name;
-    if (tgUser.last_name) { fullName += " " + tgUser.last_name; }
-    localStorage.setItem(USERNAME_KEY, fullName);
-    if (tgUser.photo_url) { localStorage.setItem(PROFILE_PIC_KEY, tgUser.photo_url); }
-}
+if (tgUser) { let fn = tgUser.first_name; if (tgUser.last_name) fn += " " + tgUser.last_name; localStorage.setItem(`user_profile_name_${userRefId}`, fn); if (tgUser.photo_url) localStorage.setItem(`user_profile_pic_${userRefId}`, tgUser.photo_url); }
 const userRefLink = `https://t.me/tonplayrbot?startapp=${userRefId}`;
 
-const MAX_ADS_PER_DAY = 50;
-const TASK_REWARD = 0.05;
-const FEE_PERCENT = 0.05;
+const TASK_REWARD = 0.05; const FEE_PERCENT = 0.05; const MAX_ADS_PER_DAY = 50; const FIXED_AD_REWARD = 0.002;
+const BAL_KEY = `bal_ton_${userRefId}`; const COUNT_KEY = `cnt_ton_${userRefId}`; const TOTAL_ADS_KEY = `total_ads_ton_${userRefId}`;
+const HAS_DEPOSITED_KEY = `has_dep_ton_${userRefId}`; const HISTORY_KEY = `withdraw_history_ton_${userRefId}`;
+const VIP_LEVEL_KEY = `vip_level_${userRefId}`; const VIP_EXPIRY_KEY = `vip_expiry_${userRefId}`;
 
-const BAL_KEY = `bal_ton_${userRefId}`;
-const COUNT_KEY = `cnt_ton_${userRefId}`;
-const TOTAL_ADS_KEY = `total_ads_ton_${userRefId}`;
-const HAS_DEPOSITED_KEY = `has_dep_ton_${userRefId}`;
-const JOIN_COMMUNITY_KEY = `joined_ton_community_${userRefId}`;
-const REWARD_MSG_KEY = `rewardMsgExpire_ton_${userRefId}`;
-const HISTORY_KEY = `withdraw_history_ton_${userRefId}`;
+let bal = parseFloat(safeGet(BAL_KEY, 0.000)); let cnt = parseInt(safeGet(COUNT_KEY, 0)); let totalAdsWatched = parseInt(safeGet(TOTAL_ADS_KEY, 0)); let hasDeposited = safeGet(HAS_DEPOSITED_KEY, false);
+let currentVipLevel = safeGet(VIP_LEVEL_KEY, 0); let vipExpiry = safeGet(VIP_EXPIRY_KEY, 0); let withdrawHistory = safeGet(HISTORY_KEY, []);
 
-const VIP_LEVEL_KEY = `vip_level_${userRefId}`;
-const VIP_EXPIRY_KEY = `vip_expiry_${userRefId}`;
+// --- SERVER TIME SYNC (ANTI-CHEAT) ---
+let timeOffset = 0;
+let isSyncing = false;
 
-let bal = parseFloat(safeGet(BAL_KEY, 0.000)); 
-let cnt = parseInt(safeGet(COUNT_KEY, 0));
-let totalAdsWatched = parseInt(safeGet(TOTAL_ADS_KEY, 0));
-let hasDeposited = safeGet(HAS_DEPOSITED_KEY, false);
+async function syncServerTime() {
+    if(isSyncing) return;
+    isSyncing = true;
+    try {
+        const response = await fetch('https://worldtimeapi.org/api/timezone/Etc/UTC', { cache: 'no-store' });
+        if (response.ok) {
+            const data = await response.json();
+            const serverMs = new Date(data.datetime).getTime();
+            timeOffset = serverMs - Date.now();
+        } else {
+            const r2 = await fetch('https://timeapi.io/api/Time/current/zone?timeZone=UTC', { cache: 'no-store' });
+            if(r2.ok) {
+                const d2 = await r2.json();
+                timeOffset = new Date(d2.dateTime).getTime() - Date.now();
+            }
+        }
+    } catch(e) { console.warn("Time sync error", e); }
+    isSyncing = false;
+}
+function getRealTime() { return Date.now() + timeOffset; }
+syncServerTime();
 
-let currentVipLevel = safeGet(VIP_LEVEL_KEY, 0);
-let vipExpiry = safeGet(VIP_EXPIRY_KEY, 0);
+// --- MINING LOGIC ---
+const MINING_START_KEY = `mining_start_ts_${userRefId}`;
+const MINING_STATE_KEY = `mining_state_v2_${userRefId}`; 
+const MINING_DURATION = 8 * 60 * 60 * 1000; 
 
-let withdrawHistory = safeGet(HISTORY_KEY, []);
+function getMiningRewardPer8h() {
+    if (Date.now() < vipExpiry) {
+        if (currentVipLevel === 1) return 1 / 3;    
+        if (currentVipLevel === 2) return 2.5 / 3;  
+        if (currentVipLevel === 3) return 5 / 3;    
+    } else if (currentVipLevel !== 0) {
+        currentVipLevel = 0; vipExpiry = 0; safeSet(VIP_LEVEL_KEY, 0); safeSet(VIP_EXPIRY_KEY, 0); updateVipUI();
+    }
+    return 0.03 / 3; 
+}
+
+function updateMiningUI() {
+    let state = safeGet(MINING_STATE_KEY, 'idle');
+    let startTime = safeGet(MINING_START_KEY, 0);
+    let realTime = getRealTime();
+    let elapsed = realTime - startTime;
+    let reward = getMiningRewardPer8h();
+    const t = TRANSLATIONS[currentLang];
+
+    const btn = document.getElementById('miningBtn');
+    const amountDisplay = document.getElementById('miningAmountDisplay');
+    const timerDisplay = document.getElementById('miningTimerDisplay');
+    const circle = document.getElementById('miningCircle');
+
+    if (state === 'idle') {
+        btn.disabled = false; btn.className = 'submit-btn';
+        btn.innerHTML = `<i data-lucide="pickaxe"></i> <span>${t.startMining}</span>`;
+        amountDisplay.textContent = '0.000000'; timerDisplay.textContent = '08:00:00';
+        circle.classList.remove('active');
+        lucide.createIcons();
+    } 
+    else if (state === 'mining') {
+        if (elapsed >= MINING_DURATION) { safeSet(MINING_STATE_KEY, 'claim'); updateMiningUI(); return; }
+        
+        btn.disabled = true; btn.className = 'submit-btn waiting';
+        btn.innerHTML = `<i data-lucide="loader"></i> <span>${t.miningActive}</span>`;
+        
+        let mined = (elapsed / MINING_DURATION) * reward;
+        amountDisplay.textContent = mined.toFixed(6);
+
+        let rem = Math.floor((MINING_DURATION - elapsed) / 1000);
+        let h = String(Math.floor(rem / 3600)).padStart(2, '0');
+        let m = String(Math.floor((rem % 3600) / 60)).padStart(2, '0');
+        let s = String(rem % 60).padStart(2, '0');
+        timerDisplay.textContent = `${h}:${m}:${s}`;
+        
+        circle.classList.add('active'); lucide.createIcons();
+    } 
+    else if (state === 'claim') {
+        btn.disabled = false; btn.className = 'submit-btn claim task-btn';
+        btn.innerHTML = `<i data-lucide="coins"></i> <span>${t.claimReward}</span>`;
+        amountDisplay.textContent = reward.toFixed(6); timerDisplay.textContent = '00:00:00';
+        circle.classList.remove('active'); lucide.createIcons();
+    }
+}
+
+async function handleMiningAction() {
+    let state = safeGet(MINING_STATE_KEY, 'idle');
+    const t = TRANSLATIONS[currentLang];
+    const btn = document.getElementById('miningBtn');
+
+    if (state === 'idle') {
+        btn.disabled = true; btn.innerHTML = `<i data-lucide="loader"></i> <span>...</span>`;
+        await syncServerTime();
+        safeSet(MINING_START_KEY, getRealTime());
+        safeSet(MINING_STATE_KEY, 'mining');
+        updateMiningUI();
+    } else if (state === 'claim') {
+        btn.disabled = true; btn.innerHTML = `<i data-lucide="loader"></i> <span>...</span>`;
+        await syncServerTime(); 
+        let startTime = safeGet(MINING_START_KEY, 0);
+        if (getRealTime() - startTime >= MINING_DURATION) {
+            let reward = getMiningRewardPer8h();
+            bal += reward; safeSet(BAL_KEY, bal);
+            safeSet(MINING_STATE_KEY, 'idle');
+            updateUI(); showTaskNotification(t.taskSuccess(`<b>${reward.toFixed(6)} TON</b>`));
+        } else {
+            safeSet(MINING_STATE_KEY, 'mining'); 
+        }
+        updateMiningUI();
+    }
+}
+setInterval(updateMiningUI, 1000);
 
 let currentLang = localStorage.getItem(LANG_KEY);
-if (!currentLang || !['en', 'tr', 'ru'].includes(currentLang)) {
-    currentLang = 'en'; 
-    localStorage.setItem(LANG_KEY, currentLang);
-}
+if (!currentLang || !['en', 'tr', 'ru'].includes(currentLang)) { currentLang = 'en'; localStorage.setItem(LANG_KEY, currentLang); }
 document.getElementById('langSelect').value = currentLang;
 
 const TRANSLATIONS = {
     'en': {
-        yourBalance: 'Your Balance', dailyAdsHeader: 'Daily Ads', adReward: 'Earn <b>{amt} TON</b> for each ad', watched: 'Watched', maximum: 'Maximum', maxCount: '50', progressText: 'Progress:', watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!', rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ Wait {s}s', joinCommunityTitle: 'Join Community', joinCommunityDesc: 'Join our official community channel and earn!', joinBtnText: 'Join Channel', completed: 'Completed',
+        yourBalance: 'Your Balance', dailyAdsHeader: 'Daily Ads', watchAdsTaskDesc: 'Watch a short ad to earn extra TON.', watched: 'Watched', progressText: 'Progress:', watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!', rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ Wait {s}s', joinCommunityTitle: 'Join Community', joinCommunityDesc: 'Join our official community channel and earn!', joinBtnText: 'Join Channel', completed: 'Completed',
+        miningTitle: 'Cloud Mining', startMining: 'Start Mining', miningActive: 'Mining...', claimReward: 'Claim Reward',
         depositTitleTab: 'Deposit', withdrawTitleTab: 'Withdrawal', depositInfo: 'Add TON directly from your connected wallet.', depositActionBtn: 'Deposit TON', placeholderDepositAmount: 'Amount (Min 0.01 TON)', minDepositText: 'Minimum deposit is 0.01 TON', depositSuccess: '✅ Deposit transaction sent! Balance updated.', connectWalletFirst: 'Please connect wallet first.', txFailed: 'Transaction failed or cancelled.',
         withdrawTitle: 'Withdrawal', selectMethod: 'Select withdrawal method', minTonLabel: 'Min: {min} TON', back: 'Back', withdrawTonTitle: 'Withdraw TON', withdraw: 'Withdraw', feeText: 'Network Fee (5%):', receiveText: 'You will receive:', methodError: 'Select a method', detailsError: 'Enter valid TON address', amountError: 'Enter correct amount', minAmount: 'Minimum withdrawal is {min} TON', balanceError: 'Insufficient balance', withdrawSuccess: '✅ Withdrawal requested! It will be processed soon.', withdrawDepositCondition: 'You must watch 1000 ads to withdraw after a deposit! (Watched: {count}/1000)',
         home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile', placeholderDetails_ton: 'Your TON Wallet Address', placeholderAmount: 'Amount (Min {min} TON)', taskSuccess: (r) => `✅ Task Completed! ${r} added.`, guestUser: 'User', theme: 'Theme', language: 'Language', withdrawHistory: 'Transaction History', pending: 'Pending', emptyHistory: 'History is empty', shareBtn: 'Invite Friends', shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Close',
-        shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nWatch daily ads and start earning 💰\nTON coins effortlessly. No complex steps just watch, complete, and grow your balance!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\nTurn বজ্র free time into profit 🔥 👇 Join now and start earning!\n\n🔗 Link: {LINK}", promoteBtn: 'Promote', promoteTitle: '🚀 Advertise on Ton Play Bot!', promoteText: "Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable advertising options<br><br>💎 Advertising Packages (in TON Coin):<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>📩 Contact us now to get started<br><br>🚀 Take your project to the next level with Ton Play!", contactBtn: 'Contact', depositText: 'Deposit',
-        market: 'Market', vipReward1: '0.02 TON per Ad', vipDays1: 'Active for 21 Days', vipReward2: '0.05 TON per Ad', vipDays2: 'Active for 23 Days', vipReward3: '0.1 TON per Ad', vipDays3: 'Active for 25 Days', vipBenefit: 'Boosted Earnings', buyVipBtn: 'Buy VIP', activeVip: 'Active', vipActiveError: 'You already have an active VIP level!', vipSuccess: '✅ VIP purchased successfully! Your earnings are boosted.'
+        shareMsg: "🚀 Earn with TonPlay simple, fast, real rewards!\n\nStart Cloud Mining and earn 💰 TON coins effortlessly.\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\nTurn free time into profit 🔥 👇 Join now and start earning!\n\n🔗 Link: {LINK}", promoteBtn: 'Promote', promoteTitle: '🚀 Advertise on Ton Play!', promoteText: "Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable options<br><br>💎 Advertising Packages:<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>📩 Contact us now to get started", contactBtn: 'Contact', depositText: 'Deposit',
+        market: 'Market', vipReward1: '1 TON / Day Mining', vipDays1: 'Active for 21 Days', vipReward2: '2.5 TON / Day Mining', vipDays2: 'Active for 23 Days', vipReward3: '5 TON / Day Mining', vipDays3: 'Active for 25 Days', vipBenefit: 'Boosted Earnings', buyVipBtn: 'Buy VIP', activeVip: 'Active', vipActiveError: 'You already have an active VIP level!', vipSuccess: '✅ VIP purchased successfully! Your mining rate is boosted.'
     },
     'tr': {
-        yourBalance: 'Bakiyeniz', dailyAdsHeader: 'Günlük Reklamlar', adReward: 'Her reklam için <b>{amt} TON</b> kazanın', watched: 'İzlenen', maximum: 'Maksimum', maxCount: '50', progressText: 'İlerleme:', watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!', rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin', joinCommunityTitle: 'Topluluğa Katıl', joinCommunityDesc: 'Resmi topluluk kanalımıza katılın ve kazanın!', joinBtnText: 'Kanala Katıl', completed: 'Tamamlandı',
+        yourBalance: 'Bakiyeniz', dailyAdsHeader: 'Günlük Reklamlar', watchAdsTaskDesc: 'Ekstra TON kazanmak için kısa bir reklam izleyin.', watched: 'İzlenen', progressText: 'İlerleme:', watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!', rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin', joinCommunityTitle: 'Topluluğa Katıl', joinCommunityDesc: 'Resmi kanalımıza katılın ve kazanın!', joinBtnText: 'Kanala Katıl', completed: 'Tamamlandı',
+        miningTitle: 'Bulut Madenciliği', startMining: 'Madenciliğe Başla', miningActive: 'Kazılıyor...', claimReward: 'Ödülü Topla',
         depositTitleTab: 'Yatırım', withdrawTitleTab: 'Çekim', depositInfo: 'Bağlı cüzdanınızdan doğrudan TON ekleyin.', depositActionBtn: 'TON Yatır', placeholderDepositAmount: 'Miktar (Min 0.01 TON)', minDepositText: 'Minimum yatırım 0.01 TON', depositSuccess: '✅ Yatırım gönderildi! Bakiye güncellendi.', connectWalletFirst: 'Lütfen önce cüzdanı bağlayın.', txFailed: 'İşlem başarısız veya iptal edildi.',
         withdrawTitle: 'Para Çekme', selectMethod: 'Çekim yöntemi seçin', minTonLabel: 'Min: {min} TON', back: 'Geri', withdrawTonTitle: 'TON Çek', withdraw: 'Çekim Yap', feeText: 'Ağ Ücreti (5%):', receiveText: 'Alacağınız:', methodError: 'Yöntem seçin', detailsError: 'Geçerli TON adresi girin', amountError: 'Miktarı doğru girin', minAmount: 'Minimum çekim {min} TON', balanceError: 'Yetersiz bakiye', withdrawSuccess: '✅ Çekim talebi alındı! Yakında işlenecektir.', withdrawDepositCondition: 'Yatırım yaptıktan sonra çekim yapmak için 1000 reklam izlemelisiniz! (İzlenen: {count}/1000)',
         home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil', placeholderDetails_ton: 'TON Cüzdan Adresiniz', placeholderAmount: 'Miktar (Min {min} TON)', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} eklendi.`, guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil', withdrawHistory: 'İşlem Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş', shareBtn: 'Arkadaşlarını Davet Et', shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Kapat',
-        shareMsg: "🚀 TonPlay ile basit, hızlı, gerçek ödüller kazanın!\n\nGünlük reklamları izleyin ve zahmetsizce 💰 TON coin kazanmaya başlayın. Karmaşık adımlar yok, sadece izleyin, tamamlayın ve bakiyenizi büyütün!\n\n✨ Kolay ve kullanıcı dostu sistem\n🎯 Günlük kazanma fırsatları\n💎 Gerçek ödüller, gerçek sonuçlar\n\nBoş zamanınızı kazanca dönüştürün 🔥 👇 Şimdi katılın ve kazanmaya başlayın!\n\n🔗 Link: {LINK}", promoteBtn: 'Reklam Ver', promoteTitle: "🚀 Ton Play Bot'ta Reklam Verin!", promoteText: "Projenizi, kanalınızı veya botunuzu büyütmek mi istiyorsunuz?<br>Doğru yerdesiniz! 🎯<br><br>🎯 Geniş bir kitleye ulaşın<br>📈 Büyümenizi hızlandırın<br>💸 Etkili ve uygun fiyatlı reklam seçenekleri<br><br>💎 Reklam Paketleri (TON Coin ile):<br>• 1 Hafta — 3 TON<br>• 1 Ay — 12 TON<br>• 3 Ay — 33 TON<br>• 6 Ay — 62 TON<br><br>📩 Başlamak için hemen iletişime geçin<br><br>🚀 Projenizi Ton Play ile bir sonraki seviyeye taşıyın!", contactBtn: 'İletişim', depositText: 'Yatırım',
-        market: 'Market', vipReward1: 'Reklam başı 0.02 TON', vipDays1: '21 Gün Aktif', vipReward2: 'Reklam başı 0.05 TON', vipDays2: '23 Gün Aktif', vipReward3: 'Reklam başı 0.1 TON', vipDays3: '25 Gün Aktif', vipBenefit: 'Artırılmış Kazanç', buyVipBtn: 'VIP Al', activeVip: 'Aktif', vipActiveError: 'Zaten aktif bir VIP seviyeniz var!', vipSuccess: '✅ VIP başarıyla alındı! Kazançlarınız artırıldı.'
+        shareMsg: "🚀 TonPlay ile basit, hızlı, gerçek ödüller kazanın!\n\nBulut Madenciliğini başlatın ve 💰 TON kazanın.\n\n✨ Kolay sistem\n🎯 Günlük fırsatlar\n💎 Gerçek ödüller\n\nBoş zamanınızı kazanca dönüştürün 🔥 👇 Şimdi katılın!\n\n🔗 Link: {LINK}", promoteBtn: 'Reklam Ver', promoteTitle: '🚀 Ton Play\'de Reklam Verin!', promoteText: "Projenizi veya kanalınızı büyütmek mi istiyorsunuz?<br>Doğru yerdesiniz! 🎯<br><br>💎 Reklam Paketleri:<br>• 1 Hafta — 3 TON<br>• 1 Ay — 12 TON<br>• 3 Ay — 33 TON<br>• 6 Ay — 62 TON<br><br>📩 Başlamak için iletişime geçin", contactBtn: 'İletişim', depositText: 'Yatırım',
+        market: 'Market', vipReward1: 'Günlük 1 TON Kazım', vipDays1: '21 Gün Aktif', vipReward2: 'Günlük 2.5 TON Kazım', vipDays2: '23 Gün Aktif', vipReward3: 'Günlük 5 TON Kazım', vipDays3: '25 Gün Aktif', vipBenefit: 'Artırılmış Kazanç', buyVipBtn: 'VIP Al', activeVip: 'Aktif', vipActiveError: 'Zaten aktif bir VIP seviyeniz var!', vipSuccess: '✅ VIP alındı! Kazım hızınız artırıldı.'
     },
     'ru': { 
-        yourBalance: 'Ваш Баланс', dailyAdsHeader: 'Ежедневная Реклама', adReward: 'Зарабатывайте <b>{amt} TON</b> за рекламу', watched: 'Просмотрено', maximum: 'Максимум', maxCount: '50', progressText: 'Прогресс:', watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут лимит!', rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ Ожидайте {s}с', joinCommunityTitle: 'Присоединиться к сообществу', joinCommunityDesc: 'Вступайте в наше официальное сообщество и зарабатывайте!', joinBtnText: 'Подписаться', completed: 'Выполнено',
-        depositTitleTab: 'Депозит', withdrawTitleTab: 'Вывод', depositInfo: 'Пополняйте баланс напрямую с подключенного кошелька.', depositActionBtn: 'Пополнить TON', placeholderDepositAmount: 'Сумма (Мин 0.01 TON)', minDepositText: 'Минимальный депозит 0.01 TON', depositSuccess: '✅ Транзакция отправлена! Баланс обновлен.', connectWalletFirst: 'Пожалуйста, подключите кошелек.', txFailed: 'Транзакция не удалась или отменена.',
-        withdrawTitle: 'Вывод Средств', selectMethod: 'Выберите способ вывода', minTonLabel: 'Мин: {min} TON', back: 'Назад', withdrawTonTitle: 'Вывести TON', withdraw: 'Вывести', feeText: 'Комиссия сети (5%):', receiveText: 'Вы получите:', methodError: 'Выберите способ', detailsError: 'Введите верный TON адрес', amountError: 'Введите правильную сумму', minAmount: 'Минимальный вывод {min} TON', balanceError: 'Недостаточно средств', withdrawSuccess: '✅ Заявка отправлена! Будет обработана скоро.', withdrawDepositCondition: 'Для вывода после депозита нужно посмотреть 1000 реклам! (Просмотрено: {count}/1000)',
+        yourBalance: 'Ваш Баланс', dailyAdsHeader: 'Ежедневная Реклама', watchAdsTaskDesc: 'Смотрите рекламу, чтобы заработать TON.', watched: 'Просмотрено', progressText: 'Прогресс:', watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут лимит!', rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ Ожидайте {s}с', joinCommunityTitle: 'Присоединиться', joinCommunityDesc: 'Вступайте в наше сообщество и зарабатывайте!', joinBtnText: 'Подписаться', completed: 'Выполнено',
+        miningTitle: 'Облачный Майнинг', startMining: 'Начать Майнинг', miningActive: 'Майнинг...', claimReward: 'Забрать Награду',
+        depositTitleTab: 'Депозит', withdrawTitleTab: 'Вывод', depositInfo: 'Пополняйте баланс напрямую с подключенного кошелька.', depositActionBtn: 'Пополнить TON', placeholderDepositAmount: 'Сумма (Мин 0.01 TON)', minDepositText: 'Минимальный депозит 0.01 TON', depositSuccess: '✅ Транзакция отправлена! Баланс обновлен.', connectWalletFirst: 'Пожалуйста, подключите кошелек.', txFailed: 'Транзакция не удалась.',
+        withdrawTitle: 'Вывод Средств', selectMethod: 'Выберите способ вывода', minTonLabel: 'Мин: {min} TON', back: 'Назад', withdrawTonTitle: 'Вывести TON', withdraw: 'Вывести', feeText: 'Комиссия сети (5%):', receiveText: 'Вы получите:', methodError: 'Выберите способ', detailsError: 'Введите верный адрес', amountError: 'Введите сумму', minAmount: 'Минимальный вывод {min} TON', balanceError: 'Недостаточно средств', withdrawSuccess: '✅ Заявка отправлена!', withdrawDepositCondition: 'Для вывода посмотрите 1000 реклам! (Просмотрено: {count}/1000)',
         home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль', placeholderDetails_ton: 'Ваш TON Адрес', placeholderAmount: 'Сумма (Мин {min} TON)', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено.`, guestUser: 'Пользователь', theme: 'Тема', language: 'Язык', withdrawHistory: 'История транзакций', pending: 'В ожидании', emptyHistory: 'История пуста', shareBtn: 'Пригласить Друзей', shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Закрыть',
-        shareMsg: "🚀 Зарабатывайте с TonPlay: просто, быстро, реальные награды!\n\nСмотрите ежедневную рекламу и начните легко зарабатывать 💰 TON. Никаких сложных шагов — просто смотрите, выполняйте и увеличивайте свой баланс!\n\n✨ Удобная система\n🎯 Ежедневные возможности\n💎 Реальные награды\n\nПревратите свободное время в прибыль 🔥 👇 Присоединяйтесь и начните зарабатывать!\n\n🔗 Ссылка: {LINK}", promoteBtn: 'Реклама', promoteTitle: '🚀 Разместите рекламу в Ton Play Bot!', promoteText: "Хотите развить свой проект, канал или бота?<br>Вы в правильном месте! 🎯<br><br>🎯 Охватите широкую аудиторию<br>📈 Быстро ускорьте свой рост<br>💸 Эффективные и доступные варианты рекламы<br><br>💎 Рекламные пакеты (в TON Coin):<br>• 1 Неделя — 3 TON<br>• 1 Месяц — 12 TON<br>• 3 Месяца — 33 TON<br>• 6 Месяцев — 62 TON<br><br>📩 Свяжитесь с нами прямо сейчас, чтобы начать<br><br>🚀 Выведите свой проект на новый уровень с Ton Play!", contactBtn: 'Связаться', depositText: 'Депозит',
-        market: 'Маркет', vipReward1: '0.02 TON за рекламу', vipDays1: 'Активен 21 день', vipReward2: '0.05 TON за рекламу', vipDays2: 'Активен 23 дня', vipReward3: '0.1 TON за рекламу', vipDays3: 'Активен 25 дней', vipBenefit: 'Увеличенный доход', buyVipBtn: 'Купить VIP', activeVip: 'Активен', vipActiveError: 'У вас уже есть активный VIP!', vipSuccess: '✅ VIP успешно куплен! Ваш заработок увеличен.'
+        shareMsg: "🚀 Зарабатывайте с TonPlay!\n\nНачните Облачный Майнинг и зарабатывайте 💰 TON.\n\n✨ Удобная система\n🎯 Ежедневные возможности\n💎 Реальные награды\n\n👇 Присоединяйтесь!\n\n🔗 Ссылка: {LINK}", promoteBtn: 'Реклама', promoteTitle: '🚀 Разместите рекламу в Ton Play!', promoteText: "Хотите развить проект?<br>Вы в правильном месте! 🎯<br><br>💎 Рекламные пакеты:<br>• 1 Неделя — 3 TON<br>• 1 Месяц — 12 TON<br>• 3 Месяца — 33 TON<br>• 6 Месяцев — 62 TON<br><br>📩 Свяжитесь с нами", contactBtn: 'Связаться', depositText: 'Депозит',
+        market: 'Маркет', vipReward1: '1 TON в день', vipDays1: 'Активен 21 день', vipReward2: '2.5 TON в день', vipDays2: 'Активен 23 дня', vipReward3: '5 TON в день', vipDays3: 'Активен 25 дней', vipBenefit: 'Увеличенный доход', buyVipBtn: 'Купить VIP', activeVip: 'Активен', vipActiveError: 'У вас уже есть VIP!', vipSuccess: '✅ VIP успешно куплен! Скорость майнинга увеличена.'
     }
 };
 
 let alertTimeouts = {};
-function showAlertAutoHiding(element, message, type) {
-    element.textContent = message;
-    element.className = 'alert ' + type;
-    element.style.display = 'block';
-    
-    if (alertTimeouts[element.id]) { clearTimeout(alertTimeouts[element.id]); }
-    
-    alertTimeouts[element.id] = setTimeout(() => {
-        element.style.display = 'none';
-        delete alertTimeouts[element.id];
-    }, 4000); 
-}
-
-let rewardMsgTimeout = null; 
-let isAdRunning = false; 
-let isCheckingTime = false;
-
-// --- YENİLƏNMİŞ API ƏSASLI VAXT YOXLANMASI (ANTI-CHEAT) ---
-async function checkDailyReset() {
-    if (isCheckingTime) return;
-    isCheckingTime = true;
-    let realDate = null;
-
-    try {
-        // Əsas API - Keşləmənin qarşısını almaq üçün '{ cache: 'no-store' }' əlavə edilib
-        const response = await fetch('https://worldtimeapi.org/api/timezone/Europe/Moscow', { cache: 'no-store' });
-        if (response.ok) {
-            const data = await response.json();
-            realDate = data.datetime.split('T')[0]; // "YYYY-MM-DD"
-        }
-    } catch (e) {
-        console.warn("Əsas saat API işləmədi, ehtiyata keçilir...");
-    }
-
-    if (!realDate) {
-        try {
-            // Ehtiyat API (Birinci işləməsə istifadəçi zərər görməsin deyə)
-            const response2 = await fetch('https://timeapi.io/api/Time/current/zone?timeZone=Europe/Moscow', { cache: 'no-store' });
-            if (response2.ok) {
-                const data2 = await response2.json();
-                realDate = `${data2.year}-${String(data2.month).padStart(2, '0')}-${String(data2.day).padStart(2, '0')}`;
-            }
-        } catch (e) {
-            console.error("Heç bir API-dan vaxt alına bilmədi. SIFIRLANMA QADAĞANDIR.");
-        }
-    }
-
-    // YALNIZ VƏ YALNIZ SERVERDƏN VAXT GƏLƏRSƏ SIFIRLANMA İCAZƏ VERİLİR
-    if (realDate) {
-        const savedDate = safeGet('moscow_reset_date_' + userRefId, null);
-        if (savedDate !== realDate) {
-            cnt = 0; 
-            safeSet('moscow_reset_date_' + userRefId, realDate);
-            safeSet(COUNT_KEY, cnt);
-        }
-    }
-
-    isCheckingTime = false;
-    updateUI();
-}
+function showAlertAutoHiding(element, message, type) { element.textContent = message; element.className = 'alert ' + type; element.style.display = 'block'; if (alertTimeouts[element.id]) { clearTimeout(alertTimeouts[element.id]); } alertTimeouts[element.id] = setTimeout(() => { element.style.display = 'none'; delete alertTimeouts[element.id]; }, 4000); }
 
 function getMinWithdrawal() {
-    if (Date.now() < vipExpiry) {
-        if (currentVipLevel === 1) return 20;
-        if (currentVipLevel === 2) return 50;
-        if (currentVipLevel === 3) return 90;
-    }
-    return 3; // VIP olmayanlar və ya VIP vaxtı bitənlər üçün 3 TON
-}
-
-function getCurrentReward() {
-    if (Date.now() < vipExpiry) {
-        if (currentVipLevel === 1) return 0.02;
-        if (currentVipLevel === 2) return 0.05;
-        if (currentVipLevel === 3) return 0.1;
-    } else {
-        if (currentVipLevel !== 0) {
-            currentVipLevel = 0; vipExpiry = 0;
-            safeSet(VIP_LEVEL_KEY, 0); safeSet(VIP_EXPIRY_KEY, 0);
-            updateVipUI();
-        }
-    }
-    return 0.002; // Standart qazanc
+    if (Date.now() < vipExpiry) { if (currentVipLevel === 1) return 20; if (currentVipLevel === 2) return 50; if (currentVipLevel === 3) return 90; }
+    return 3;
 }
 
 function updateDynamicTexts() {
     const t = TRANSLATIONS[currentLang];
-    const adRewardTextEl = document.getElementById('adRewardText');
-    if(adRewardTextEl) {
-        adRewardTextEl.innerHTML = t.adReward.replace('{amt}', getCurrentReward().toString());
-    }
-    
     const currentMinWithdraw = getMinWithdrawal();
-    document.querySelectorAll('.min-withdraw-label').forEach(el => {
-        el.innerHTML = t.minTonLabel.replace('{min}', currentMinWithdraw);
-    });
+    document.querySelectorAll('.min-withdraw-label').forEach(el => { el.innerHTML = t.minTonLabel.replace('{min}', currentMinWithdraw); });
     const amountInput = document.getElementById('amount');
-    if(amountInput) {
-        amountInput.placeholder = t.placeholderAmount.replace('{min}', currentMinWithdraw);
-    }
+    if(amountInput) { amountInput.placeholder = t.placeholderAmount.replace('{min}', currentMinWithdraw); }
 }
 
 function updateVipUI() {
-    const t = TRANSLATIONS[currentLang];
-    const isActive = Date.now() < vipExpiry;
-    
+    const t = TRANSLATIONS[currentLang]; const isActive = Date.now() < vipExpiry;
     [1, 2, 3].forEach((level) => {
-        const btn = document.getElementById(`vip${level}Btn`);
-        if (!btn) return;
-        
-        if (isActive && currentVipLevel === level) {
-            btn.className = 'vip-btn active-vip';
-            btn.innerHTML = `<i data-lucide="check-circle"></i> ${t.activeVip}`;
-            btn.disabled = true;
-        } else {
-            btn.className = 'vip-btn';
-            btn.innerHTML = `<i data-lucide="shopping-cart"></i> ${t.buyVipBtn}`;
-            btn.disabled = false;
-        }
+        const btn = document.getElementById(`vip${level}Btn`); if (!btn) return;
+        if (isActive && currentVipLevel === level) { btn.className = 'vip-btn active-vip'; btn.innerHTML = `<i data-lucide="check-circle"></i> ${t.activeVip}`; btn.disabled = true; } 
+        else { btn.className = 'vip-btn'; btn.innerHTML = `<i data-lucide="shopping-cart"></i> ${t.buyVipBtn}`; btn.disabled = false; }
     });
-    lucide.createIcons();
-    updateDynamicTexts();
-}
-
-function loadProfilePic() {
-    const pic = localStorage.getItem(PROFILE_PIC_KEY);
-    const avatar = document.querySelector('.profile-avatar');
-    const img = document.getElementById('profileImage');
-    if (pic) { img.src = pic; avatar.classList.add('has-image'); } 
-    else { avatar.classList.remove('has-image'); }
+    lucide.createIcons(); updateDynamicTexts();
 }
 
 function loadProfile() {
-    const savedName = localStorage.getItem(USERNAME_KEY);
-    const displayEl = document.getElementById('displayUsername');
-    if (savedName) { displayEl.textContent = savedName; displayEl.removeAttribute('data-translate-key'); } 
-    else { displayEl.setAttribute('data-translate-key', 'guestUser'); applyTranslationToElement(displayEl, 'guestUser', currentLang); }
+    const savedName = localStorage.getItem(`user_profile_name_${userRefId}`); const displayEl = document.getElementById('displayUsername');
+    if (savedName) { displayEl.textContent = savedName; displayEl.removeAttribute('data-translate-key'); } else { displayEl.setAttribute('data-translate-key', 'guestUser'); applyTranslationToElement(displayEl, 'guestUser', currentLang); }
     document.getElementById('displayUserId').textContent = userRefId;
-    loadProfilePic();
+    const pic = localStorage.getItem(`user_profile_pic_${userRefId}`); const avatar = document.querySelector('.profile-avatar'); const img = document.getElementById('profileImage');
+    if (pic) { img.src = pic; avatar.classList.add('has-image'); } else { avatar.classList.remove('has-image'); }
 }
 
 function openShareModal() { const overlay = document.getElementById('shareModalOverlay'); overlay.style.display = 'flex'; setTimeout(() => overlay.classList.add('show'), 10); }
@@ -886,17 +766,13 @@ function closePromoteModal() { const overlay = document.getElementById('promoteM
 function shareOnTelegramAction() { window.open(`https://t.me/share/url?url=&text=${encodeURIComponent(TRANSLATIONS[currentLang].shareMsg.replace('{LINK}', userRefLink))}`, '_blank'); closeShareModal(); }
 function shareOnWhatsappAction() { window.open(`https://wa.me/?text=${encodeURIComponent(TRANSLATIONS[currentLang].shareMsg.replace('{LINK}', userRefLink))}`, '_blank'); closeShareModal(); }
 function copyRefLinkAction() {
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(userRefLink).then(() => { showTaskNotification(TRANSLATIONS[currentLang].linkCopied); }).catch(err => fallbackCopyTextToClipboard(userRefLink, TRANSLATIONS[currentLang]));
-    } else { fallbackCopyTextToClipboard(userRefLink, TRANSLATIONS[currentLang]); }
+    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(userRefLink).then(() => { showTaskNotification(TRANSLATIONS[currentLang].linkCopied); }).catch(err => fallbackCopyTextToClipboard(userRefLink, TRANSLATIONS[currentLang])); } 
+    else { fallbackCopyTextToClipboard(userRefLink, TRANSLATIONS[currentLang]); }
     closeShareModal();
 }
 function fallbackCopyTextToClipboard(text, t) {
-    var textArea = document.createElement("textarea"); textArea.value = text;
-    textArea.style.top = "0"; textArea.style.left = "0"; textArea.style.position = "fixed"; textArea.style.opacity = "0";
-    document.body.appendChild(textArea); textArea.focus(); textArea.select();
-    try { var successful = document.execCommand('copy'); if(successful) showTaskNotification(t.linkCopied); } catch (err) {}
-    document.body.removeChild(textArea);
+    var textArea = document.createElement("textarea"); textArea.value = text; textArea.style.top = "0"; textArea.style.left = "0"; textArea.style.position = "fixed"; textArea.style.opacity = "0"; document.body.appendChild(textArea); textArea.focus(); textArea.select();
+    try { var successful = document.execCommand('copy'); if(successful) showTaskNotification(t.linkCopied); } catch (err) {} document.body.removeChild(textArea);
 }
 
 function formatTon(val) { return parseFloat(val).toFixed(3); }
@@ -907,61 +783,28 @@ function updateUI() {
   document.getElementById('balance2').textContent = formattedBal;
   document.getElementById('balance3').textContent = formattedBal;
   document.getElementById('balance4').textContent = formattedBal;
-  document.getElementById('adsCount').textContent=cnt;
-  document.getElementById('progress').style.width=(cnt/MAX_ADS_PER_DAY*100)+'%';
   const progressTextSpan = document.getElementById('progressTextSpan');
   if(progressTextSpan) progressTextSpan.textContent = `${cnt}/${MAX_ADS_PER_DAY}`;
   
   safeSet(BAL_KEY, bal); safeSet(COUNT_KEY, cnt); 
-  
-  checkAndDisplayRewardMsg(); updateTaskButtons(); updateDynamicTexts(); updateVipUI();
+  updateTaskButtons(); updateDynamicTexts(); updateVipUI(); updateMiningUI();
 }
 
 function renderHistory() {
-    const list = document.getElementById('historyList');
-    const t = TRANSLATIONS[currentLang];
-    list.innerHTML = '';
-    
-    if (withdrawHistory.length === 0) {
-        list.innerHTML = `<div class="history-empty">${t.emptyHistory}</div>`;
-        return;
-    }
-    
+    const list = document.getElementById('historyList'); const t = TRANSLATIONS[currentLang]; list.innerHTML = '';
+    if (withdrawHistory.length === 0) { list.innerHTML = `<div class="history-empty">${t.emptyHistory}</div>`; return; }
     const reversed = [...withdrawHistory].reverse();
     reversed.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'history-item';
-        const d = new Date(item.date);
-        const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        
-        let statusText = '';
-        let statusClass = 'history-status';
-        let methodIcon = '<img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" alt="TON" draggable="false">';
-        let amountText = '';
-
+        const div = document.createElement('div'); div.className = 'history-item';
+        const d = new Date(item.date); const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let statusText = ''; let statusClass = 'history-status';
+        let methodIcon = '<img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" alt="TON" draggable="false">'; let amountText = '';
         if(item.method === 'deposit' || item.method === 'vip') {
-            statusText = t.completed || 'Completed';
-            statusClass += ' completed';
-            let iName = item.method === 'vip' ? 'shopping-cart' : 'arrow-down-circle';
-            let txt = item.method === 'vip' ? 'VIP Purchase' : (t.depositText || 'Deposit');
-            methodIcon = `<i data-lucide="${iName}"></i> ` + txt;
-            amountText = item.method === 'deposit' ? `+${formatTon(item.amount)} TON` : `-${formatTon(item.amount)} TON`;
-        } else {
-            statusText = t[item.status] || item.status;
-            methodIcon = `${methodIcon} TON Coin`;
-            amountText = `-${formatTon(item.amount)} TON`;
-        }
-
-        div.innerHTML = `
-            <div class="history-info">
-                <div class="history-method">${methodIcon}</div>
-                <div class="history-date">${dateStr}</div>
-            </div>
-            <div class="history-status-wrap">
-                <div class="history-amount">${amountText}</div>
-                <div class="history-status ${item.method==='deposit' || item.method==='vip' ? 'completed' : ''}">${statusText}</div>
-            </div>
-        `;
+            statusText = t.completed || 'Completed'; statusClass += ' completed';
+            let iName = item.method === 'vip' ? 'shopping-cart' : 'arrow-down-circle'; let txt = item.method === 'vip' ? 'VIP Purchase' : (t.depositText || 'Deposit');
+            methodIcon = `<i data-lucide="${iName}"></i> ` + txt; amountText = item.method === 'deposit' ? `+${formatTon(item.amount)} TON` : `-${formatTon(item.amount)} TON`;
+        } else { statusText = t[item.status] || item.status; methodIcon = `${methodIcon} TON Coin`; amountText = `-${formatTon(item.amount)} TON`; }
+        div.innerHTML = `<div class="history-info"><div class="history-method">${methodIcon}</div><div class="history-date">${dateStr}</div></div><div class="history-status-wrap"><div class="history-amount">${amountText}</div><div class="history-status ${item.method==='deposit' || item.method==='vip' ? 'completed' : ''}">${statusText}</div></div>`;
         list.appendChild(div);
     });
     lucide.createIcons();
@@ -970,395 +813,131 @@ function renderHistory() {
 function updateTaskButtons() {
     const t = TRANSLATIONS[currentLang];
     const joinBtn = document.getElementById('joinBtn');
-    if (joinBtn) {
-        if (localStorage.getItem(JOIN_COMMUNITY_KEY)){ joinBtn.className = 'task-btn completed'; joinBtn.innerHTML = `<i data-lucide="check-circle" style="width:20px;height:20px;"></i> ${t.completed}`; joinBtn.disabled = true; } 
-        else { if (!joinBtn.classList.contains('waiting')) { joinBtn.className = 'task-btn action'; joinBtn.disabled = false; joinBtn.innerHTML = `<i data-lucide="send" style="width:20px;height:20px;"></i> ${t.joinBtnText}`; } }
-    }
+    if (joinBtn) { if (localStorage.getItem(`joined_ton_community_${userRefId}`)){ joinBtn.className = 'task-btn completed'; joinBtn.innerHTML = `<i data-lucide="check-circle" style="width:20px;height:20px;"></i> ${t.completed}`; joinBtn.disabled = true; } else { if (!joinBtn.classList.contains('waiting')) { joinBtn.className = 'task-btn action'; joinBtn.disabled = false; joinBtn.innerHTML = `<i data-lucide="send" style="width:20px;height:20px;"></i> ${t.joinBtnText}`; } } }
     lucide.createIcons(); 
 }
 
-function applyTranslationToElement(el, key, lang) {
-    const t = TRANSLATIONS[lang];
-    if (!t) return;
-    if (typeof t[key] === 'function') {} 
-    else if (t[key]) {
-         if(el.tagName === 'INPUT') el.placeholder = t[key];
-         else el.innerHTML = t[key];
-    }
-}
-
+function applyTranslationToElement(el, key, lang) { const t = TRANSLATIONS[lang]; if (!t) return; if (typeof t[key] === 'function') {} else if (t[key]) { if(el.tagName === 'INPUT') el.placeholder = t[key]; else el.innerHTML = t[key]; } }
 function applyTranslations(lang) {
-    const t = TRANSLATIONS[lang];
-    if (!t) return;
-    document.querySelectorAll('[data-translate-key]').forEach(el => {
-        applyTranslationToElement(el, el.getAttribute('data-translate-key'), lang);
-    });
-    updateTaskButtons(); loadProfile(); renderHistory(); updateDynamicTexts(); updateVipUI();
-    const progressTextSpan = document.getElementById('progressTextSpan');
-    if(progressTextSpan) progressTextSpan.textContent = `${cnt}/${MAX_ADS_PER_DAY}`;
-    const adBtnWatchSpan = adBtnContent.querySelector('span');
-    if(adBtnWatchSpan) { if (adBtn.classList.contains('waiting')) { adBtnWatchSpan.textContent = t.watching; } else { adBtnWatchSpan.textContent = t.watchAd; } }
+    const t = TRANSLATIONS[lang]; if (!t) return;
+    document.querySelectorAll('[data-translate-key]').forEach(el => { applyTranslationToElement(el, el.getAttribute('data-translate-key'), lang); });
+    updateTaskButtons(); loadProfile(); renderHistory(); updateDynamicTexts(); updateVipUI(); updateMiningUI();
+    const progressTextSpan = document.getElementById('progressTextSpan'); if(progressTextSpan) progressTextSpan.textContent = `${cnt}/${MAX_ADS_PER_DAY}`;
 }
-
-function setLang(lang) { currentLang = lang; localStorage.setItem(LANG_KEY, lang); applyTranslations(lang); calculateFee(); }
+function setLang(lang) { currentLang = lang; localStorage.setItem(LANG_KEY, lang); applyTranslations(lang); }
 
 const adBtn=document.getElementById('adBtn'), msg=document.getElementById('msg');
-const adBtnContent = document.querySelector('.ad-btn-content');
+let isAdRunning = false; 
 
-function displayRewardMsg(messageHTML) {
-    if (rewardMsgTimeout) { clearTimeout(rewardMsgTimeout); rewardMsgTimeout = null; }
-    const container = document.getElementById('adRewardNotificationContainer');
-    if (!container) return; 
-    let rewardMsgElement = document.getElementById('rewardMsg');
-    if (rewardMsgElement) { rewardMsgElement.innerHTML = messageHTML; } 
-    else { rewardMsgElement = document.createElement('div'); rewardMsgElement.className = 'reward-msg'; rewardMsgElement.id = 'rewardMsg'; rewardMsgElement.innerHTML = messageHTML; container.appendChild(rewardMsgElement); }
-    rewardMsgElement.classList.remove('show');
-    safeSet(REWARD_MSG_KEY, { html: messageHTML, expire: Date.now() + 2500 }); 
-    setTimeout(() => { rewardMsgElement.classList.add('show'); }, 50);
-    rewardMsgTimeout = setTimeout(() => {
-        if (rewardMsgElement) { rewardMsgElement.classList.remove('show'); setTimeout(() => { if(rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 300); }
-        safeRemove(REWARD_MSG_KEY); rewardMsgTimeout = null;
-    }, 2500);
-}
-
-function checkAndDisplayRewardMsg() {
-    const container = document.getElementById('adRewardNotificationContainer');
-    if (!container) return;
-    const currentPage = document.querySelector('.page.active');
-    if (!currentPage || currentPage.id !== 'adsPage') { let rewardMsgElement = document.getElementById('rewardMsg'); if (rewardMsgElement) rewardMsgElement.classList.remove('show'); return; }
-    const savedMsg = safeGet(REWARD_MSG_KEY, null);
-    let rewardMsgElement = document.getElementById('rewardMsg');
-    if (savedMsg) {
-        const remainingTime = savedMsg.expire - Date.now();
-        if (remainingTime > 0) {
-            if (!rewardMsgElement) { rewardMsgElement = document.createElement('div'); rewardMsgElement.className = 'reward-msg'; rewardMsgElement.id = 'rewardMsg'; container.appendChild(rewardMsgElement); }
-            rewardMsgElement.innerHTML = savedMsg.html; rewardMsgElement.classList.remove('show');
-            if (rewardMsgTimeout) clearTimeout(rewardMsgTimeout);
-            setTimeout(() => { rewardMsgElement.classList.add('show'); }, 50);
-            rewardMsgTimeout = setTimeout(() => { if (rewardMsgElement) { rewardMsgElement.classList.remove('show'); setTimeout(() => { if(rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 300); } safeRemove(REWARD_MSG_KEY); rewardMsgTimeout = null; }, remainingTime);
-        } else { safeRemove(REWARD_MSG_KEY); if (rewardMsgElement && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }
-    } else { if (rewardMsgElement && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }
-}
-
-function restoreAdBtnState() {
-    const t = TRANSLATIONS[currentLang];
-    const textSpan = adBtnContent.querySelector('span');
-    if (isAdRunning) { adBtn.classList.add('waiting'); adBtn.disabled = true; if(textSpan) textSpan.textContent = t.watching; return; }
-    if (cnt >= MAX_ADS_PER_DAY) { adBtn.classList.remove('waiting'); adBtn.disabled = true; if(textSpan) textSpan.textContent = t.watchAd; msg.textContent = t.adLimitReached; checkAndDisplayRewardMsg(); return; }
-    adBtn.classList.remove('waiting'); adBtn.disabled = false; if(textSpan) textSpan.textContent = t.watchAd; msg.textContent = ''; checkAndDisplayRewardMsg();
-}
+function resetAdBtnState(t) { isAdRunning = false; adBtn.disabled = false; adBtn.classList.remove('waiting'); adBtn.innerHTML = `<i data-lucide="video" style="width:20px;height:20px;"></i> <span>${t.watchAd}</span>`; if (cnt >= MAX_ADS_PER_DAY) msg.textContent = t.adLimitReached; else msg.textContent = ''; lucide.createIcons(); }
 
 adBtn.onclick = () => {
     const t = TRANSLATIONS[currentLang];
-    
     if (cnt >= MAX_ADS_PER_DAY) { msg.textContent = t.adLimitReached; return; }
     if (isAdRunning || adBtn.classList.contains('waiting')) return;
     
-    isAdRunning = true; 
-    adBtn.disabled = true; 
-    adBtn.classList.add('waiting');
-    const textSpan = adBtnContent.querySelector('span');
-    if(textSpan) textSpan.textContent = t.watching; 
-    msg.textContent = '';
+    isAdRunning = true; adBtn.disabled = true; adBtn.classList.add('waiting');
+    adBtn.innerHTML = `<i data-lucide="loader" style="width:20px;height:20px;"></i> <span>${t.watching}</span>`; msg.textContent = ''; lucide.createIcons();
     
-    if (rewardMsgTimeout) { clearTimeout(rewardMsgTimeout); rewardMsgTimeout = null; }
-    safeRemove(REWARD_MSG_KEY);
-    let rewardMsgElement = document.getElementById('rewardMsg');
-    if (rewardMsgElement) { rewardMsgElement.classList.remove('show'); setTimeout(() => { const container = document.getElementById('adRewardNotificationContainer'); if(container && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 200); }
-    
-    // API vaxt yoxlaması arxa planda baş verir
-    checkDailyReset();
-
     try {
         if (!adManager && window.Adsgram) { adManager = window.Adsgram.init({ blockId: "int-28300" }); }
-        if (adManager) { 
-            adManager.show().then((result) => { giveAdReward(t); }).catch((error) => { console.error("Adsgram error", error); resetAdBtnState(t); }); 
-        } 
+        if (adManager) { adManager.show().then((result) => { bal += FIXED_AD_REWARD; cnt++; totalAdsWatched++; safeSet(TOTAL_ADS_KEY, totalAdsWatched); updateUI(); showTaskNotification(t.taskSuccess(`<b>${FIXED_AD_REWARD} TON</b>`)); resetAdBtnState(t); }).catch((error) => { console.error("Adsgram error", error); resetAdBtnState(t); }); } 
         else { console.error("Adsgram init fail"); resetAdBtnState(t); }
     } catch(e) { console.error("Ad error", e); resetAdBtnState(t); } 
 };
 
-function giveAdReward(t) { 
-    const currentRewardAmt = getCurrentReward();
-    bal += currentRewardAmt; 
-    cnt++; 
-    totalAdsWatched++;
-    safeSet(TOTAL_ADS_KEY, totalAdsWatched);
-    updateUI(); 
-    displayRewardMsg(t.rewardAddedConfirmed(`<b>${currentRewardAmt} TON</b>`)); 
-    resetAdBtnState(t); 
-}
-
-function resetAdBtnState(t) { isAdRunning = false; adBtn.disabled = false; adBtn.classList.remove('waiting'); const textSpan = adBtnContent.querySelector('span'); if(textSpan) textSpan.textContent = t.watchAd; if (cnt >= MAX_ADS_PER_DAY) msg.textContent = t.adLimitReached; else msg.textContent = ''; }
-
-const taskNotification = document.getElementById('taskNotification');
-const taskNotificationText = document.getElementById('taskNotificationText');
+const taskNotification = document.getElementById('taskNotification'); const taskNotificationText = document.getElementById('taskNotificationText');
 function showTaskNotification(message) { taskNotificationText.innerHTML = message; taskNotification.classList.remove('notification-hide'); taskNotification.classList.add('notification-show'); setTimeout(() => { taskNotification.classList.remove('notification-show'); taskNotification.classList.add('notification-hide'); }, 3000); }
 
 const joinBtn = document.getElementById('joinBtn');
 if (joinBtn) {
     joinBtn.onclick = () => {
-        if (localStorage.getItem(JOIN_COMMUNITY_KEY) || joinBtn.disabled) return; 
-        const t = TRANSLATIONS[currentLang];
-        window.open('https://t.me/tonplay_app', '_blank'); 
-        joinBtn.disabled = true; joinBtn.classList.add('waiting'); 
-        joinBtn.innerHTML = `<i data-lucide="loader" style="width:20px;height:20px;"></i> ${t.wait.replace('{s}', '3')}`;
-        lucide.createIcons();
-        setTimeout(() => { bal += TASK_REWARD; safeSet(BAL_KEY, bal); localStorage.setItem(JOIN_COMMUNITY_KEY, '1'); updateUI(); showTaskNotification(t.taskSuccess(`<b>${TASK_REWARD} TON</b>`)); }, 3000); 
+        if (localStorage.getItem(`joined_ton_community_${userRefId}`) || joinBtn.disabled) return; 
+        const t = TRANSLATIONS[currentLang]; window.open('https://t.me/tonplay_app', '_blank'); 
+        joinBtn.disabled = true; joinBtn.classList.add('waiting'); joinBtn.innerHTML = `<i data-lucide="loader" style="width:20px;height:20px;"></i> ${t.wait.replace('{s}', '3')}`; lucide.createIcons();
+        setTimeout(() => { bal += TASK_REWARD; safeSet(BAL_KEY, bal); localStorage.setItem(`joined_ton_community_${userRefId}`, '1'); updateUI(); showTaskNotification(t.taskSuccess(`<b>${TASK_REWARD} TON</b>`)); }, 3000); 
     };
 }
 
 function showPage(id, btn){
   if (btn.classList.contains('active')) return; 
   const activePage = document.querySelector('.page.active');
-  if (activePage) { 
-    activePage.classList.remove('active'); 
-    activePage.classList.add('fading-out'); 
-    setTimeout(() => { activePage.classList.remove('fading-out'); activateNewPage(id, btn); }, 150); 
-  } 
+  if (activePage) { activePage.classList.remove('active'); activePage.classList.add('fading-out'); setTimeout(() => { activePage.classList.remove('fading-out'); activateNewPage(id, btn); }, 150); } 
   else { activateNewPage(id, btn); }
 }
+function activateNewPage(id, btn) { document.getElementById(id).classList.add('active'); document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active')); btn.classList.add('active'); if (id === 'tasksPage') updateTaskButtons(); }
 
-function activateNewPage(id, btn) {
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  if (id === 'adsPage') { restoreAdBtnState(); } 
-  else if (id === 'tasksPage') { updateTaskButtons(); } 
-  else { let rewardMsgElement = document.getElementById('rewardMsg'); if (rewardMsgElement) rewardMsgElement.classList.remove('show'); }
-}
-
-const btnDepositTab = document.getElementById('btnDepositTab');
-const btnWithdrawTab = document.getElementById('btnWithdrawTab');
-const depositSection = document.getElementById('depositSection');
-const withdrawSection = document.getElementById('withdrawSection');
-
-btnDepositTab.onclick = () => {
-    btnDepositTab.classList.add('active'); btnWithdrawTab.classList.remove('active');
-    depositSection.style.display = 'block'; withdrawSection.style.display = 'none';
-};
-btnWithdrawTab.onclick = () => {
-    btnWithdrawTab.classList.add('active'); btnDepositTab.classList.remove('active');
-    withdrawSection.style.display = 'block'; depositSection.style.display = 'none';
-};
+const btnDepositTab = document.getElementById('btnDepositTab'); const btnWithdrawTab = document.getElementById('btnWithdrawTab');
+const depositSection = document.getElementById('depositSection'); const withdrawSection = document.getElementById('withdrawSection');
+btnDepositTab.onclick = () => { btnDepositTab.classList.add('active'); btnWithdrawTab.classList.remove('active'); depositSection.style.display = 'block'; withdrawSection.style.display = 'none'; };
+btnWithdrawTab.onclick = () => { btnWithdrawTab.classList.add('active'); btnDepositTab.classList.remove('active'); withdrawSection.style.display = 'block'; depositSection.style.display = 'none'; };
 
 async function buyVip(level, price, days) {
-    const t = TRANSLATIONS[currentLang];
-    const alertBox = document.getElementById('marketAlert');
-    alertBox.style.display = 'none';
-
-    if (Date.now() < vipExpiry) {
-        showAlertAutoHiding(alertBox, t.vipActiveError, 'error');
-        return;
-    }
-
-    if (!tonConnectUI.connected) {
-        try {
-            tonConnectUI.openModal();
-            showAlertAutoHiding(alertBox, t.connectWalletFirst, 'error');
-        } catch(e) {
-            console.error(e);
-        }
-        return;
-    }
+    const t = TRANSLATIONS[currentLang]; const alertBox = document.getElementById('marketAlert'); alertBox.style.display = 'none';
+    if (Date.now() < vipExpiry) { showAlertAutoHiding(alertBox, t.vipActiveError, 'error'); return; }
+    if (!tonConnectUI.connected) { try { tonConnectUI.openModal(); showAlertAutoHiding(alertBox, t.connectWalletFirst, 'error'); } catch(e){} return; }
 
     try {
-        const tonweb = new window.TonWeb();
-        const cell = new tonweb.boc.Cell();
-        cell.bits.writeUint(0, 32); 
-        cell.bits.writeString(payUid); 
-        const bocBytes = await cell.toBoc();
-        const payloadStr = tonweb.utils.bytesToBase64(bocBytes);
-
-        const transaction = {
-            validUntil: Math.floor(Date.now() / 1000) + 360,
-            messages: [
-                {
-                    address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", 
-                    amount: Math.floor(price * 1000000000).toString(),
-                    payload: payloadStr
-                }
-            ]
-        };
+        const tonweb = new window.TonWeb(); const cell = new tonweb.boc.Cell(); cell.bits.writeUint(0, 32); cell.bits.writeString(payUid); 
+        const bocBytes = await cell.toBoc(); const payloadStr = tonweb.utils.bytesToBase64(bocBytes);
+        const transaction = { validUntil: Math.floor(Date.now() / 1000) + 360, messages: [{ address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", amount: Math.floor(price * 1000000000).toString(), payload: payloadStr }] };
 
         await tonConnectUI.sendTransaction(transaction);
-        
-        currentVipLevel = level;
-        vipExpiry = Date.now() + (days * 24 * 60 * 60 * 1000);
-        safeSet(VIP_LEVEL_KEY, currentVipLevel);
-        safeSet(VIP_EXPIRY_KEY, vipExpiry);
-        
-        const historyItem = { method: 'vip', amount: price, status: 'completed', date: Date.now() };
-        withdrawHistory.push(historyItem);
-        safeSet(HISTORY_KEY, withdrawHistory);
-        
-        updateUI();
-        showAlertAutoHiding(alertBox, t.vipSuccess, 'success');
-
-    } catch (e) {
-        console.error(e);
-        showAlertAutoHiding(alertBox, t.txFailed, 'error');
-    }
+        currentVipLevel = level; vipExpiry = Date.now() + (days * 24 * 60 * 60 * 1000); safeSet(VIP_LEVEL_KEY, currentVipLevel); safeSet(VIP_EXPIRY_KEY, vipExpiry);
+        const historyItem = { method: 'vip', amount: price, status: 'completed', date: Date.now() }; withdrawHistory.push(historyItem); safeSet(HISTORY_KEY, withdrawHistory);
+        updateUI(); showAlertAutoHiding(alertBox, t.vipSuccess, 'success');
+    } catch (e) { showAlertAutoHiding(alertBox, t.txFailed, 'error'); }
 }
 
 document.getElementById('confirmDepositBtn').onclick = async () => {
-    const t = TRANSLATIONS[currentLang];
-    const depAlert = document.getElementById('depositAlert');
-    depAlert.style.display = 'none';
-
-    if (!tonConnectUI.connected) {
-        try {
-            tonConnectUI.openModal();
-            showAlertAutoHiding(depAlert, t.connectWalletFirst, 'error');
-        } catch(e) {
-            console.error(e);
-        }
-        return;
-    }
-
+    const t = TRANSLATIONS[currentLang]; const depAlert = document.getElementById('depositAlert'); depAlert.style.display = 'none';
+    if (!tonConnectUI.connected) { try { tonConnectUI.openModal(); showAlertAutoHiding(depAlert, t.connectWalletFirst, 'error'); } catch(e){} return; }
     const amt = parseFloat(document.getElementById('depositAmount').value);
-    if (isNaN(amt) || amt < 0.01) {
-        showAlertAutoHiding(depAlert, t.minDepositText, 'error');
-        return;
-    }
+    if (isNaN(amt) || amt < 0.01) { showAlertAutoHiding(depAlert, t.minDepositText, 'error'); return; }
 
     try {
-        const tonweb = new window.TonWeb();
-        const cell = new tonweb.boc.Cell();
-        cell.bits.writeUint(0, 32); 
-        cell.bits.writeString(userRefId.toString());
-        const bocBytes = await cell.toBoc();
-        const payloadStr = tonweb.utils.bytesToBase64(bocBytes);
-
-        const transaction = {
-            validUntil: Math.floor(Date.now() / 1000) + 360,
-            messages: [
-                {
-                    address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", 
-                    amount: Math.floor(amt * 1000000000).toString(),
-                    payload: payloadStr
-                }
-            ]
-        };
+        const tonweb = new window.TonWeb(); const cell = new tonweb.boc.Cell(); cell.bits.writeUint(0, 32); cell.bits.writeString(userRefId.toString());
+        const bocBytes = await cell.toBoc(); const payloadStr = tonweb.utils.bytesToBase64(bocBytes);
+        const transaction = { validUntil: Math.floor(Date.now() / 1000) + 360, messages: [{ address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", amount: Math.floor(amt * 1000000000).toString(), payload: payloadStr }] };
 
         await tonConnectUI.sendTransaction(transaction);
-        
-        bal += amt;
-        hasDeposited = true;
-        safeSet(HAS_DEPOSITED_KEY, true);
-        safeSet(BAL_KEY, bal);
-        updateUI();
-        
-        showAlertAutoHiding(depAlert, t.depositSuccess, 'success');
-        document.getElementById('depositAmount').value = '';
-
-        const historyItem = { method: 'deposit', amount: amt, status: 'completed', date: Date.now() };
-        withdrawHistory.push(historyItem);
-        safeSet(HISTORY_KEY, withdrawHistory);
-        renderHistory();
-
-    } catch (e) {
-        console.error(e);
-        showAlertAutoHiding(depAlert, t.txFailed, 'error');
-    }
+        bal += amt; hasDeposited = true; safeSet(HAS_DEPOSITED_KEY, true); safeSet(BAL_KEY, bal); updateUI();
+        showAlertAutoHiding(depAlert, t.depositSuccess, 'success'); document.getElementById('depositAmount').value = '';
+        const historyItem = { method: 'deposit', amount: amt, status: 'completed', date: Date.now() }; withdrawHistory.push(historyItem); safeSet(HISTORY_KEY, withdrawHistory); renderHistory();
+    } catch (e) { showAlertAutoHiding(depAlert, t.txFailed, 'error'); }
 };
 
-const methods = document.querySelectorAll('.method');
-const form = document.getElementById('form'); const details = document.getElementById('details');
-const amount = document.getElementById('amount'); const alertBox = document.getElementById('alert');
-const feeCalcBox = document.getElementById('feeCalcBox');
-const feeAmountSpan = document.getElementById('feeAmount');
-const receiveAmountSpan = document.getElementById('receiveAmount');
-let type = '';
+const methods = document.querySelectorAll('.method'); const form = document.getElementById('form'); const details = document.getElementById('details'); const amount = document.getElementById('amount'); const alertBox = document.getElementById('alert'); const feeCalcBox = document.getElementById('feeCalcBox'); const feeAmountSpan = document.getElementById('feeAmount'); const receiveAmountSpan = document.getElementById('receiveAmount'); let type = '';
 
-methods.forEach(m=>{
-  m.onclick=()=>{
-    type=m.dataset.type;
-    document.getElementById('methodsContainer').style.display='none'; 
-    form.style.display='block';
-    const t = TRANSLATIONS[currentLang];
-    details.placeholder = t.placeholderDetails_ton;
-    
-    const currentMinWithdraw = getMinWithdrawal();
-    amount.placeholder = t.placeholderAmount.replace('{min}', currentMinWithdraw);
-    
-    if (tonConnectUI.wallet && tonConnectUI.wallet.account && tonConnectUI.wallet.account.address) { details.value = tonConnectUI.wallet.account.address; } 
-    else { details.value = ''; }
-    amount.value=''; alertBox.style.display='none'; feeCalcBox.style.display='none';
-  };
-});
-
+methods.forEach(m=>{ m.onclick=()=>{ type=m.dataset.type; document.getElementById('methodsContainer').style.display='none'; form.style.display='block'; const t = TRANSLATIONS[currentLang]; details.placeholder = t.placeholderDetails_ton; const currentMinWithdraw = getMinWithdrawal(); amount.placeholder = t.placeholderAmount.replace('{min}', currentMinWithdraw); if (tonConnectUI.wallet && tonConnectUI.wallet.account && tonConnectUI.wallet.account.address) { details.value = tonConnectUI.wallet.account.address; } else { details.value = ''; } amount.value=''; alertBox.style.display='none'; feeCalcBox.style.display='none'; }; });
 document.getElementById('backBtn').onclick=()=>{ form.style.display='none'; document.getElementById('methodsContainer').style.display='block'; alertBox.style.display='none'; type=''; };
-
-function calculateFee() {
-    const amt = parseFloat(amount.value);
-    if (!isNaN(amt) && amt > 0) {
-        const fee = amt * FEE_PERCENT; const receive = amt - fee;
-        feeAmountSpan.textContent = fee.toFixed(3); receiveAmountSpan.textContent = receive.toFixed(3); feeCalcBox.style.display = 'block';
-    } else { feeCalcBox.style.display = 'none'; }
-}
-amount.addEventListener('input', calculateFee);
+function calculateFee() { const amt = parseFloat(amount.value); if (!isNaN(amt) && amt > 0) { const fee = amt * FEE_PERCENT; const receive = amt - fee; feeAmountSpan.textContent = fee.toFixed(3); receiveAmountSpan.textContent = receive.toFixed(3); feeCalcBox.style.display = 'block'; } else { feeCalcBox.style.display = 'none'; } } amount.addEventListener('input', calculateFee);
 
 document.getElementById('withdrawBtn').onclick=()=>{
-  const det = details.value.trim(); const amt = parseFloat(amount.value);
-  alertBox.style.display='none'; const t = TRANSLATIONS[currentLang];
-
+  const det = details.value.trim(); const amt = parseFloat(amount.value); alertBox.style.display='none'; const t = TRANSLATIONS[currentLang];
   if(!type){ showAlertAutoHiding(alertBox, t.methodError, 'error'); return; }
   if(!det){ showAlertAutoHiding(alertBox, t.detailsError, 'error'); return; }
   if(isNaN(amt) || amt <= 0){ showAlertAutoHiding(alertBox, t.amountError, 'error'); return; }
-  
-  if (hasDeposited && totalAdsWatched < 1000) {
-      showAlertAutoHiding(alertBox, t.withdrawDepositCondition.replace('{count}', totalAdsWatched), 'error');
-      return;
-  }
-
-  const currentMinWithdraw = getMinWithdrawal();
-  const EPSILON = 0.0001; 
+  if (hasDeposited && totalAdsWatched < 1000) { showAlertAutoHiding(alertBox, t.withdrawDepositCondition.replace('{count}', totalAdsWatched), 'error'); return; }
+  const currentMinWithdraw = getMinWithdrawal(); const EPSILON = 0.0001; 
   if(amt < currentMinWithdraw - EPSILON){ showAlertAutoHiding(alertBox, t.minAmount.replace('{min}', currentMinWithdraw), 'error'); return; }
   if(amt > bal + EPSILON){ showAlertAutoHiding(alertBox, t.balanceError, 'error'); return; }
-  
   bal = Math.max(0, bal - amt); safeSet(BAL_KEY,bal); updateUI();
-  
-  const historyItem = { method: type, amount: amt, status: 'pending', date: Date.now() };
-  withdrawHistory.push(historyItem); safeSet(HISTORY_KEY, withdrawHistory); renderHistory(); 
-
-  showAlertAutoHiding(alertBox, t.withdrawSuccess, 'success');
-  setTimeout(()=>{ form.style.display='none'; document.getElementById('methodsContainer').style.display='block'; alertBox.style.display='none'; type=''; }, 2500);
+  const historyItem = { method: type, amount: amt, status: 'pending', date: Date.now() }; withdrawHistory.push(historyItem); safeSet(HISTORY_KEY, withdrawHistory); renderHistory(); 
+  showAlertAutoHiding(alertBox, t.withdrawSuccess, 'success'); setTimeout(()=>{ form.style.display='none'; document.getElementById('methodsContainer').style.display='block'; alertBox.style.display='none'; type=''; }, 2500);
 };
 
-// SƏHİFƏ YÜKLƏNƏNDƏ VAXTI YOXLAYIB SONRA Uİ YENİLƏ
-checkDailyReset().then(() => {
-    applyTranslations(currentLang); 
-    restoreAdBtnState();
-});
+applyTranslations(currentLang); 
+if(cnt >= MAX_ADS_PER_DAY) resetAdBtnState(TRANSLATIONS[currentLang]);
 
 function runLoadingScreen() {
-    const container = document.getElementById('loadingScreen');
-    if(!container) return;
-    const coinSrc = "https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg";
-    function createCoin(isInitial) {
-        const coin = document.createElement('img'); coin.src = coinSrc; coin.className = 'falling-coin';
-        coin.style.left = (Math.random() * 100) + 'vw';
-        const size = Math.random() * 25 + 15; coin.style.width = size + 'px'; coin.style.height = size + 'px';
-        const duration = Math.random() * 2 + 1.5; coin.style.animationDuration = duration + 's';
-        coin.style.opacity = (Math.random() * 0.5 + 0.3).toString();
-        if (isInitial) { coin.style.animationDelay = '-' + (Math.random() * duration) + 's'; }
-        container.appendChild(coin);
-        setTimeout(() => { if(coin.parentNode) coin.remove(); }, duration * 1000);
-    }
-    for(let i=0; i<20; i++) { createCoin(true); }
-    const coinInterval = setInterval(() => { createCoin(false); }, 150);
-    setTimeout(()=>{ clearInterval(coinInterval); container.style.opacity="0"; setTimeout(()=>container.style.display="none", 600); }, 3000);
+    const container = document.getElementById('loadingScreen'); if(!container) return;
+    setTimeout(()=>{ container.style.opacity="0"; setTimeout(()=>container.style.display="none", 600); }, 3000);
 }
 runLoadingScreen();
 
-const navMenu = document.querySelector('.menu');
-const initialWindowHeight = window.innerHeight;
-
-window.addEventListener('resize', () => {
-    if (window.innerHeight < initialWindowHeight - 100) { navMenu.style.display = 'none'; } 
-    else { navMenu.style.display = 'flex'; if(document.activeElement && document.activeElement.tagName === 'INPUT'){ document.activeElement.blur(); } }
-});
+const navMenu = document.querySelector('.menu'); const initialWindowHeight = window.innerHeight;
+window.addEventListener('resize', () => { if (window.innerHeight < initialWindowHeight - 100) { navMenu.style.display = 'none'; } else { navMenu.style.display = 'flex'; if(document.activeElement && document.activeElement.tagName === 'INPUT'){ document.activeElement.blur(); } } });
 </script>
 </body>
 </html>
