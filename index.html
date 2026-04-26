@@ -914,10 +914,11 @@ function updateMiningUI() {
     const ring = document.getElementById('miningRing');
     const icon = document.getElementById('miningIcon');
     const miningBtn = document.getElementById('miningBtn');
+    const amountTextEl = document.getElementById('miningAmountText');
 
+    const totalReward = getMiningReward();
     document.getElementById('dailyMiningProfit').textContent = getDailyMiningReward().toFixed(3) + ' TON';
-    document.getElementById('cycleMiningReward').textContent = getMiningReward().toFixed(3) + ' TON';
-    document.getElementById('miningAmountText').textContent = '+' + getMiningReward().toFixed(3) + ' TON';
+    document.getElementById('cycleMiningReward').textContent = totalReward.toFixed(3) + ' TON';
 
     if (start > 0 && end > 0) {
         if (now >= end) {
@@ -928,6 +929,7 @@ function updateMiningUI() {
             icon.classList.remove('mining-active-anim');
             miningBtn.className = 'ad-btn';
             miningBtn.style.background = 'linear-gradient(135deg, #10B981, #059669)'; // Yaşıl rəng (Hazır)
+            amountTextEl.textContent = '+' + totalReward.toFixed(6) + ' TON'; // Maksimumu göstəririk
         } else {
             // Davam edir
             const remaining = end - now;
@@ -939,9 +941,13 @@ function updateMiningUI() {
             const s = Math.floor((remaining % 60000) / 1000);
             timerEl.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
 
-            // Ring progress (502 = tam dairə uzunluğu)
+            // Ring progress
             const percent = Math.min(1, elapsed / total);
             ring.style.strokeDashoffset = 502 - (502 * percent);
+
+            // DINAMIK MƏBLƏĞİN HESABLANMASI VƏ YENİLƏNMƏSİ
+            const currentEarned = totalReward * percent;
+            amountTextEl.textContent = '+' + currentEarned.toFixed(6) + ' TON';
 
             btnText.textContent = t.miningInProgress;
             icon.classList.add('mining-active-anim');
@@ -956,6 +962,7 @@ function updateMiningUI() {
         icon.classList.remove('mining-active-anim');
         miningBtn.className = 'ad-btn';
         miningBtn.style.background = '';
+        amountTextEl.textContent = '+' + totalReward.toFixed(3) + ' TON';
     }
 }
 
