@@ -126,30 +126,22 @@ body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card, 
 .method-text { font-size: 17px; letter-spacing: 0.2px;}
 .min-withdraw-label {position: absolute;top: 12px;right: 12px;font-size: 11px;font-weight: 800;color: var(--accent);background: var(--progress-bg);padding: 5px 10px;border-radius: 10px;}
 
-/* PREMIUM MINING KART DİZAYNI */
-.ad-card.mining-premium { background: radial-gradient(circle at top right, var(--card-bg), var(--input-bg)); border: 1.5px solid var(--card-border); position: relative; overflow: hidden; }
-.mining-premium::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0, 152, 234, 0.05) 0%, transparent 60%); pointer-events: none; }
-.mining-circle-wrap { position: relative; width: 180px; height: 180px; margin: 0 auto 25px; display: flex; justify-content: center; align-items: center; z-index: 2;}
-.mining-progress-ring { transform: rotate(-90deg); width: 180px; height: 180px; filter: drop-shadow(0 4px 10px rgba(0, 152, 234, 0.2)); }
+/* MINING KART DİZAYNI */
+.mining-circle-wrap { position: relative; width: 180px; height: 180px; margin: 0 auto 25px; display: flex; justify-content: center; align-items: center; }
+.mining-progress-ring { transform: rotate(-90deg); width: 180px; height: 180px; }
 .mining-progress-ring circle { fill: transparent; stroke-width: 12; stroke-linecap: round; }
 .ring-bg { stroke: var(--progress-bg); }
 .ring-fill { stroke: var(--accent); stroke-dasharray: 502; stroke-dashoffset: 502; transition: stroke-dashoffset 1s linear; }
 .mining-status-content { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; }
 .mining-status-content i { width: 36px; height: 36px; color: var(--accent); margin-bottom: 8px; transition: 0.3s; }
 .mining-timer { font-size: 26px; font-weight: 900; color: var(--text-dark); font-variant-numeric: tabular-nums; letter-spacing: 1px;}
-.mining-amount { font-size: 14px; font-weight: 800; color: var(--accent); margin-top: 4px; background: var(--card-bg); padding: 4px 12px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid var(--card-border);}
-.mining-stats { display: flex; gap: 15px; margin-bottom: 25px; z-index: 2; position: relative;}
-.mining-stat-box { flex: 1; background: var(--card-bg); border-radius: 20px; padding: 15px 12px; border: 1.5px solid var(--card-border); display: flex; flex-direction: column; gap: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
+.mining-amount { font-size: 14px; font-weight: 800; color: var(--accent); margin-top: 4px; background: var(--progress-bg); padding: 4px 12px; border-radius: 12px;}
+.mining-stats { display: flex; gap: 15px; margin-bottom: 25px; }
+.mining-stat-box { flex: 1; background: var(--input-bg); border-radius: 20px; padding: 15px 12px; border: 1.5px solid var(--card-border); display: flex; flex-direction: column; gap: 6px; }
 .mining-stat-box span { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
 .mining-stat-box strong { font-size: 17px; font-weight: 900; color: var(--text-dark); }
 .mining-active-anim { animation: pulseIconGlow 2s infinite alternate ease-in-out; }
 @keyframes pulseIconGlow { 0% { filter: drop-shadow(0 0 5px rgba(0, 152, 234, 0.3)); transform: scale(1); } 100% { filter: drop-shadow(0 0 20px rgba(0, 152, 234, 0.8)); transform: scale(1.08); } }
-
-/* MINING ACTIONS (DUAL BUTTON) */
-.mining-controls { display: flex; gap: 12px; width: 100%; position: relative; z-index: 2;}
-.boost-btn { padding: 0 20px; font-size: 16px; font-weight: 800; border: none; border-radius: 20px; color: white; background: linear-gradient(135deg, #F59E0B, #D97706); box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s; min-width: 90px;}
-.boost-btn:active { transform: scale(0.92); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2); }
-.boost-btn span { font-size: 13px; margin-top: 2px;}
 
 /* GÖREVLƏR */
 .task-list { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
@@ -188,9 +180,9 @@ body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card, 
 .progress{height:12px;background:var(--input-bg);border-radius:12px;overflow:hidden;margin-top:10px; margin-bottom:10px; border: 1.5px solid var(--card-border);}
 .progress-fill{height:100%;background:linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end));width:0%;transition:width .8s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 12px;} 
 
-.ad-btn{flex: 1; padding:18px;font-size:16px;font-weight:800;border:none;border-radius:20px;color:var(--text-light);cursor:pointer;background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));box-shadow:0 8px 25px var(--btn-shadow);position: relative; overflow: hidden; display:flex; align-items:center; justify-content:center; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s, background 0.3s;}
+.ad-btn{width:100%;padding:18px;font-size:16px;font-weight:800;border:none;border-radius:20px;color:var(--text-light);cursor:pointer;background:linear-gradient(135deg,var(--btn-gradient-start),var(--btn-gradient-end));box-shadow:0 8px 25px var(--btn-shadow);position: relative; overflow: hidden; display:flex; align-items:center; justify-content:center; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s, background 0.3s;}
 .ad-btn:active:not(:disabled) {transform: scale(0.96);}
-.ad-btn.waiting { background: var(--input-bg) !important; color: var(--accent) !important; cursor: not-allowed; box-shadow: none !important; border: 1.5px solid var(--card-border) !important; }
+.ad-btn.waiting { background: var(--progress-bg) !important; color: var(--accent) !important; cursor: not-allowed; box-shadow: none !important; border: 1.5px solid var(--card-border) !important; }
 .ad-btn-content { position: relative; z-index: 2; display: flex; align-items:center; gap: 10px;}
 
 #msg {margin-top: 10px; font-size: 13px;font-weight: 700; padding: 0;color: #EF4444;}
@@ -284,6 +276,7 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 .loader-fill { position: absolute; top:0; left:0; height:100%; width:0%; border-radius:10px; background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); animation: fillAnim 3s linear forwards; }
 @keyframes fillAnim{0%{width:0%;} 100%{width:100%;}}
 
+/* BİLDİRİŞ DÜZƏLİŞİ - ARTIQ EKRANIN İÇİNDƏ TAM GÖRÜNƏCƏK */
 #taskNotification {position: fixed;top: 40px;left: 50%;transform: translate(-50%, -150%); background: var(--text-dark);color: var(--card-bg);padding: 16px 24px;border-radius: 100px;box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);font-weight: 700;font-size: 14px;opacity: 0;z-index: 10000;transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1); text-align: center;border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px; white-space: nowrap; will-change: transform, opacity;}
 body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shadow: 0 15px 30px rgba(255, 255, 255, 0.15);}
 .notification-show {opacity: 1 !important;transform: translate(-50%, 0) !important; }
@@ -415,8 +408,8 @@ function getTrueTime() {
       </div>
     </div>
     
-    <div class="ad-card mining-premium" id="miningCard">
-        <h2 data-translate-key="miningTitle" style="margin-bottom: 25px; font-weight: 900; font-size: 22px; position:relative; z-index:2;">TON Mining</h2>
+    <div class="ad-card" id="miningCard">
+        <h2 data-translate-key="miningTitle" style="margin-bottom: 25px; font-weight: 900; font-size: 22px;">TON Mining</h2>
         
         <div class="mining-circle-wrap">
             <svg class="mining-progress-ring">
@@ -441,18 +434,12 @@ function getTrueTime() {
             </div>
         </div>
 
-        <div class="mining-controls">
-            <button id="miningBtn" class="ad-btn" onclick="handleMiningAction()">
-                <span class="ad-btn-content">
-                    <i data-lucide="pickaxe" style="width:20px;height:20px;"></i>
-                    <span id="miningBtnText" data-translate-key="startMining">Start Mining</span>
-                </span>
-            </button>
-            <button class="boost-btn" onclick="goToMarket()">
-                <i data-lucide="zap" style="width:22px;height:22px;"></i>
-                <span data-translate-key="boostMining">Boost</span>
-            </button>
-        </div>
+        <button id="miningBtn" class="ad-btn" onclick="handleMiningAction()">
+            <span class="ad-btn-content">
+                <i data-lucide="pickaxe" style="width:20px;height:20px;"></i>
+                <span id="miningBtnText" data-translate-key="startMining">Start Mining</span>
+            </span>
+        </button>
     </div>
   </div>
 
@@ -816,7 +803,7 @@ document.getElementById('langSelect').value = currentLang;
 
 const TRANSLATIONS = {
     'en': {
-        yourBalance: 'Your Balance', miningTitle: 'TON Mining', dailyProfit: 'Daily Profit', cycleReward: 'Per 8 Hours', startMining: 'Start Mining', miningInProgress: 'Mining...', claimMining: 'Claim TON', boostMining: 'Boost',
+        yourBalance: 'Your Balance', miningTitle: 'TON Mining', dailyProfit: 'Daily Profit', cycleReward: 'Per 8 Hours', startMining: 'Start Mining', miningInProgress: 'Mining...', claimMining: 'Claim TON',
         dailyAdsHeader: 'Daily Ads', watched: 'Watched', maximum: 'Max', maxCount: '50', progressText: 'Progress:', watchAd: 'Watch Ad', watching: '⏳ Watching...', adLimitReached: '📣 Daily limit reached!', rewardAddedConfirmed: (r) => `✅ ${r} added!`, wait: '⏳ Wait {s}s', joinCommunityTitle: 'Join Community', joinCommunityDesc: 'Join our official community channel and earn!', joinBtnText: 'Join Channel', completed: 'Completed',
         depositTitleTab: 'Deposit', withdrawTitleTab: 'Withdrawal', depositInfo: 'Add TON directly from your connected wallet.', depositActionBtn: 'Deposit TON', placeholderDepositAmount: 'Amount (Min 0.01 TON)', minDepositText: 'Minimum deposit is 0.01 TON', depositSuccess: '✅ Deposit transaction sent! Balance updated.', connectWalletFirst: 'Please connect wallet first.', txFailed: 'Transaction failed or cancelled.',
         withdrawTitle: 'Withdrawal', selectMethod: 'Select withdrawal method', minTonLabel: 'Min: {min} TON', back: 'Back', withdrawTonTitle: 'Withdraw TON', withdraw: 'Withdraw', feeText: 'Network Fee (5%):', receiveText: 'You will receive:', methodError: 'Select a method', detailsError: 'Enter valid TON address', amountError: 'Enter correct amount', minAmount: 'Minimum withdrawal is {min} TON', balanceError: 'Insufficient balance', withdrawSuccess: '✅ Withdrawal requested! It will be processed soon.', withdrawDepositCondition: 'You must watch 1000 ads to withdraw after a deposit! (Watched: {count}/1000)',
@@ -825,7 +812,7 @@ const TRANSLATIONS = {
         market: 'Market', vipReward1: 'Daily 1 TON', vipDays1: 'Active for 21 Days', vipReward2: 'Daily 2.5 TON', vipDays2: 'Active for 23 Days', vipReward3: 'Daily 5 TON', vipDays3: 'Active for 25 Days', vipBenefit: 'Boosted Mining Speed', buyVipBtn: 'Buy VIP', activeVip: 'Active', vipActiveError: 'You already have an active VIP level!', vipSuccess: '✅ VIP purchased successfully! Your mining is boosted.'
     },
     'tr': {
-        yourBalance: 'Bakiyeniz', miningTitle: 'TON Kazım', dailyProfit: 'Günlük', cycleReward: 'Her 8 Saatte', startMining: 'Kazıma Başla', miningInProgress: 'Kazılıyor...', claimMining: 'TON Topla', boostMining: 'Hızlandır',
+        yourBalance: 'Bakiyeniz', miningTitle: 'TON Kazım', dailyProfit: 'Günlük', cycleReward: 'Her 8 Saatte', startMining: 'Kazıma Başla', miningInProgress: 'Kazılıyor...', claimMining: 'TON Topla',
         dailyAdsHeader: 'Günlük Reklamlar', watched: 'İzlenen', maximum: 'Maks', maxCount: '50', progressText: 'İlerleme:', watchAd: 'Reklam İzle', watching: '⏳ İzleniyor...', adLimitReached: '📣 Günlük sınıra ulaştınız!', rewardAddedConfirmed: (r) => `✅ ${r} eklendi!`, wait: '⏳ {s}sn bekleyin', joinCommunityTitle: 'Topluluğa Katıl', joinCommunityDesc: 'Resmi topluluk kanalımıza katılın ve kazanın!', joinBtnText: 'Kanala Katıl', completed: 'Tamamlandı',
         depositTitleTab: 'Yatırım', withdrawTitleTab: 'Çekim', depositInfo: 'Bağlı cüzdanınızdan doğrudan TON ekleyin.', depositActionBtn: 'TON Yatır', placeholderDepositAmount: 'Miktar (Min 0.01 TON)', minDepositText: 'Minimum yatırım 0.01 TON', depositSuccess: '✅ Yatırım gönderildi! Bakiye güncellendi.', connectWalletFirst: 'Lütfen önce cüzdanı bağlayın.', txFailed: 'İşlem başarısız veya iptal edildi.',
         withdrawTitle: 'Para Çekme', selectMethod: 'Çekim yöntemi seçin', minTonLabel: 'Min: {min} TON', back: 'Geri', withdrawTonTitle: 'TON Çek', withdraw: 'Çekim Yap', feeText: 'Ağ Ücreti (5%):', receiveText: 'Alacağınız:', methodError: 'Yöntem seçin', detailsError: 'Geçerli TON adresi girin', amountError: 'Miktarı doğru girin', minAmount: 'Minimum çekim {min} TON', balanceError: 'Yetersiz bakiye', withdrawSuccess: '✅ Çekim talebi alındı! Yakında işlenecektir.', withdrawDepositCondition: 'Yatırım yaptıktan sonra çekim yapmak için 1000 reklam izlemelisiniz! (İzlenen: {count}/1000)',
@@ -834,7 +821,7 @@ const TRANSLATIONS = {
         market: 'Market', vipReward1: 'Günlük 1 TON', vipDays1: '21 Gün Aktif', vipReward2: 'Günlük 2.5 TON', vipDays2: '23 Gün Aktif', vipReward3: 'Günlük 5 TON', vipDays3: '25 Gün Aktif', vipBenefit: 'Artırılmış Kazım Hızı', buyVipBtn: 'VIP Al', activeVip: 'Aktif', vipActiveError: 'Zaten aktif bir VIP seviyeniz var!', vipSuccess: '✅ VIP başarıyla alındı! Kazım hızınız artırıldı.'
     },
     'ru': { 
-        yourBalance: 'Ваш Баланс', miningTitle: 'Майнинг TON', dailyProfit: 'В день', cycleReward: 'За 8 часов', startMining: 'Начать майнинг', miningInProgress: 'Майнинг...', claimMining: 'Собрать TON', boostMining: 'Ускорить',
+        yourBalance: 'Ваш Баланс', miningTitle: 'Майнинг TON', dailyProfit: 'В день', cycleReward: 'За 8 часов', startMining: 'Начать майнинг', miningInProgress: 'Майнинг...', claimMining: 'Собрать TON',
         dailyAdsHeader: 'Ежедневная Реклама', watched: 'Просмотрено', maximum: 'Макс', maxCount: '50', progressText: 'Прогресс:', watchAd: 'Смотреть Рекламу', watching: '⏳ Просмотр...', adLimitReached: '📣 Достигнут лимит!', rewardAddedConfirmed: (r) => `✅ ${r} добавлено!`, wait: '⏳ Ожидайте {s}с', joinCommunityTitle: 'Присоединиться к сообществу', joinCommunityDesc: 'Вступайте в наше официальное сообщество и зарабатывайте!', joinBtnText: 'Подписаться', completed: 'Выполнено',
         depositTitleTab: 'Депозит', withdrawTitleTab: 'Вывод', depositInfo: 'Пополняйте баланс напрямую с подключенного кошелька.', depositActionBtn: 'Пополнить TON', placeholderDepositAmount: 'Сумма (Мин 0.01 TON)', minDepositText: 'Минимальный депозит 0.01 TON', depositSuccess: '✅ Транзакция отправлена! Баланс обновлен.', connectWalletFirst: 'Пожалуйста, подключите кошелек.', txFailed: 'Транзакция не удалась или отменена.',
         withdrawTitle: 'Вывод Средств', selectMethod: 'Выберите способ вывода', minTonLabel: 'Мин: {min} TON', back: 'Назад', withdrawTonTitle: 'Вывести TON', withdraw: 'Вывести', feeText: 'Комиссия сети (5%):', receiveText: 'Вы получите:', methodError: 'Выберите способ', detailsError: 'Введите верный TON адрес', amountError: 'Введите правильную сумму', minAmount: 'Минимальный вывод {min} TON', balanceError: 'Недостаточно средств', withdrawSuccess: '✅ Заявка отправлена! Будет обработана скоро.', withdrawDepositCondition: 'Для вывода после депозита нужно посмотреть 1000 реклам! (Просмотрено: {count}/1000)',
@@ -1279,13 +1266,6 @@ function activateNewPage(id, btn) {
   document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   if (id === 'tasksPage') { updateTaskButtons(); restoreAdBtnState(); } 
-}
-
-function goToMarket() {
-    const marketMenuBtn = document.querySelector('.menu button[data-page-id="marketPage"]');
-    if(marketMenuBtn) {
-        showPage('marketPage', marketMenuBtn);
-    }
 }
 
 const btnDepositTab = document.getElementById('btnDepositTab');
