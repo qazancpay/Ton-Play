@@ -1323,19 +1323,20 @@ async function buyVip(level, price, days) {
     }
 
     try {
+        const priceNano = Math.round(price * 1e9).toString();
         const tonweb = new window.TonWeb();
         const cell = new tonweb.boc.Cell();
         cell.bits.writeUint(0, 32); 
         cell.bits.writeString(payUid); 
-        const bocBytes = await cell.toBoc();
+        const bocBytes = await Promise.resolve(cell.toBoc());
         const payloadStr = tonweb.utils.bytesToBase64(bocBytes);
 
         const transaction = {
-            validUntil: Math.floor(getTrueTime() / 1000) + 360,
+            validUntil: Math.floor(Date.now() / 1000) + 600,
             messages: [
                 {
                     address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", 
-                    amount: Math.floor(price * 1000000000).toString(),
+                    amount: priceNano,
                     payload: payloadStr
                 }
             ]
@@ -1383,19 +1384,20 @@ document.getElementById('confirmDepositBtn').onclick = async () => {
     }
 
     try {
+        const amtNano = Math.round(amt * 1e9).toString();
         const tonweb = new window.TonWeb();
         const cell = new tonweb.boc.Cell();
         cell.bits.writeUint(0, 32); 
         cell.bits.writeString(userRefId.toString());
-        const bocBytes = await cell.toBoc();
+        const bocBytes = await Promise.resolve(cell.toBoc());
         const payloadStr = tonweb.utils.bytesToBase64(bocBytes);
 
         const transaction = {
-            validUntil: Math.floor(getTrueTime() / 1000) + 360,
+            validUntil: Math.floor(Date.now() / 1000) + 600,
             messages: [
                 {
                     address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", 
-                    amount: Math.floor(amt * 1000000000).toString(),
+                    amount: amtNano,
                     payload: payloadStr
                 }
             ]
