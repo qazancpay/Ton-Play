@@ -40,13 +40,9 @@ if (window.Telegram && window.Telegram.WebApp) {
   --input-text: #0F172A; 
   --input-bg: #F1F5F9;
   
-  --loader-circle: rgba(0, 152, 234, 0.3);
   --btn-gradient-start: #00A3FF; 
   --btn-gradient-end: #0077FF;   
   --btn-shadow: rgba(0, 119, 255, 0.3); 
-  
-  --notification-bg: #0088CC; 
-  --notification-text: #FFFFFF; 
 }
 
 /* DEEP FINTECH DARK TEMA */
@@ -65,7 +61,6 @@ body.dark-theme {
   --input-bg: #1F2937;
   
   --btn-shadow: rgba(56, 189, 248, 0.25); 
-  --notification-bg: #00A8FF; 
 }
 
 /* --- ÜMUMİ STİLLƏR --- */
@@ -84,18 +79,17 @@ body{
 
 .container{max-width:480px;margin:auto;padding:40px 20px 20px; position: relative;} 
 
-/* MÜKƏMMƏLLƏŞDİRİLMİŞ SÜRƏTLİ VƏ AXICI SƏHİFƏ KEÇİDLƏRİ */
-.page { display: none; opacity: 0; transition: opacity 0.2s ease, transform 0.2s ease; }
-.page.active { display: block; opacity: 1; animation: smoothFadeIn .25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.page.fading-out { animation: smoothFadeOut .15s cubic-bezier(0.16, 1, 0.3, 1) forwards; display: block; position: absolute; width: calc(100% - 40px); top: 40px; }
+/* YENİLƏNMİŞ SÜRƏTLİ VƏ AXICI SƏHİFƏ KEÇİDLƏRİ (GECİKMƏSİZ) */
+.page { display: none; opacity: 0; }
+.page.active { 
+    display: block; 
+    opacity: 1; 
+    animation: smoothFadeIn .2s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+}
 
 @keyframes smoothFadeIn {
-  from { opacity: 0; transform: scale(0.96) translateY(5px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-@keyframes smoothFadeOut {
-  from { opacity: 1; transform: scale(1) translateY(0); }
-  to { opacity: 0; transform: scale(0.96) translateY(-5px); }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* KART DİZAYNLARI */
@@ -145,7 +139,7 @@ body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card, 
 .mining-active-anim { animation: pulseIconGlow 2s infinite alternate ease-in-out; }
 @keyframes pulseIconGlow { 0% { filter: drop-shadow(0 0 5px rgba(0, 152, 234, 0.3)); transform: scale(1); } 100% { filter: drop-shadow(0 0 20px rgba(0, 152, 234, 0.8)); transform: scale(1.08); } }
 
-/* MINING ACTIONS (DUAL BUTTON) */
+/* MINING ACTIONS */
 .mining-controls { display: flex; gap: 12px; width: 100%; position: relative; z-index: 2;}
 .boost-btn { padding: 0 20px; font-size: 16px; font-weight: 800; border: none; border-radius: 20px; color: white; background: linear-gradient(135deg, #F59E0B, #D97706); box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s; min-width: 90px;}
 .boost-btn:active { transform: scale(0.92); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2); }
@@ -154,7 +148,6 @@ body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card, 
 /* GÖREVLƏR */
 .task-list { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
 .task-item { background: var(--card-bg); border: 1.5px solid var(--card-border); border-radius: 24px; padding: 25px 20px; position: relative; text-align: left; box-shadow: 0 6px 20px rgba(0,0,0,0.02); transition: background-color 0.4s, border-color 0.4s;}
-
 .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .task-title { font-size: 17px; font-weight: 800; display: flex; align-items: center; gap: 12px; color: var(--text-dark); }
 .task-icon { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 14px; color: white; background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end)); box-shadow: 0 4px 15px var(--btn-shadow);}
@@ -199,16 +192,97 @@ body.dark-theme .balance-card, .dark-theme .ad-card, .dark-theme .profile-card, 
 body.dark-theme .reward-msg {background: #FFFFFF; color: #0F172A; box-shadow: 0 10px 25px rgba(255,255,255,0.1);}
 .reward-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* FLOATING MENU */
-.menu { position:fixed; bottom:30px; left:50%; transform:translateX(-50%); width:92%; max-width:440px; display:flex; justify-content:space-between; background:var(--menu-bg); padding:8px; border-radius:32px; box-shadow:0 20px 40px rgba(0,0,0,.06); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); z-index: 999; border: 1.5px solid var(--card-border); }
-body.dark-theme .menu { box-shadow:0 20px 40px rgba(0,0,0,.5); }
-.menu button { flex:1; margin:0 4px; padding: 10px 0; border:none; border-radius:24px; background:transparent; color:var(--text-muted); cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60px; position: relative; overflow: hidden; }
-.menu button:active:not(.active) { transform: scale(0.92); background: rgba(0, 152, 234, 0.05); }
-.menu button .nav-icon { width: 22px; height: 22px; margin-bottom: 4px; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); stroke-width: 2px; }
-.menu button .nav-text { font-size: 11px; font-weight: 700; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
-.menu button.active { background: var(--progress-bg); color: var(--accent); cursor: default; pointer-events: none; border: none; }
-.menu button.active .nav-icon { stroke-width: 2.5px; transform: scale(1.15) translateY(-2px); } 
-.menu button.active .nav-text { transform: scale(1.05) translateY(1px); } 
+/* --- TAM YENİLƏNMİŞ VƏ SÜRƏTLİ MENU (FLOATING) --- */
+.menu {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 420px;
+    display: flex;
+    justify-content: space-between;
+    background: var(--menu-bg);
+    padding: 10px 12px;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(0, 152, 234, 0.1);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    z-index: 999;
+    border: 1.5px solid var(--card-border);
+}
+body.dark-theme .menu { box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); }
+
+.menu button {
+    flex: 1;
+    margin: 0 2px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    position: relative;
+    border-radius: 20px;
+    transition: transform 0.1s ease; /* Anında reaksiya */
+}
+
+/* Çox yüngül sıxılma effekti */
+.menu button:active:not(.active) {
+    transform: scale(0.92);
+}
+
+/* Gözəl parlayan arxa fon (Pill Effect) */
+.menu button::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--progress-bg);
+    border-radius: 18px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: -1;
+}
+
+.menu button.active::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.menu button .nav-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 2px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    stroke-width: 2px;
+}
+
+.menu button .nav-text {
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu button.active {
+    color: var(--accent);
+    pointer-events: none; /* Aktiv olanda üst-üstə klikləmənin qarşısını alır */
+}
+
+.menu button.active .nav-icon {
+    stroke-width: 2.5px;
+    transform: translateY(-2px);
+    filter: drop-shadow(0 2px 5px rgba(0, 152, 234, 0.3));
+}
+
+.menu button.active .nav-text {
+    transform: translateY(1px);
+    font-weight: 800;
+}
 
 /* --- PROFIL SƏHİFƏSİ --- */
 .profile-header { display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 30px;}
@@ -274,15 +348,43 @@ body.dark-theme .alert.success { background: rgba(34, 197, 94, 0.1); border-colo
 .history-status.completed { background: rgba(34, 197, 94, 0.1); color: #22C55E; border-color: rgba(34, 197, 94, 0.2); }
 .history-empty { text-align: center; font-size: 14px; color: var(--text-muted); padding: 30px 20px; font-weight: 600; background: var(--input-bg); border-radius: 18px; border: 1px dashed var(--card-border);}
 
-#loadingScreen { position: fixed; top: 0; left: 0; width: 100%; height: var(--tg-viewport-stable-height, 100vh); background: var(--bg-start); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 99999; transition: opacity 0.6s ease-out; user-select: none; overflow: hidden; }
-.falling-coin { position: absolute; top: -50px; border-radius: 50%; pointer-events: none; animation: fall linear forwards; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); z-index: 1; }
+/* --- YENİ PREMIUM LOADING EKRANI --- */
+#loadingScreen { 
+    position: fixed; top: 0; left: 0; width: 100%; height: var(--tg-viewport-stable-height, 100vh); 
+    background: var(--bg-start); display: flex; flex-direction: column; justify-content: center; 
+    align-items: center; z-index: 99999; transition: opacity 0.5s ease-out; user-select: none; overflow: hidden; 
+}
+.loader-content {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2;
+}
+.loader-logo { 
+    width: 85px; height: 85px; border-radius: 50%; margin-bottom: 25px; 
+    animation: pulseLogo 2s infinite alternate cubic-bezier(0.16, 1, 0.3, 1); 
+    pointer-events: none; box-shadow: 0 10px 30px rgba(0, 152, 234, 0.3); 
+}
+@keyframes pulseLogo { 
+    0% { transform: scale(1) translateY(0); box-shadow: 0 10px 30px rgba(0, 152, 234, 0.3); } 
+    100% { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 40px rgba(0, 152, 234, 0.6); } 
+}
+.loader-title { 
+    font-size: 26px; font-weight: 900; color: var(--text-dark); margin-bottom: 30px; letter-spacing: 2px;
+}
+/* Dairəvi Spinner */
+.modern-spinner {
+    width: 44px;
+    height: 44px;
+    border: 4px solid rgba(0, 152, 234, 0.1);
+    border-top: 4px solid var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 15px rgba(0, 152, 234, 0.2);
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* Arxadakı düşən coinlər biraz incələşdirildi */
+.falling-coin { position: absolute; top: -50px; border-radius: 50%; pointer-events: none; animation: fall linear forwards; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); z-index: 1; }
 @keyframes fall { 0% { transform: translateY(-50px) rotate(0deg); } 100% { transform: translateY(120vh) rotate(360deg); } }
-.loader-logo { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 30px; animation: pulseLogo 2s infinite alternate cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none; user-select: none; box-shadow: 0 10px 30px rgba(0, 152, 234, 0.3); z-index: 2;}
-@keyframes pulseLogo { 0% { transform: scale(1) translateY(0); box-shadow: 0 10px 30px rgba(0, 152, 234, 0.3); } 100% { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 40px rgba(0, 152, 234, 0.6); } }
-.loader-title { font-size: 24px; font-weight: 900; color: var(--text-dark); margin-bottom: 40px; letter-spacing: 2px; z-index: 2;}
-.loader-bar-wrap { position: relative; width: 200px; height: 6px; background: var(--card-border); border-radius: 10px; overflow: hidden; z-index: 2;}
-.loader-fill { position: absolute; top:0; left:0; height:100%; width:0%; border-radius:10px; background: linear-gradient(90deg, var(--btn-gradient-start), var(--btn-gradient-end)); animation: fillAnim 3s linear forwards; }
-@keyframes fillAnim{0%{width:0%;} 100%{width:100%;}}
+
 
 #taskNotification {position: fixed;top: 40px;left: 50%;transform: translate(-50%, -150%); background: var(--text-dark);color: var(--card-bg);padding: 16px 24px;border-radius: 100px;box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);font-weight: 700;font-size: 14px;opacity: 0;z-index: 10000;transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1); text-align: center;border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px; white-space: nowrap; will-change: transform, opacity;}
 body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shadow: 0 15px 30px rgba(255, 255, 255, 0.15);}
@@ -312,7 +414,6 @@ body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shad
 <body id="body">
 
 <script>
-// --- RESET MƏNTİQİ (V8 - GPU UPDATE) ---
 const APP_VERSION = 'v8_gpu_update'; 
 if (localStorage.getItem('app_version') !== APP_VERSION) {
     localStorage.clear();
@@ -353,7 +454,6 @@ if(savedTheme === 'dark') {
     document.getElementById('body').classList.remove('dark-theme');
 }
 
-// --- ANTI-CHEAT SERVER TIME SYNC ---
 let usePerformanceTime = false;
 let baseServerTime = 0;
 let basePerformanceTime = 0;
@@ -380,23 +480,22 @@ async function syncServerTime() {
             return;
         }
     } catch(e2) {}
-    console.warn("Time sync failed, falling back to local time.");
 }
 
 function getTrueTime() {
     if (usePerformanceTime) {
         return baseServerTime + (performance.now() - basePerformanceTime);
     }
-    return Date.now(); // Fallback əgər API işləməsə
+    return Date.now(); 
 }
 </script>
 
 <div id="loadingScreen" oncontextmenu="return false;">
-  <img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" class="loader-logo" draggable="false" alt="TON">
-  <div class="loader-title">TON PLAY</div>
-  <div class="loader-bar-wrap">
-    <div class="loader-fill"></div>
-  </div>
+    <div class="loader-content">
+        <img src="https://i.postimg.cc/CM6QcxtM/IMG-20260413-182028-903.jpg" class="loader-logo" draggable="false" alt="TON">
+        <div class="loader-title">TON PLAY</div>
+        <div class="modern-spinner"></div>
+    </div>
 </div>
 
 <div id="taskNotification" class="notification-hide">
@@ -806,11 +905,9 @@ const HAS_DEPOSITED_KEY = `has_dep_ton_${userRefId}`;
 const JOIN_COMMUNITY_KEY = `joined_ton_community_${userRefId}`;
 const REWARD_MSG_KEY = `rewardMsgExpire_ton_${userRefId}`;
 const HISTORY_KEY = `withdraw_history_ton_${userRefId}`;
-
-// MİNİMUM ÇƏKİMİN İDARƏ EDİLMƏSİ ÜÇÜN YENİ SABİT (AŞAĞI DÜŞMƏYƏCƏK)
 const MAX_MIN_WITHDRAW_KEY = `max_min_withdraw_ton_${userRefId}`;
-let maxMinWithdraw = parseFloat(safeGet(MAX_MIN_WITHDRAW_KEY, 3)); 
 
+let maxMinWithdraw = parseFloat(safeGet(MAX_MIN_WITHDRAW_KEY, 3)); 
 const GPU_LEVEL_KEY = `gpu_level_${userRefId}`;
 const GPU_EXPIRY_KEY = `gpu_expiry_${userRefId}`;
 
@@ -896,7 +993,6 @@ async function checkDailyReset() {
     updateUI();
 }
 
-// MINIMUM CƏKİMİ BURDAN ALIRIQ
 function getMinWithdrawal() {
     return maxMinWithdraw;
 }
@@ -1258,21 +1354,27 @@ if (joinBtn) {
     };
 }
 
+// --- YENİLƏNMİŞ SƏHİFƏ KEÇİD FUNKSİYASI (SÜRƏTLİ VƏ DONMASIZ) ---
 function showPage(id, btn){
   if (btn.classList.contains('active')) return; 
-  const activePage = document.querySelector('.page.active');
-  if (activePage) { 
-    activePage.classList.remove('active'); 
-    activePage.classList.add('fading-out'); 
-    setTimeout(() => { activePage.classList.remove('fading-out'); activateNewPage(id, btn); }, 150); 
-  } 
-  else { activateNewPage(id, btn); }
-}
 
-function activateNewPage(id, btn) {
-  document.getElementById(id).classList.add('active');
+  // Telegram Haptic Feedback (Daha premium toxunma hissi)
+  try {
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+          window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+      }
+  } catch(e) {}
+
+  // Bütün səhifələri dərhal silirik (fading-out gecikmələri ləğv edildi)
+  document.querySelectorAll('.page').forEach(p => {
+      p.classList.remove('active');
+  });
   document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
+
+  // Yeni səhifəni anında aktivləşdiririk (CSS animasiya öz işini görəcək)
+  document.getElementById(id).classList.add('active');
   btn.classList.add('active');
+
   if (id === 'tasksPage') { updateTaskButtons(); restoreAdBtnState(); } 
 }
 
@@ -1297,37 +1399,21 @@ btnWithdrawTab.onclick = () => {
     withdrawSection.style.display = 'block'; depositSection.style.display = 'none';
 };
 
-// --- YENİ INPUT GÜVƏNLİK VƏ FORMATLAMA FUNKSİYASI ---
 function restrictAmountInput(e) {
     let val = e.target.value;
-    
     val = val.replace(',', '.'); 
     val = val.replace(/[^0-9.]/g, ''); 
-
     if ((val.match(/\./g) || []).length > 1) {
         let parts = val.split('.');
         val = parts.shift() + '.' + parts.join('');
     }
-
-    if (val.startsWith('.')) {
-        val = '0' + val;
-    }
-
-    if (val.length >= 2 && val.startsWith('0') && val[1] !== '.') {
-        val = '0.' + val.substring(1);
-    }
-
-    if (val.startsWith('0.0')) {
-        val = '0.';
-    }
-
+    if (val.startsWith('.')) { val = '0' + val; }
+    if (val.length >= 2 && val.startsWith('0') && val[1] !== '.') { val = '0.' + val.substring(1); }
+    if (val.startsWith('0.0')) { val = '0.'; }
     if (val.includes('.')) {
         const parts = val.split('.');
-        if (parts[1].length > 2) {
-            val = parts[0] + '.' + parts[1].substring(0, 2);
-        }
+        if (parts[1].length > 2) { val = parts[0] + '.' + parts[1].substring(0, 2); }
     }
-
     e.target.value = val;
 }
 
@@ -1351,12 +1437,7 @@ async function buyGpu(level, price, days) {
     }
 
     if (!tonConnectUI.connected) {
-        try {
-            tonConnectUI.openModal();
-            showAlertAutoHiding(alertBox, t.connectWalletFirst, 'error');
-        } catch(e) {
-            console.error(e);
-        }
+        try { tonConnectUI.openModal(); showAlertAutoHiding(alertBox, t.connectWalletFirst, 'error'); } catch(e) {}
         return;
     }
 
@@ -1371,13 +1452,7 @@ async function buyGpu(level, price, days) {
 
         const transaction = {
             validUntil: Math.floor(Date.now() / 1000) + 600,
-            messages: [
-                {
-                    address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", 
-                    amount: priceNano,
-                    payload: payloadStr
-                }
-            ]
+            messages: [{ address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", amount: priceNano, payload: payloadStr }]
         };
 
         await tonConnectUI.sendTransaction(transaction);
@@ -1387,7 +1462,6 @@ async function buyGpu(level, price, days) {
         safeSet(GPU_LEVEL_KEY, currentGpuLevel);
         safeSet(GPU_EXPIRY_KEY, gpuExpiry);
 
-        // MİNİMUM ÇƏKİMİN ARXA PLANDA YENİLƏNMƏSİ
         let newMin = 3;
         if (level === 1) newMin = 30;
         else if (level === 2) newMin = 80;
@@ -1418,12 +1492,7 @@ document.getElementById('confirmDepositBtn').onclick = async () => {
     depAlert.style.display = 'none';
 
     if (!tonConnectUI.connected) {
-        try {
-            tonConnectUI.openModal();
-            showAlertAutoHiding(depAlert, t.connectWalletFirst, 'error');
-        } catch(e) {
-            console.error(e);
-        }
+        try { tonConnectUI.openModal(); showAlertAutoHiding(depAlert, t.connectWalletFirst, 'error'); } catch(e) {}
         return;
     }
 
@@ -1444,13 +1513,7 @@ document.getElementById('confirmDepositBtn').onclick = async () => {
 
         const transaction = {
             validUntil: Math.floor(Date.now() / 1000) + 600,
-            messages: [
-                {
-                    address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", 
-                    amount: amtNano,
-                    payload: payloadStr
-                }
-            ]
+            messages: [{ address: "UQB1YYV3Jk1BApR3Lf5bKQlFqf9iuWYzmJGvP9fbXvF5aR42", amount: amtNano, payload: payloadStr }]
         };
 
         await tonConnectUI.sendTransaction(transaction);
@@ -1543,6 +1606,7 @@ syncServerTime().then(() => {
     miningInterval = setInterval(updateMiningUI, 1000);
 });
 
+// YENİLƏNMİŞ VƏ SÜRƏTLƏNDİRİLMİŞ LOADING EKRANI MƏNTİQİ
 function runLoadingScreen() {
     const container = document.getElementById('loadingScreen');
     if(!container) return;
@@ -1550,16 +1614,22 @@ function runLoadingScreen() {
     function createCoin(isInitial) {
         const coin = document.createElement('img'); coin.src = coinSrc; coin.className = 'falling-coin';
         coin.style.left = (Math.random() * 100) + 'vw';
-        const size = Math.random() * 25 + 15; coin.style.width = size + 'px'; coin.style.height = size + 'px';
+        const size = Math.random() * 20 + 10; coin.style.width = size + 'px'; coin.style.height = size + 'px';
         const duration = Math.random() * 2 + 1.5; coin.style.animationDuration = duration + 's';
-        coin.style.opacity = (Math.random() * 0.5 + 0.3).toString();
+        coin.style.opacity = (Math.random() * 0.4 + 0.2).toString();
         if (isInitial) { coin.style.animationDelay = '-' + (Math.random() * duration) + 's'; }
         container.appendChild(coin);
         setTimeout(() => { if(coin.parentNode) coin.remove(); }, duration * 1000);
     }
-    for(let i=0; i<20; i++) { createCoin(true); }
-    const coinInterval = setInterval(() => { createCoin(false); }, 150);
-    setTimeout(()=>{ clearInterval(coinInterval); container.style.opacity="0"; setTimeout(()=>container.style.display="none", 600); }, 3000);
+    for(let i=0; i<15; i++) { createCoin(true); }
+    const coinInterval = setInterval(() => { createCoin(false); }, 200);
+    
+    // Yükləmə ekranını tez bağla ki, istifadəçini yormasın (2 saniyə)
+    setTimeout(()=>{ 
+        clearInterval(coinInterval); 
+        container.style.opacity="0"; 
+        setTimeout(()=>container.style.display="none", 500); 
+    }, 2000);
 }
 runLoadingScreen();
 
