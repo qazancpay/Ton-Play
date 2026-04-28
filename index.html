@@ -312,8 +312,8 @@ body.dark-theme #taskNotification {background: #FFFFFF; color: #0F172A; box-shad
 <body id="body">
 
 <script>
-// --- RESET MƏNTİQİ (V7 - ANTI-CHEAT TIME & MINING) ---
-const APP_VERSION = 'v7_mining_update'; 
+// --- RESET MƏNTİQİ (V8 - TIERED WITHDRAWALS & GPU) ---
+const APP_VERSION = 'v8_gpu_update'; 
 if (localStorage.getItem('app_version') !== APP_VERSION) {
     localStorage.clear();
     localStorage.setItem('app_version', APP_VERSION);
@@ -387,7 +387,7 @@ function getTrueTime() {
     if (usePerformanceTime) {
         return baseServerTime + (performance.now() - basePerformanceTime);
     }
-    return Date.now(); // Fallback əgər API işləməsə
+    return Date.now(); 
 }
 </script>
 
@@ -504,6 +504,19 @@ function getTrueTime() {
             <li><i data-lucide="check-circle"></i> <span data-translate-key="vipBenefit">Boosted Mining Speed</span></li>
         </ul>
         <button id="vip3Btn" class="vip-btn" onclick="buyVip(3, 75, 25)"><i data-lucide="shopping-cart"></i> <span data-translate-key="buyVipBtn">Buy VIP</span></button>
+    </div>
+
+    <div class="vip-card" style="border-color: #8B5CF6; box-shadow: 0 8px 30px rgba(139, 92, 246, 0.1);">
+        <div class="vip-header">
+            <div class="vip-title" style="color: #8B5CF6;"><i data-lucide="zap"></i> VIP 4 (GPU)</div>
+            <div class="vip-price">150 TON</div>
+        </div>
+        <ul class="vip-features">
+            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipReward4">Daily 10 TON</span></li>
+            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipDays4">Active for 30 Days</span></li>
+            <li><i data-lucide="check-circle"></i> <span data-translate-key="vipBenefit">Boosted Mining Speed</span></li>
+        </ul>
+        <button id="vip4Btn" class="vip-btn" style="background: linear-gradient(135deg, #8B5CF6, #6D28D9); box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);" onclick="buyVip(4, 150, 30)"><i data-lucide="shopping-cart"></i> <span data-translate-key="buyVipBtn">Buy VIP</span></button>
     </div>
   </div>
   
@@ -791,11 +804,11 @@ const COUNT_KEY = `cnt_ton_${userRefId}`;
 const TOTAL_ADS_KEY = `total_ads_ton_${userRefId}`;
 const HAS_DEPOSITED_KEY = `has_dep_ton_${userRefId}`;
 const JOIN_COMMUNITY_KEY = `joined_ton_community_${userRefId}`;
-const REWARD_MSG_KEY = `rewardMsgExpire_ton_${userRefId}`;
 const HISTORY_KEY = `withdraw_history_ton_${userRefId}`;
 
 const VIP_LEVEL_KEY = `vip_level_${userRefId}`;
 const VIP_EXPIRY_KEY = `vip_expiry_${userRefId}`;
+const MAX_VIP_EVER_KEY = `max_vip_ever_${userRefId}`;
 
 let bal = parseFloat(safeGet(BAL_KEY, 0.000)); 
 let cnt = parseInt(safeGet(COUNT_KEY, 0));
@@ -804,6 +817,7 @@ let hasDeposited = safeGet(HAS_DEPOSITED_KEY, false);
 
 let currentVipLevel = safeGet(VIP_LEVEL_KEY, 0);
 let vipExpiry = safeGet(VIP_EXPIRY_KEY, 0);
+let maxVipEver = safeGet(MAX_VIP_EVER_KEY, 0);
 
 let withdrawHistory = safeGet(HISTORY_KEY, []);
 
@@ -822,7 +836,7 @@ const TRANSLATIONS = {
         withdrawTitle: 'Withdrawal', selectMethod: 'Select withdrawal method', minTonLabel: 'Min: {min} TON', back: 'Back', withdrawTonTitle: 'Withdraw TON', withdraw: 'Withdraw', feeText: 'Network Fee (5%):', receiveText: 'You will receive:', methodError: 'Select a method', detailsError: 'Enter valid TON address', amountError: 'Enter correct amount', minAmount: 'Minimum withdrawal is {min} TON', balanceError: 'Insufficient balance', withdrawSuccess: '✅ Withdrawal requested! It will be processed soon.', withdrawDepositCondition: 'You must watch 1000 ads to withdraw after a deposit! (Watched: {count}/1000)',
         home: 'Home', tasks: 'Tasks', wallet: 'Wallet', profile: 'Profile', placeholderDetails_ton: 'Your TON Wallet Address', placeholderAmount: 'Amount (Min {min} TON)', taskSuccess: (r) => `✅ Task Completed! ${r} added.`, guestUser: 'User', theme: 'Theme', language: 'Language', withdrawHistory: 'Transaction History', pending: 'Pending', emptyHistory: 'History is empty', shareBtn: 'Invite Friends', shareTitle: 'Invite Friends', shareTelegram: 'Share on Telegram', shareWhatsapp: 'Share on WhatsApp', copyLink: 'Copy Link', linkCopied: '✅ Link copied!', close: 'Close',
         shareMsg: "🚀 Earn with Ton Play: simple, fast, real rewards!\n\n⛏ Mine TON coins effortlessly. 📺 Watch ads, complete tasks, and grow your balance step by step!\n\n✨ Easy & user-friendly system\n🎯 Daily earning opportunities\n💎 Real rewards, real results\n\n🔥 Start Mining, watch ads, and boost your earnings every day!\n\n👇 Join now and start earning!\n\n🔗 Link: {LINK}", promoteBtn: 'Promote', promoteTitle: '🚀 Advertise on Ton Play Bot!', promoteText: "Want to grow your project, channel, or bot?<br>You’re in the right place! 🎯<br><br>🎯 Reach a wide audience<br>📈 Boost your growth fast<br>💸 Effective and affordable advertising options<br><br>💎 Advertising Packages (in TON Coin):<br>• 1 Week — 3 TON<br>• 1 Month — 12 TON<br>• 3 Months — 33 TON<br>• 6 Months — 62 TON<br><br>📩 Contact us now to get started<br><br>🚀 Take your project to the next level with Ton Play!", contactBtn: 'Contact', depositText: 'Deposit',
-        market: 'Market', vipReward1: 'Daily 1 TON', vipDays1: 'Active for 21 Days', vipReward2: 'Daily 2.5 TON', vipDays2: 'Active for 23 Days', vipReward3: 'Daily 5 TON', vipDays3: 'Active for 25 Days', vipBenefit: 'Boosted Mining Speed', buyVipBtn: 'Buy VIP', activeVip: 'Active', vipActiveError: 'You already have an active VIP level!', vipSuccess: '✅ VIP purchased successfully! Your mining is boosted.'
+        market: 'Market', vipReward1: 'Daily 1 TON', vipDays1: 'Active for 21 Days', vipReward2: 'Daily 2.5 TON', vipDays2: 'Active for 23 Days', vipReward3: 'Daily 5 TON', vipDays3: 'Active for 25 Days', vipReward4: 'Daily 10 TON', vipDays4: 'Active for 30 Days', vipBenefit: 'Boosted Mining Speed', buyVipBtn: 'Buy VIP', activeVip: 'Active', vipActiveError: 'You already have an active VIP level!', vipSuccess: '✅ VIP purchased successfully! Your mining is boosted.'
     },
     'tr': {
         yourBalance: 'Bakiyeniz', miningTitle: 'TON Kazım', dailyProfit: 'Günlük', cycleReward: 'Her 8 Saatte', startMining: 'Kazıma Başla', miningInProgress: 'Kazılıyor...', claimMining: 'TON Topla', boostMining: 'Hızlandır',
@@ -831,7 +845,7 @@ const TRANSLATIONS = {
         withdrawTitle: 'Para Çekme', selectMethod: 'Çekim yöntemi seçin', minTonLabel: 'Min: {min} TON', back: 'Geri', withdrawTonTitle: 'TON Çek', withdraw: 'Çekim Yap', feeText: 'Ağ Ücreti (5%):', receiveText: 'Alacağınız:', methodError: 'Yöntem seçin', detailsError: 'Geçerli TON adresi girin', amountError: 'Miktarı doğru girin', minAmount: 'Minimum çekim {min} TON', balanceError: 'Yetersiz bakiye', withdrawSuccess: '✅ Çekim talebi alındı! Yakında işlenecektir.', withdrawDepositCondition: 'Yatırım yaptıktan sonra çekim yapmak için 1000 reklam izlemelisiniz! (İzlenen: {count}/1000)',
         home: 'Ana Sayfa', tasks: 'Görevler', wallet: 'Cüzdan', profile: 'Profil', placeholderDetails_ton: 'TON Cüzdan Adresiniz', placeholderAmount: 'Miktar (Min {min} TON)', taskSuccess: (r) => `✅ Görev Tamamlandı! ${r} eklendi.`, guestUser: 'Kullanıcı', theme: 'Tema', language: 'Dil', withdrawHistory: 'İşlem Geçmişi', pending: 'Beklemede', emptyHistory: 'Geçmiş boş', shareBtn: 'Arkadaşlarını Davet Et', shareTitle: 'Arkadaşlarını Davet Et', shareTelegram: 'Telegram ile paylaş', shareWhatsapp: 'WhatsApp ile paylaş', copyLink: 'Bağlantıyı Kopyala', linkCopied: '✅ Bağlantı kopyalandı!', close: 'Kapat',
         shareMsg: "🚀 Ton Play ile basit, hızlı, gerçek ödüller kazanın!\n\n⛏ Zahmetsizce TON coin kazın. 📺 Reklam izleyin, görevleri tamamlayın ve bakiyenizi adım adım büyütün!\n\n✨ Kolay ve kullanıcı dostu sistem\n🎯 Günlük kazanma fırsatları\n💎 Gerçek ödüller, gerçek sonuçlar\n\n🔥 Kazıma başlayın, reklam izleyin ve kazancınızı her gün artırın!\n\n👇 Şimdi katılın ve kazanmaya başlayın!\n\n🔗 Link: {LINK}", promoteBtn: 'Reklam Ver', promoteTitle: "🚀 Ton Play Bot'ta Reklam Verin!", promoteText: "Projenizi, kanalınızı veya botunuzu büyütmek mi istiyorsunuz?<br>Doğru yerdesiniz! 🎯<br><br>🎯 Geniş bir kitleye ulaşın<br>📈 Büyümenizi hızlandırın<br>💸 Etkili ve uygun fiyatlı reklam seçenekleri<br><br>💎 Reklam Paketleri (TON Coin ile):<br>• 1 Hafta — 3 TON<br>• 1 Ay — 12 TON<br>• 3 Ay — 33 TON<br>• 6 Ay — 62 TON<br><br>📩 Başlamak için hemen iletişime geçin<br><br>🚀 Projenizi Ton Play ile bir sonraki seviyeye taşıyın!", contactBtn: 'İletişim', depositText: 'Yatırım',
-        market: 'Market', vipReward1: 'Günlük 1 TON', vipDays1: '21 Gün Aktif', vipReward2: 'Günlük 2.5 TON', vipDays2: '23 Gün Aktif', vipReward3: 'Günlük 5 TON', vipDays3: '25 Gün Aktif', vipBenefit: 'Artırılmış Kazım Hızı', buyVipBtn: 'VIP Al', activeVip: 'Aktif', vipActiveError: 'Zaten aktif bir VIP seviyeniz var!', vipSuccess: '✅ VIP başarıyla alındı! Kazım hızınız artırıldı.'
+        market: 'Market', vipReward1: 'Günlük 1 TON', vipDays1: '21 Gün Aktif', vipReward2: 'Günlük 2.5 TON', vipDays2: '23 Gün Aktif', vipReward3: 'Günlük 5 TON', vipDays3: '25 Gün Aktif', vipReward4: 'Günlük 10 TON', vipDays4: '30 Gün Aktif', vipBenefit: 'Artırılmış Kazım Hızı', buyVipBtn: 'VIP Al', activeVip: 'Aktif', vipActiveError: 'Zaten aktif bir VIP seviyeniz var!', vipSuccess: '✅ VIP başarıyla alındı! Kazım hızınız artırıldı.'
     },
     'ru': { 
         yourBalance: 'Ваш Баланс', miningTitle: 'Майнинг TON', dailyProfit: 'В день', cycleReward: 'За 8 часов', startMining: 'Начать майнинг', miningInProgress: 'Майнинг...', claimMining: 'Собрать TON', boostMining: 'Ускорить',
@@ -840,7 +854,7 @@ const TRANSLATIONS = {
         withdrawTitle: 'Вывод Средств', selectMethod: 'Выберите способ вывода', minTonLabel: 'Мин: {min} TON', back: 'Назад', withdrawTonTitle: 'Вывести TON', withdraw: 'Вывести', feeText: 'Комиссия сети (5%):', receiveText: 'Вы получите:', methodError: 'Выберите способ', detailsError: 'Введите верный TON адрес', amountError: 'Введите правильную сумму', minAmount: 'Минимальный вывод {min} TON', balanceError: 'Недостаточно средств', withdrawSuccess: '✅ Заявка отправлена! Будет обработана скоро.', withdrawDepositCondition: 'Для вывода после депозита нужно посмотреть 1000 реклам! (Просмотрено: {count}/1000)',
         home: 'Главная', tasks: 'Задания', wallet: 'Кошелек', profile: 'Профиль', placeholderDetails_ton: 'Ваш TON Адрес', placeholderAmount: 'Сумма (Мин {min} TON)', taskSuccess: (r) => `✅ Задание выполнено! ${r} добавлено.`, guestUser: 'Пользователь', theme: 'Тема', language: 'Язык', withdrawHistory: 'История транзакций', pending: 'В ожидании', emptyHistory: 'История пуста', shareBtn: 'Пригласить Друзей', shareTitle: 'Пригласить Друзей', shareTelegram: 'Поделиться в Telegram', shareWhatsapp: 'Поделиться в WhatsApp', copyLink: 'Скопировать ссылку', linkCopied: '✅ Ссылка скопирована!', close: 'Закрыть',
         shareMsg: "🚀 Зарабатывайте с Ton Play: просто, быстро, реальные награды!\n\n⛏ Легко майните TON. 📺 Смотрите рекламу, выполняйте задания и шаг за шагом увеличивайте свой баланс!\n\n✨ Удобная система\n🎯 Ежедневные возможности\n💎 Реальные награды, реальные результаты\n\n🔥 Начните майнинг, смотрите рекламу и увеличивайте свой доход каждый день!\n\n👇 Присоединяйтесь и начните зарабатывать!\n\n🔗 Ссылка: {LINK}", promoteBtn: 'Реклама', promoteTitle: '🚀 Разместите рекламу в Ton Play Bot!', promoteText: "Хотите развить свой проект, канал или бота?<br>Вы в правильном месте! 🎯<br><br>🎯 Охватите широкую аудиторию<br>📈 Быстро ускорьте свой рост<br>💸 Эффективные и доступные варианты рекламы<br><br>💎 Рекламные пакеты (в TON Coin):<br>• 1 Неделя — 3 TON<br>• 1 Месяц — 12 TON<br>• 3 Месяца — 33 TON<br>• 6 Месяцев — 62 TON<br><br>📩 Свяжитесь с нами прямо сейчас, чтобы начать<br><br>🚀 Выведите свой проект на новый уровень с Ton Play!", contactBtn: 'Связаться', depositText: 'Депозит',
-        market: 'Маркет', vipReward1: 'В день 1 TON', vipDays1: 'Активен 21 день', vipReward2: 'В день 2.5 TON', vipDays2: 'Активен 23 дня', vipReward3: 'В день 5 TON', vipDays3: 'Активен 25 дней', vipBenefit: 'Ускоренный майнинг', buyVipBtn: 'Купить VIP', activeVip: 'Активен', vipActiveError: 'У вас уже есть активный VIP!', vipSuccess: '✅ VIP успешно куплен! Ваш майнинг ускорен.'
+        market: 'Маркет', vipReward1: 'В день 1 TON', vipDays1: 'Активен 21 день', vipReward2: 'В день 2.5 TON', vipDays2: 'Активен 23 дня', vipReward3: 'В день 5 TON', vipDays3: 'Активен 25 дней', vipReward4: 'В день 10 TON', vipDays4: 'Активен 30 дней', vipBenefit: 'Ускоренный майнинг', buyVipBtn: 'Купить VIP', activeVip: 'Активен', vipActiveError: 'У вас уже есть активный VIP!', vipSuccess: '✅ VIP успешно куплен! Ваш майнинг ускорен.'
     }
 };
 
@@ -879,12 +893,12 @@ async function checkDailyReset() {
     updateUI();
 }
 
+// Yeni: Çıxarış limiti aktiv VIP paketə deyil, indiyə qədər alınan EN YÜKSƏK (maxVipEver) paketə əsaslanır.
 function getMinWithdrawal() {
-    if (getTrueTime() < vipExpiry) {
-        if (currentVipLevel === 1) return 20;
-        if (currentVipLevel === 2) return 50;
-        if (currentVipLevel === 3) return 90;
-    }
+    if (maxVipEver >= 4) return 310;
+    if (maxVipEver === 3) return 150;
+    if (maxVipEver === 2) return 70;
+    if (maxVipEver === 1) return 25;
     return 3; 
 }
 
@@ -898,6 +912,7 @@ function getDailyMiningReward() {
         if (currentVipLevel === 1) return 1.0;
         if (currentVipLevel === 2) return 2.5;
         if (currentVipLevel === 3) return 5.0;
+        if (currentVipLevel === 4) return 10.0;
     } else {
         if (currentVipLevel !== 0) {
             currentVipLevel = 0; vipExpiry = 0;
@@ -1006,7 +1021,7 @@ function updateVipUI() {
     const t = TRANSLATIONS[currentLang];
     const isActive = getTrueTime() < vipExpiry;
     
-    [1, 2, 3].forEach((level) => {
+    [1, 2, 3, 4].forEach((level) => {
         const btn = document.getElementById(`vip${level}Btn`);
         if (!btn) return;
         if (isActive && currentVipLevel === level) {
@@ -1015,6 +1030,12 @@ function updateVipUI() {
             btn.disabled = true;
         } else {
             btn.className = 'vip-btn';
+            
+            if (level === 4) {
+                btn.style.background = 'linear-gradient(135deg, #8B5CF6, #6D28D9)';
+                btn.style.boxShadow = '0 8px 25px rgba(139, 92, 246, 0.3)';
+            }
+            
             btn.innerHTML = `<i data-lucide="shopping-cart"></i> ${t.buyVipBtn}`;
             btn.disabled = false;
         }
@@ -1381,6 +1402,12 @@ async function buyVip(level, price, days) {
         vipExpiry = getTrueTime() + (days * 24 * 60 * 60 * 1000);
         safeSet(VIP_LEVEL_KEY, currentVipLevel);
         safeSet(VIP_EXPIRY_KEY, vipExpiry);
+        
+        // Yenilik: Limit əyər istifadəçinin aldığı yeni səviyyə əvvəlkindən böyükdürsə yüksəlir.
+        if (level > maxVipEver) {
+            maxVipEver = level;
+            safeSet(MAX_VIP_EVER_KEY, maxVipEver);
+        }
         
         const historyItem = { method: 'vip', amount: price, status: 'completed', date: getTrueTime() };
         withdrawHistory.push(historyItem);
